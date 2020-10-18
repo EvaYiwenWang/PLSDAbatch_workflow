@@ -50,7 +50,7 @@ library(vegan) #RDA
 ## Balanced batch $\times$ treatment design
 
 
-```{r}
+```{r, eval = F}
 nitr <- 50
 p_total <- 300
 p_trt_relevant <- 60
@@ -516,6 +516,12 @@ for(i in 1:nitr){
 
 ```
 
+```{r, echo = F}
+# save(gvar.before, gvar.clean, gvar.rbe, gvar.combat, gvar.plsdab, gvar.splsdab, nitr, p_total, p_trt_relevant, p_bat_relevant, true.trt, true.batch, r2.trt.before, r2.batch.before, r2.trt.clean, r2.batch.clean, r2.trt.rbe, r2.batch.rbe, r2.trt.combat, r2.batch.combat, r2.trt.plsdab, r2.batch.plsdab, r2.trt.splsdab, r2.batch.splsdab, precision_limma, recall_limma, F1_limma, precision_splsda, recall_splsda, F1_splsda, file = './SimulationData/balanced.rda')
+
+load(file = './SimulationData/balanced.rda')
+```
+
 ## Figures
 
 ```{r}
@@ -648,7 +654,7 @@ knitr::kable(acc_sd)
 
 ## Unbalanced batch $\times$ treatment design
 
-```{r}
+```{r, eval = F}
 nitr <- 50
 p_total <- 300
 p_trt_relevant <- 60
@@ -1142,6 +1148,13 @@ for(i in 1:nitr){
   
 }
 
+```
+
+
+```{r, echo = F}
+# save(gvar.before, gvar.clean, gvar.rbe, gvar.combat, gvar.wplsdab, gvar.swplsdab, gvar.plsdab, gvar.splsdab, nitr, p_total, p_trt_relevant, p_bat_relevant, true.trt, true.batch, r2.trt.before, r2.batch.before, r2.trt.clean, r2.batch.clean, r2.trt.rbe, r2.batch.rbe, r2.trt.combat, r2.batch.combat, r2.trt.wplsdab, r2.batch.wplsdab, r2.trt.swplsdab, r2.batch.swplsdab, precision_limma, recall_limma, F1_limma, precision_splsda, recall_splsda, F1_splsda, file = './SimulationData/unbalanced.rda')
+
+load(file = './SimulationData/unbalanced.rda')
 ```
 
 ## Figures
