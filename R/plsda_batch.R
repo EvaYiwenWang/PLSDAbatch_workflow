@@ -5,6 +5,7 @@
 #' The latent dimensions are maximally associated with the outcome matrix \code{Y}.
 #' It is a built-in funciton of \code{PLSDA_batch}.
 #'
+#' @importFrom mixOmics explained_variance
 #' @param X A numeric matrix that is centered and scaled as an explanatory matrix. \code{NA}s are not allowed.
 #' @param Y A dummy matrix that is centered and scaled as an outcome matrix.
 #' @param ncomp Integer, the number of dimensions to include in the model.
@@ -108,8 +109,8 @@ PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.ite
   rownames(mat.b) = colnames(Y)
   colnames(mat.t) = colnames(mat.u) = colnames(mat.a) = colnames(mat.b) = names(c.iter) = paste('comp', 1:ncomp)
 
-  exp.var.X = mixOmics::explained_variance(X, mat.t, ncomp = ncomp)
-  exp.var.Y = mixOmics::explained_variance(Y, mat.u, ncomp = ncomp)
+  exp.var.X = explained_variance(X, mat.t, ncomp = ncomp)
+  exp.var.Y = explained_variance(Y, mat.u, ncomp = ncomp)
 
   result = list(original_data = list(X = X, Y = Y),
                 defl_data = list(X = X.temp, Y = Y.temp),
@@ -126,6 +127,7 @@ PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.ite
 #' This function removes batch variation from the input data given batch grouping information
 #' and the number of associated components.
 #'
+#' @importFrom mixOmics unmap nearZeroVar
 #' @param X A numeric matrix as an explanatory matrix. \code{NA}s are not allowed.
 #' @param Y.trt A factor or a class vector for the treatment grouping information (categorical outcome variable).
 #' Without the input of \code{Y.trt}, treatment variation cannot be preserved before correcting for batch effects.
@@ -223,7 +225,7 @@ PLSDA_batch <- function(X,
     stop("'Y.bat' should be a factor or a class vector.")}
 
   Y.bat = as.factor(Y.bat)
-  Y.bat.mat = mixOmics::unmap(as.numeric(Y.bat))
+  Y.bat.mat = unmap(as.numeric(Y.bat))
   Y.bat.mat = as.matrix(Y.bat.mat)
   q.bat = ncol(Y.bat.mat)
 
@@ -236,7 +238,7 @@ PLSDA_batch <- function(X,
 
   ###################
   if(near.zero.var == TRUE){
-    nzv = mixOmics::nearZeroVar(X)
+    nzv = nearZeroVar(X)
 
     if (length(nzv$Position > 0)){
       warning("Zero- or near-zero variance predictors.\nReset predictors matrix to not near-zero variance predictors.\nSee $nzv for problematic predictors.")
@@ -286,7 +288,7 @@ PLSDA_batch <- function(X,
       stop("'Y.trt' should be a factor or a class vector.")}
 
     Y.trt = as.factor(Y.trt)
-    Y.trt.mat = mixOmics::unmap(as.numeric(Y.trt))
+    Y.trt.mat = unmap(as.numeric(Y.trt))
     Y.trt.mat = as.matrix(Y.trt.mat)
     q.trt = ncol(Y.trt.mat)
 

@@ -3,6 +3,7 @@
 #' This function evaluates the degree of mixing samples from different batches in the batch corrected data.
 #' It is based on the dissimilarity matrix from Principal Component Analysis.
 #'
+#' @importFrom mixOmics pca
 #' @param data A numeric matrix. Samples are in rows, while variables are in columns. \code{NA}s are not allowed.
 #' @param batch A factor or a class vector for the batch grouping information (categorical outcome variable).
 #' The length should be equal to the number of samples in the data.
@@ -30,7 +31,7 @@ alignment_score <- function(data,
                             k = round(0.1*nrow(data)),
                             ncomp = 20){
   x <- c()
-  pca <- mixOmics::pca(data, ncomp = ncomp, scale = T)
+  pca <- pca(data, ncomp = ncomp, scale = T)
   ncomp.use <- sum(cumsum(pca$explained_variance) < var)
 
   dist.mat <- as.matrix(dist(pca$x[,1:ncomp.use], upper = T, diag = T))
