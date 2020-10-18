@@ -1,28 +1,3 @@
-
-#require(mixOmics)
-##############
-#' Matrix Deflation
-#'
-#' This function removes the variance of given component \code{t} from the input matrix \code{X}.
-#' \deqn{\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X}
-#' It is a built-in funciton of \code{PLSDA_batch}.
-#'
-#' @param X A numeric matrix to be deflated. It assumes that samples are on the row,
-#' while variables are on the column. \code{NA}s are not allowed.
-#' @param t A component to be deflated out from the matrix.
-#'
-#' @return A deflated matrix with the same dimension as the input matrix.
-#'
-#' @examples
-#' A built-in funciton of PLSDA_batch, not separately used.
-#'
-#'
-#' @export
-mtx_deflation <- function(X, t){
-  X.res = X - t %*% (solve(crossprod(t))) %*% (t(t) %*% X)
-  return(invisible(X.res))
-}
-
 ###############
 #' Partial Least Squares Discriminant Analysis
 #'
@@ -444,4 +419,36 @@ PLSDA_batch <- function(X,
   return(invisible(result))
 }
 
-
+## ------------------------------------------------------------------------ ##
+#' Matrix Deflation
+#'
+#' This function removes the variance of given component \code{t} from the input matrix \code{X}.
+#' \deqn{\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X}
+#' It is a built-in funciton of \code{PLSDA_batch}.
+#'
+#' @param X A numeric matrix to be deflated. It assumes that samples are on the row,
+#' while variables are on the column. \code{NA}s are not allowed.
+#' @param t A component to be deflated out from the matrix.
+#'
+#' @return A deflated matrix with the same dimension as the input matrix.
+#' @keywords Internal
+#' @export
+#' @examples
+#' set.seed(123)
+#' X <- matrix(rnorm(100), ncol = 20)
+#' ## pca for original matrix
+#' pca.X <- mixOmics::pca(X)
+#' ## deflate by the first PC and perform pca on the deflated matrix
+#' t <- pca.X$variates$X[,1]
+#' X.deflate <- mtx_deflation(X, t)
+#' pca.X.deflate <- mixOmics::pca(X.deflate)
+#' ## see if the first PC of he deflated matrix
+#' ## equals the second original pc in terms of absolute value
+#' pca.X.deflate$variates$X[,1]
+#' # -2.0265641 -0.7937048 -1.7010822  2.4479385  2.0734125
+#' pca.X$variates$X[,2]
+#' #  2.0265641  0.7937048  1.7010822 -2.4479385 -2.0734125
+mtx_deflation <- function(X, t){
+  X.res = X - t %*% (solve(crossprod(t))) %*% (t(t) %*% X)
+  return(invisible(X.res))
+}
