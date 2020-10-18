@@ -93,8 +93,8 @@ PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.ite
     }
 
     # deflation
-    X.temp <- mtx_deflation(X.temp, t)
-    Y.temp <- mtx_deflation(Y.temp, u)
+    X.temp <- deflate_mtx(X.temp, t)
+    Y.temp <- deflate_mtx(Y.temp, u)
 
     mat.t[,h] = t
     mat.u[,h] = u
@@ -378,7 +378,7 @@ PLSDA_batch <- function(X,
   for(h in 1:ncomp.bat){
     a.bat = bat_loadings[,h]
     t.bat = X.temp %*% a.bat
-    X.temp <- mtx_deflation(X.temp, t.bat)
+    X.temp <- deflate_mtx(X.temp, t.bat)
   }
 
   X.nobat <- X.temp
@@ -440,7 +440,7 @@ PLSDA_batch <- function(X,
 #' pca.X <- mixOmics::pca(X)
 #' ## deflate by the first PC and perform pca on the deflated matrix
 #' t <- pca.X$variates$X[,1]
-#' X.deflate <- mtx_deflation(X, t)
+#' X.deflate <- deflate_mtx(X, t)
 #' pca.X.deflate <- mixOmics::pca(X.deflate)
 #' ## see if the first PC of he deflated matrix
 #' ## equals the second original pc in terms of absolute value
@@ -448,7 +448,7 @@ PLSDA_batch <- function(X,
 #' # -2.0265641 -0.7937048 -1.7010822  2.4479385  2.0734125
 #' pca.X$variates$X[,2]
 #' #  2.0265641  0.7937048  1.7010822 -2.4479385 -2.0734125
-mtx_deflation <- function(X, t){
+deflate_mtx <- function(X, t){
   X.res = X - t %*% (solve(crossprod(t))) %*% (t(t) %*% X)
   return(invisible(X.res))
 }
