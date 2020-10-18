@@ -1,0 +1,123 @@
+$`PLSDA-batch`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`sPLSDA-batch`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`Before correction`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`Before correction:ComBat`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`PLSDA-batch:sPLSDA-batch`
+     Kingdom Phylum Class Order Family Genus Species
+NA      <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.1    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`removeBatchEffect:sPLSDA-batch`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`Before correction:removeBatchEffect:ComBat`
+     Kingdom Phylum Class Order Family Genus Species
+NA      <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.1    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$ComBat
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`Before correction:removeBatchEffect:PLSDA-batch:sPLSDA-batch`
+   Kingdom Phylum Class Order Family Genus Species
+NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
+      Kingdom Phylum Class Order Family Genus Species
+NA       <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.1     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.2     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.3     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.4     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.5     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.6     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.7     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.8     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.9     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.10    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.11    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.12    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.13    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.14    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.15    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.16    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.17    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.18    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.19    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.20    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.21    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.22    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.23    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.24    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.25    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.26    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.27    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.28    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.29    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.30    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.31    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.32    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.33    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.34    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.35    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.36    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.37    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.38    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.39    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.40    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.41    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.42    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.43    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.44    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.45    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.46    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.47    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.48    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.49    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.50    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.51    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.52    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.53    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.54    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.55    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.56    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.57    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.58    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.59    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.60    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.61    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.62    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.63    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.64    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.65    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.66    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.67    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.68    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.69    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.70    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.71    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.72    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+NA.73    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+

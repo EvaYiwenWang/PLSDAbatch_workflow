@@ -1,0 +1,1285 @@
+---
+title: 'Case Studies'
+author: 
+- 'Yiwen Wang'
+- 'Melbourne Integrative Genomics, School of Mathematics and Statistics, The University of Melbourne, Australia'
+- 'yiwenw5@student.unimelb.edu.au'
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+    toc: true
+    toc_depth: 4
+
+vignette: >
+  %\VignetteIndexEntry{Case Studies}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  
+bibliography: [reference.bib]
+biblio-style: apalike
+link-citations: true
+
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(dpi = 100, echo = T, warning = FALSE, message = FALSE, eval = TRUE,
+                      fig.show = TRUE, fig.width = 6, fig.height = 4, fig.align ='center', 
+                      out.width = '60%', cache = FALSE, fig.path = 'Figures/')
+```
+
+# Introduction
+
+Add something.
+
+# Packages installation and loading
+
+Install then load the following packages:
+
+```{r}
+library(PLSDAbatch)
+library(mixOmics) #pca, plsda, tune.splsda
+library(sva) #ComBat
+library(limma) #removeBatchEffect
+library(vegan) #RDA
+library(UpSetR) #upset
+library(gplots) #venn
+```
+
+# Example datasets
+
+## Sponge A. aerophoba
+
+This study investigated the relationship between metabolite concentration and microbial abundance on specific sponge tissues [@sacristan2011exploring]. The dataset includes the relative abundance of 24 OTUs and 32 samples collected from two tissue types (Ectosome vs. Choanosome) and processed on two separate denaturing gradient gels in electrophoresis. The tissue variation is the effect of interest, while the gel variation is the batch effect. 
+
+Load the data as follows:
+
+```{r}
+data('sponge_data')
+sponge.x <- sponge_data$X.clr
+sponge.trt <- sponge_data$Y.trt
+sponge.batch <- sponge_data$Y.bat
+```
+
+### Diagnostic plots: principal component analysis
+
+```{r}
+sponge.pca.before <- pca(sponge.x, ncomp = 3, scale = T)
+
+sponge.batch.shape <- sponge.batch
+levels(sponge.batch.shape) <- c(1,19)
+
+plotIndiv(sponge.pca.before, group = sponge.trt, 
+          pch = as.numeric(as.character(sponge.batch.shape)), 
+          title = 'Before batch effect correction (sponge)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = sponge.batch, 
+          col.per.group = pb_color(1:2), legend.title = 'Tissue', cex = 2)
+```
+
+### Batch correction
+
+
+#### removeBatchEffect
+
+```{r}
+sponge.mod <- model.matrix( ~ sponge.trt) # full model
+sponge.rbe <- t(removeBatchEffect(t(sponge.x), 
+                                  batch = sponge.batch, 
+                                  design = sponge.mod))
+```
+
+#### ComBat
+
+```{r}
+sponge.combat <- t(ComBat(t(sponge.x), 
+                          batch = sponge.batch, 
+                          mod = sponge.mod, 
+                          par.prior = F, prior.plots = F))
+```
+
+
+#### PLSDA-batch
+
+**The optimal number of components**
+
+```{r}
+sponge.trt.tune <- plsda(X = sponge.x, Y = sponge.trt, ncomp = 5)
+sponge.trt.tune$explained_variance #1
+
+sponge.batch.tune <- PLSDA_batch(X = sponge.x, 
+                                 Y.trt = sponge.trt, Y.bat = sponge.batch,
+                                 ncomp.trt = 1, ncomp.bat = 5)
+sponge.batch.tune$explained_variance.bat #1
+```
+
+```{r}
+sponge.plsda_batch.correct <- PLSDA_batch(X = sponge.x, 
+                                          Y.trt = sponge.trt, Y.bat = sponge.batch, 
+                                          ncomp.trt = 1, ncomp.bat = 1)
+sponge.plsda_batch <- sponge.plsda_batch.correct$X.nobatch
+```
+
+
+#### sPLSDA-batch
+
+**The optimal number of variables to select per component**
+
+```{r, eval = F}
+set.seed(777)
+sponge.test.keepX = seq(1, 24, 1)
+sponge.trt.tune.v <- tune.splsda(X = sponge.x, Y = sponge.trt, 
+                                 ncomp = 1, test.keepX = sponge.test.keepX, 
+                                 validation = 'Mfold', folds = 4, nrepeat = 50)
+sponge.trt.tune.v$choice.keepX #1
+```
+
+```{r}
+sponge.splsda_batch.correct <- PLSDA_batch(X = sponge.x, 
+                                           Y.trt = sponge.trt, Y.bat = sponge.batch, 
+                                           ncomp.trt = 1, keepX.trt = 1, 
+                                           ncomp.bat = 1)
+sponge.splsda_batch <- sponge.splsda_batch.correct$X.nobatch
+```
+
+### Evaluation
+
+#### PCA
+
+```{r}
+sponge.pca.rbe <- pca(sponge.rbe, ncomp = 3, scale = T)
+sponge.pca.combat <- pca(sponge.combat, ncomp = 3, scale = T)
+sponge.pca.plsda_batch <- pca(sponge.plsda_batch, ncomp = 3, scale = T)
+sponge.pca.splsda_batch <- pca(sponge.splsda_batch, ncomp = 3, scale = T)
+
+sponge.xlim = c(-5,4.5)
+sponge.ylim = c(-5,4.5)
+cex = 2
+
+plotIndiv(sponge.pca.before, group = sponge.trt, 
+          pch = as.numeric(as.character(sponge.batch.shape)), 
+          title = 'Before batch effect correction (sponge)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = sponge.batch, 
+          col.per.group = pb_color(1:2), legend.title = 'Tissue', cex = cex, 
+          xlim = sponge.xlim, ylim = sponge.ylim)
+
+plotIndiv(sponge.pca.rbe, group = sponge.trt, 
+          pch = as.numeric(as.character(sponge.batch.shape)), 
+          title = 'removeBatchEffect correction (sponge)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = sponge.batch, 
+          col.per.group = pb_color(1:2), legend.title = 'Tissue', cex = cex, 
+          xlim = sponge.xlim, ylim = sponge.ylim)
+
+plotIndiv(sponge.pca.combat, group = sponge.trt, 
+          pch = as.numeric(as.character(sponge.batch.shape)), 
+          title = 'ComBat correction (sponge)', ind.names = F, legend = T, 
+          legend.title.pch = 'Batch', pch.levels = sponge.batch, 
+          col.per.group = pb_color(1:2), legend.title = 'Tissue', cex = cex, 
+          xlim = sponge.xlim, ylim = sponge.ylim)
+
+plotIndiv(sponge.pca.plsda_batch, group = sponge.trt, 
+          pch = as.numeric(as.character(sponge.batch.shape)), 
+          title = 'PLSDA-batch correction (sponge)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = sponge.batch, 
+          col.per.group = pb_color(1:2), legend.title = 'Tissue', cex = cex, 
+          xlim = sponge.xlim, ylim = sponge.ylim)
+
+plotIndiv(sponge.pca.splsda_batch, group = sponge.trt, 
+          pch = as.numeric(as.character(sponge.batch.shape)), 
+          title = 'sPLSDA-batch correction (sponge)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = sponge.batch, 
+          col.per.group = pb_color(1:2), legend.title = 'Tissue', cex = cex, 
+          xlim = sponge.xlim, ylim = sponge.ylim)
+
+```
+
+#### RDA
+
+```{r, fig.height = 5, out.width = '70%'}
+# first scale the data
+sponge.x.s = scale(sponge.x)
+sponge.rbe.s = scale(sponge.rbe)
+sponge.combat.s = scale(sponge.combat)
+sponge.plsda_batch.s = scale(sponge.plsda_batch)
+sponge.splsda_batch.s = scale(sponge.splsda_batch)
+
+sponge.corrected.list <- list(`Before correction` = sponge.x.s, 
+                              removeBatchEffect = sponge.rbe.s, 
+                              ComBat = sponge.combat.s, 
+                              `PLSDA-batch` = sponge.plsda_batch.s, 
+                              `sPLSDA-batch` = sponge.splsda_batch.s)
+
+
+sponge.rda.prop.df <- data.frame(treatment = NA, intersection = NA, 
+                                 batch = NA,  residual = NA)
+
+Bat_Trt.factors <- data.frame(Batch = sponge.batch, Treatment = sponge.trt)
+
+for(i in 1:length(sponge.corrected.list)){
+  rda.res = varpart(sponge.corrected.list[[i]], ~ Treatment, ~ Batch, 
+                    data = Bat_Trt.factors)
+  sponge.rda.prop.df[i, ] <- rda.res$part$indfract$Adj.R.squared
+}
+
+rownames(sponge.rda.prop.df) <- names(sponge.corrected.list)
+
+sponge.rda.prop.df[sponge.rda.prop.df < 0] = 0
+
+sponge.rda.prop.df <- t(apply(sponge.rda.prop.df, 1, function(x){x/sum(x)}))
+
+
+
+sponge.rda.ggp <- data.frame(Prop = c(t(sponge.rda.prop.df)),
+                             Methods = rep(rownames(sponge.rda.prop.df), each = 4),
+                             Type = rep(c('Treatment', 
+                                          'Intersection', 
+                                          'Batch', 
+                                          'Residuals'), 5))
+
+sponge.rda.ggp$Methods <- factor(sponge.rda.ggp$Methods, 
+                                 levels = c('Before correction', 
+                                            'removeBatchEffect', 
+                                            'ComBat', 
+                                            'PLSDA-batch', 
+                                            'sPLSDA-batch'))
+
+sponge.rda.ggp$Type <- factor(sponge.rda.ggp$Type, 
+                              levels = c('Residuals', 
+                                         'Batch', 
+                                         'Intersection', 
+                                         'Treatment'))
+
+sponge.rda.ggp.position <- sponge.rda.prop.df
+sponge.rda.ggp.position[ ,1] <- sponge.rda.prop.df[ ,1]/2 + 0.02
+sponge.rda.ggp.position[ ,2] <- sponge.rda.prop.df[ ,1] + 0.02 + 
+  sponge.rda.prop.df[ ,2]/2 + 0.001
+sponge.rda.ggp.position[ ,3] <- sponge.rda.prop.df[ ,1] + 0.02 + 
+  sponge.rda.prop.df[ ,2] + 0.001 + sponge.rda.prop.df[ ,3]/2 + 0.015 
+sponge.rda.ggp.position[ ,4] <- apply(sponge.rda.prop.df, 1, sum)
+
+
+sponge.rda.ggp$ypos <- c(t(sponge.rda.ggp.position))
+
+
+ggplot(sponge.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) + 
+  geom_bar(stat = 'identity') + ylab('Explained variance (%)') + 
+  scale_fill_manual(name = 'Variation sources', values = pb_color(11:14)) + 
+  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
+            vjust = 1.6, color = 'black', size = 3) 
+```
+
+#### Scatter plot
+
+```{r, fig.width = 6, fig.height = 6, out.width = '80%'}
+# before
+sponge.r2.trt.before <- c()
+for(c in 1:ncol(sponge.x.s)){
+  fit.res <- lm(sponge.x.s[ ,c] ~ sponge.trt)
+  fit.summary <- summary(fit.res)
+  sponge.r2.trt.before <- c(sponge.r2.trt.before, fit.summary$r.squared)
+}
+
+
+sponge.r2.bat.before <- c()
+for(c in 1:ncol(sponge.x.s)){
+  fit.res <- lm(sponge.x.s[ ,c] ~ sponge.batch)
+  fit.summary <- summary(fit.res)
+  sponge.r2.bat.before <- c(sponge.r2.bat.before, fit.summary$r.squared)
+}
+
+# removeBatchEffect
+sponge.r2.trt.rbe <- c()
+for(c in 1:ncol(sponge.rbe.s)){
+  fit.res <- lm(sponge.rbe.s[ ,c] ~ sponge.trt)
+  fit.summary <- summary(fit.res)
+  sponge.r2.trt.rbe <- c(sponge.r2.trt.rbe, fit.summary$r.squared)
+}
+
+
+sponge.r2.bat.rbe <- c()
+for(c in 1:ncol(sponge.rbe.s)){
+  fit.res <- lm(sponge.rbe.s[ ,c] ~ sponge.batch)
+  fit.summary <- summary(fit.res)
+  sponge.r2.bat.rbe <- c(sponge.r2.bat.rbe, fit.summary$r.squared)
+}
+
+# ComBat
+sponge.r2.trt.combat <- c()
+for(c in 1:ncol(sponge.combat.s)){
+  fit.res <- lm(sponge.combat.s[ ,c] ~ sponge.trt)
+  fit.summary <- summary(fit.res)
+  sponge.r2.trt.combat <- c(sponge.r2.trt.combat, fit.summary$r.squared)
+}
+
+
+sponge.r2.bat.combat <- c()
+for(c in 1:ncol(sponge.combat.s)){
+  fit.res <- lm(sponge.combat.s[ ,c] ~ sponge.batch)
+  fit.summary <- summary(fit.res)
+  sponge.r2.bat.combat <- c(sponge.r2.bat.combat, fit.summary$r.squared)
+}
+
+
+
+# PLSDA-batch
+sponge.r2.trt.plsda_batch <- c()
+for(c in 1:ncol(sponge.plsda_batch.s)){
+  fit.res <- lm(sponge.plsda_batch.s[ ,c] ~ sponge.trt)
+  fit.summary <- summary(fit.res)
+  sponge.r2.trt.plsda_batch <- c(sponge.r2.trt.plsda_batch, fit.summary$r.squared)
+}
+
+
+sponge.r2.bat.plsda_batch <- c()
+for(c in 1:ncol(sponge.plsda_batch.s)){
+  fit.res <- lm(sponge.plsda_batch.s[ ,c] ~ sponge.batch)
+  fit.summary <- summary(fit.res)
+  sponge.r2.bat.plsda_batch <- c(sponge.r2.bat.plsda_batch, fit.summary$r.squared)
+}
+
+# sPLSDA-batch
+sponge.r2.trt.splsda_batch <- c()
+for(c in 1:ncol(sponge.splsda_batch.s)){
+  fit.res <- lm(sponge.splsda_batch.s[ ,c] ~ sponge.trt)
+  fit.summary <- summary(fit.res)
+  sponge.r2.trt.splsda_batch <- c(sponge.r2.trt.splsda_batch, fit.summary$r.squared)
+}
+
+sponge.r2.bat.splsda_batch <- c()
+for(c in 1:ncol(sponge.splsda_batch.s)){
+  fit.res <- lm(sponge.splsda_batch.s[ ,c] ~ sponge.batch)
+  fit.summary <- summary(fit.res)
+  sponge.r2.bat.splsda_batch <- c(sponge.r2.bat.splsda_batch, fit.summary$r.squared)
+}
+
+# plot
+xlabs = 'R2(variable, tissue)'
+ylabs = 'R2(variable, batch)'
+edgex = 1
+edgey = 0.8
+
+par(mfrow = c(3,2))
+plot(sponge.r2.trt.before, sponge.r2.bat.before, 
+     main = 'Before correction', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+plot(sponge.r2.trt.rbe, sponge.r2.bat.rbe, 
+     main = 'removeBatchEffect', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+
+plot(sponge.r2.trt.combat, sponge.r2.bat.combat, 
+     main = 'ComBat', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+
+plot(sponge.r2.trt.plsda_batch, sponge.r2.bat.plsda_batch, 
+     main = 'PLSDA-batch', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+plot(sponge.r2.trt.splsda_batch, sponge.r2.bat.splsda_batch, 
+     main = 'sPLSDA-batch', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+par(mfrow = c(1,1))  
+```
+
+#### Alignment scores
+
+```{r}
+sponge.var = 0.95
+sponge.k = 3
+
+sponge.scores <- 
+  c(alignment_score(sponge.x, sponge.batch, sponge.var, 
+                    sponge.k, ncomp = 20),
+    alignment_score(sponge.rbe, sponge.batch, sponge.var, 
+                    sponge.k, ncomp = 20),
+    alignment_score(sponge.combat, sponge.batch, sponge.var, 
+                    sponge.k, ncomp = 20),
+    alignment_score(sponge.plsda_batch, sponge.batch, sponge.var, 
+                    sponge.k, ncomp = 20),
+    alignment_score(sponge.splsda_batch, sponge.batch, sponge.var, 
+                    sponge.k, ncomp = 20)
+  )
+
+sponge.scores.df <- data.frame(scores = sponge.scores, 
+                               methods = as.factor(c('Before correction',
+                                                     'removeBatchEffect',
+                                                     'ComBat', 
+                                                     'PLSDA-batch',
+                                                     'sPLSDA-batch')))
+
+sponge.scores.df$methods <- factor(sponge.scores.df$methods, 
+                                   levels = c('sPLSDA-batch', 
+                                              'PLSDA-batch', 
+                                              'ComBat', 
+                                              'removeBatchEffect', 
+                                              'Before correction'))
+
+
+ggplot() + geom_col(aes(x = sponge.scores.df$methods, y = sponge.scores.df$scores)) + 
+  geom_text(aes(x = sponge.scores.df$methods, 
+                y = sponge.scores.df$scores/2, 
+                label = round(sponge.scores.df$scores, 3)), 
+            size = 3, col = 'white') + 
+  coord_flip() + theme_bw() + ylab('Alignment Scores') + xlab('') + ylim(0,0.4)
+```
+
+## Anaerobic digestion
+
+This study explored the microbial indicators that could improve the efficacy of anaerobic digestion (AD) bioprocess and prevent its failure [@chapleur2016increasing]. The microbiota was profiled under various conditions. The dataset includes 231 OTUs and 75 samples treated with two different ranges of phenol concentration (effects of interest). These samples were processed at five different dates, which constituted the batch effect to remove.
+
+Load the data as follows:
+
+```{r}
+data('AD_data')
+ad.x <- AD_data$X.clr
+ad.trt <- AD_data$Y.trt
+ad.batch <- AD_data$Y.bat
+ad.taxa <- AD_data$taxa
+```
+
+### Diagnostic plots: principal component analysis
+
+```{r}
+ad.pca.before <- pca(ad.x, ncomp = 3, scale = T)
+
+ad.batch.shape <- ad.batch
+levels(ad.batch.shape) <- c(1,19, 2,17,4)
+
+plotIndiv(ad.pca.before, group = ad.trt, 
+          pch = as.numeric(as.character(ad.batch.shape)), 
+          title = 'Before batch effect correction (AD)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = ad.batch, 
+          col.per.group = pb_color(3:4), legend.title = 'Treatment', cex = 2)
+```
+
+### Batch correction
+
+
+#### removeBatchEffect
+
+```{r}
+ad.mod <- model.matrix( ~ ad.trt) # full model
+ad.rbe <- t(removeBatchEffect(t(ad.x), 
+                              batch = ad.batch, 
+                              design = ad.mod))
+```
+
+#### ComBat
+
+```{r}
+ad.combat <- t(ComBat(t(ad.x), 
+                      batch = ad.batch, 
+                      mod = ad.mod, 
+                      par.prior = F, prior.plots = F))
+```
+
+
+#### PLSDA-batch
+
+**The optimal number of components**
+
+```{r}
+ad.trt.tune <- plsda(X = ad.x, Y = ad.trt, ncomp = 5)
+ad.trt.tune$explained_variance #1
+
+ad.batch.tune <- PLSDA_batch(X = ad.x, 
+                             Y.trt = ad.trt, Y.bat = ad.batch,
+                             ncomp.trt = 1, ncomp.bat = 10)
+ad.batch.tune$explained_variance.bat #4
+sum(ad.batch.tune$explained_variance.bat$Y[1:4])
+```
+
+```{r}
+ad.plsda_batch.correct <- PLSDA_batch(X = ad.x, 
+                                      Y.trt = ad.trt, Y.bat = ad.batch, 
+                                      ncomp.trt = 1, ncomp.bat = 4)
+ad.plsda_batch <- ad.plsda_batch.correct$X.nobatch
+```
+
+
+#### sPLSDA-batch
+
+**The optimal number of variables to select per component**
+
+```{r, eval = F}
+set.seed(777)
+ad.test.keepX = c(seq(1, 10, 1), seq(20, 100, 10), seq(150, 231, 50), 231)
+ad.trt.tune.v <- tune.splsda(X = ad.x, Y = ad.trt, 
+                             ncomp = 1, test.keepX = ad.test.keepX, 
+                             validation = 'Mfold', folds = 4, nrepeat = 50)
+ad.trt.tune.v$choice.keepX #50
+```
+
+```{r}
+ad.splsda_batch.correct <- PLSDA_batch(X = ad.x, 
+                                       Y.trt = ad.trt, Y.bat = ad.batch, 
+                                       ncomp.trt = 1, keepX.trt = 50, 
+                                       ncomp.bat = 4)
+ad.splsda_batch <- ad.splsda_batch.correct$X.nobatch
+```
+
+### Evaluation
+
+#### PCA
+
+```{r}
+ad.pca.rbe <- pca(ad.rbe, ncomp = 3, scale = T)
+ad.pca.combat <- pca(ad.combat, ncomp = 3, scale = T)
+ad.pca.plsda_batch <- pca(ad.plsda_batch, ncomp = 3, scale = T)
+ad.pca.splsda_batch <- pca(ad.splsda_batch, ncomp = 3, scale = T)
+
+ad.xlim = c(-13,15)
+ad.ylim = c(-12,12)
+cex = 2
+
+plotIndiv(ad.pca.before, group = ad.trt, 
+          pch = as.numeric(as.character(ad.batch.shape)), 
+          title = 'Before batch effect correction (AD)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = ad.batch, 
+          col.per.group = pb_color(3:4), legend.title = 'Treatment', cex = cex, 
+          xlim = ad.xlim, ylim = ad.ylim)
+
+plotIndiv(ad.pca.rbe, group = ad.trt, 
+          pch = as.numeric(as.character(ad.batch.shape)), 
+          title = 'removeBatchEffect correction (AD)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = ad.batch, 
+          col.per.group = pb_color(3:4), legend.title = 'Treatment', cex = cex, 
+          xlim = ad.xlim, ylim = ad.ylim)
+
+plotIndiv(ad.pca.combat, group = ad.trt, 
+          pch = as.numeric(as.character(ad.batch.shape)), 
+          title = 'ComBat correction (AD)', ind.names = F, legend = T, 
+          legend.title.pch = 'Batch', pch.levels = ad.batch, 
+          col.per.group = pb_color(3:4), legend.title = 'Treatment', cex = cex, 
+          xlim = ad.xlim, ylim = ad.ylim)
+
+plotIndiv(ad.pca.plsda_batch, group = ad.trt, 
+          pch = as.numeric(as.character(ad.batch.shape)), 
+          title = 'PLSDA-batch correction (AD)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = ad.batch, 
+          col.per.group = pb_color(3:4), legend.title = 'Treatment', cex = cex, 
+          xlim = ad.xlim, ylim = ad.ylim)
+
+plotIndiv(ad.pca.splsda_batch, group = ad.trt, 
+          pch = as.numeric(as.character(ad.batch.shape)), 
+          title = 'sPLSDA-batch correction (AD)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = ad.batch, 
+          col.per.group = pb_color(3:4), legend.title = 'Treatment', cex = cex, 
+          xlim = ad.xlim, ylim = ad.ylim)
+
+```
+
+#### RDA
+
+```{r, fig.height = 5, out.width = '70%'}
+# first scale the data
+ad.x.s = scale(ad.x)
+ad.rbe.s = scale(ad.rbe)
+ad.combat.s = scale(ad.combat)
+ad.plsda_batch.s = scale(ad.plsda_batch)
+ad.splsda_batch.s = scale(ad.splsda_batch)
+
+ad.corrected.list <- list(`Before correction` = ad.x.s, 
+                          removeBatchEffect = ad.rbe.s, 
+                          ComBat = ad.combat.s, 
+                          `PLSDA-batch` = ad.plsda_batch.s, 
+                          `sPLSDA-batch` = ad.splsda_batch.s)
+
+
+ad.rda.prop.df <- data.frame(treatment = NA, intersection = NA, 
+                             batch = NA,  residual = NA)
+
+Bat_Trt.factors <- data.frame(Batch = ad.batch, Treatment = ad.trt)
+
+for(i in 1:length(ad.corrected.list)){
+  rda.res = varpart(ad.corrected.list[[i]], ~ Treatment, ~ Batch, 
+                    data = Bat_Trt.factors)
+  ad.rda.prop.df[i, ] <- rda.res$part$indfract$Adj.R.squared
+}
+
+rownames(ad.rda.prop.df) <- names(ad.corrected.list)
+
+ad.rda.prop.df[ad.rda.prop.df < 0] = 0
+
+ad.rda.prop.df <- t(apply(ad.rda.prop.df, 1, function(x){x/sum(x)}))
+
+
+
+ad.rda.ggp <- data.frame(Prop = c(t(ad.rda.prop.df)),
+                         Methods = rep(rownames(ad.rda.prop.df), each = 4),
+                         Type = rep(c('Treatment', 
+                                      'Intersection', 
+                                      'Batch', 
+                                      'Residuals'), 5))
+
+ad.rda.ggp$Methods <- factor(ad.rda.ggp$Methods, 
+                             levels = c('Before correction', 
+                                        'removeBatchEffect', 
+                                        'ComBat', 
+                                        'PLSDA-batch', 
+                                        'sPLSDA-batch'))
+
+ad.rda.ggp$Type <- factor(ad.rda.ggp$Type, 
+                          levels = c('Residuals', 
+                                     'Batch', 
+                                     'Intersection', 
+                                     'Treatment'))
+
+ad.rda.ggp.position <- ad.rda.prop.df
+ad.rda.ggp.position[ ,1] <- ad.rda.prop.df[ ,1]/2 + 0.02
+ad.rda.ggp.position[ ,2] <- ad.rda.prop.df[ ,1] + 0.02 + 
+  ad.rda.prop.df[ ,2]/2 + 0.001
+ad.rda.ggp.position[ ,3] <- ad.rda.prop.df[ ,1] + 0.02 + 
+  ad.rda.prop.df[ ,2] + 0.001 + ad.rda.prop.df[ ,3]/2 + 0.015 
+ad.rda.ggp.position[ ,4] <- apply(ad.rda.prop.df, 1, sum)
+
+
+ad.rda.ggp$ypos <- c(t(ad.rda.ggp.position))
+
+
+ggplot(ad.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) + 
+  geom_bar(stat = 'identity') + ylab('Explained variance (%)') + 
+  scale_fill_manual(name = 'Variation sources', values = pb_color(11:14)) + 
+  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
+            vjust = 1.6, color = 'black', size = 3) 
+```
+
+#### Scatter plot
+
+```{r, fig.width = 6, fig.height = 6, out.width = '80%'}
+# before
+ad.r2.trt.before <- c()
+for(c in 1:ncol(ad.x.s)){
+  fit.res <- lm(ad.x.s[ ,c] ~ ad.trt)
+  fit.summary <- summary(fit.res)
+  ad.r2.trt.before <- c(ad.r2.trt.before, fit.summary$r.squared)
+}
+
+
+ad.r2.bat.before <- c()
+for(c in 1:ncol(ad.x.s)){
+  fit.res <- lm(ad.x.s[ ,c] ~ ad.batch)
+  fit.summary <- summary(fit.res)
+  ad.r2.bat.before <- c(ad.r2.bat.before, fit.summary$r.squared)
+}
+
+# removeBatchEffect
+ad.r2.trt.rbe <- c()
+for(c in 1:ncol(ad.rbe.s)){
+  fit.res <- lm(ad.rbe.s[ ,c] ~ ad.trt)
+  fit.summary <- summary(fit.res)
+  ad.r2.trt.rbe <- c(ad.r2.trt.rbe, fit.summary$r.squared)
+}
+
+
+ad.r2.bat.rbe <- c()
+for(c in 1:ncol(ad.rbe.s)){
+  fit.res <- lm(ad.rbe.s[ ,c] ~ ad.batch)
+  fit.summary <- summary(fit.res)
+  ad.r2.bat.rbe <- c(ad.r2.bat.rbe, fit.summary$r.squared)
+}
+
+# ComBat
+ad.r2.trt.combat <- c()
+for(c in 1:ncol(ad.combat.s)){
+  fit.res <- lm(ad.combat.s[ ,c] ~ ad.trt)
+  fit.summary <- summary(fit.res)
+  ad.r2.trt.combat <- c(ad.r2.trt.combat, fit.summary$r.squared)
+}
+
+
+ad.r2.bat.combat <- c()
+for(c in 1:ncol(ad.combat.s)){
+  fit.res <- lm(ad.combat.s[ ,c] ~ ad.batch)
+  fit.summary <- summary(fit.res)
+  ad.r2.bat.combat <- c(ad.r2.bat.combat, fit.summary$r.squared)
+}
+
+
+
+# PLSDA-batch
+ad.r2.trt.plsda_batch <- c()
+for(c in 1:ncol(ad.plsda_batch.s)){
+  fit.res <- lm(ad.plsda_batch.s[ ,c] ~ ad.trt)
+  fit.summary <- summary(fit.res)
+  ad.r2.trt.plsda_batch <- c(ad.r2.trt.plsda_batch, fit.summary$r.squared)
+}
+
+
+ad.r2.bat.plsda_batch <- c()
+for(c in 1:ncol(ad.plsda_batch.s)){
+  fit.res <- lm(ad.plsda_batch.s[ ,c] ~ ad.batch)
+  fit.summary <- summary(fit.res)
+  ad.r2.bat.plsda_batch <- c(ad.r2.bat.plsda_batch, fit.summary$r.squared)
+}
+
+# sPLSDA-batch
+ad.r2.trt.splsda_batch <- c()
+for(c in 1:ncol(ad.splsda_batch.s)){
+  fit.res <- lm(ad.splsda_batch.s[ ,c] ~ ad.trt)
+  fit.summary <- summary(fit.res)
+  ad.r2.trt.splsda_batch <- c(ad.r2.trt.splsda_batch, fit.summary$r.squared)
+}
+
+ad.r2.bat.splsda_batch <- c()
+for(c in 1:ncol(ad.splsda_batch.s)){
+  fit.res <- lm(ad.splsda_batch.s[ ,c] ~ ad.batch)
+  fit.summary <- summary(fit.res)
+  ad.r2.bat.splsda_batch <- c(ad.r2.bat.splsda_batch, fit.summary$r.squared)
+}
+
+# plot
+xlabs = 'R2(variable, treatment)'
+ylabs = 'R2(variable, batch)'
+edgex = 0.65
+edgey = 1
+
+par(mfrow = c(3,2))
+plot(ad.r2.trt.before, ad.r2.bat.before, 
+     main = 'Before correction', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+plot(ad.r2.trt.rbe, ad.r2.bat.rbe, 
+     main = 'removeBatchEffect', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+
+plot(ad.r2.trt.combat, ad.r2.bat.combat, 
+     main = 'ComBat', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+
+plot(ad.r2.trt.plsda_batch, ad.r2.bat.plsda_batch, 
+     main = 'PLSDA-batch', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+plot(ad.r2.trt.splsda_batch, ad.r2.bat.splsda_batch, 
+     main = 'sPLSDA-batch', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+par(mfrow = c(1,1))  
+```
+
+#### Alignment scores
+
+```{r}
+ad.var = 0.95
+ad.k = 8
+
+ad.scores <- 
+  c(alignment_score(ad.x, ad.batch, ad.var, ad.k, ncomp = 50),
+    alignment_score(ad.rbe, ad.batch, ad.var, ad.k, ncomp = 50),
+    alignment_score(ad.combat, ad.batch, ad.var, ad.k, ncomp = 50),
+    alignment_score(ad.plsda_batch, ad.batch, ad.var, ad.k, ncomp = 50),
+    alignment_score(ad.splsda_batch, ad.batch, ad.var, ad.k, ncomp = 50)
+  )
+
+ad.scores.df <- data.frame(scores = ad.scores, 
+                           methods = as.factor(c('Before correction',
+                                                 'removeBatchEffect',
+                                                 'ComBat', 
+                                                 'PLSDA-batch',
+                                                 'sPLSDA-batch')))
+
+ad.scores.df$methods <- factor(ad.scores.df$methods, 
+                               levels = c('sPLSDA-batch', 
+                                          'PLSDA-batch', 
+                                          'ComBat', 
+                                          'removeBatchEffect', 
+                                          'Before correction'))
+
+
+ggplot() + geom_col(aes(x = ad.scores.df$methods, y = ad.scores.df$scores)) + 
+  geom_text(aes(x = ad.scores.df$methods, 
+                y = ad.scores.df$scores/2, 
+                label = round(ad.scores.df$scores, 3)), size = 3, col = 'white') + 
+  coord_flip() + theme_bw() + ylab('Alignment Scores') + xlab('') + ylim(0,0.85)
+```
+
+#### Variable selection
+
+```{r, out.width = '100%'}
+ad.splsda.before <- splsda(X = ad.x, Y = ad.trt, 
+                           ncomp = 3, keepX = rep(50,3))
+ad.splsda.rbe <- splsda(X = ad.rbe, Y = ad.trt, 
+                        ncomp = 3, keepX = rep(50,3))
+ad.splsda.combat <- splsda(X = ad.combat, Y = ad.trt, 
+                           ncomp = 3, keepX = rep(50,3))
+ad.splsda.plsda_batch <- splsda(X = ad.plsda_batch, Y = ad.trt, 
+                                ncomp = 3, keepX = rep(50,3))
+ad.splsda.splsda_batch <- splsda(X = ad.splsda_batch, Y = ad.trt, 
+                                 ncomp = 3, keepX = rep(50,3))
+
+ad.select.before <- selectVar(ad.splsda.before, comp = 1)$name
+ad.select.rbe <- selectVar(ad.splsda.rbe, comp = 1)$name
+ad.select.combat <- selectVar(ad.splsda.combat, comp = 1)$name
+ad.select.plsda_batch <- selectVar(ad.splsda.plsda_batch, comp = 1)$name
+ad.select.splsda_batch <- selectVar(ad.splsda.splsda_batch, comp = 1)$name
+
+ad.splsda.select <- list(`Before correction` = ad.select.before,
+                         `removeBatchEffect` = ad.select.rbe,
+                         ComBat = ad.select.combat,
+                         `PLSDA-batch` = ad.select.plsda_batch,
+                         `sPLSDA-batch` = ad.select.splsda_batch)
+
+ad.splsda.upsetR <- fromList(ad.splsda.select)
+
+
+upset(ad.splsda.upsetR, main.bar.color = 'gray36',
+      sets.bar.color = pb_color(c(25:22,20)), matrix.color = 'gray36',
+      order.by = 'freq', empty.intersections = 'on',
+      queries = list(list(query = intersects, params = list('Before correction'), 
+                          color = pb_color(20), active = T), 
+                     list(query = intersects, params = list('removeBatchEffect'), 
+                          color = pb_color(22), active = T),
+                     list(query = intersects, params = list('ComBat'), 
+                          color = pb_color(23), active = T),
+                     list(query = intersects, params = list('PLSDA-batch'), 
+                          color = pb_color(24), active = T),
+                     list(query = intersects, params = list('sPLSDA-batch'), 
+                          color = pb_color(25), active = T)))
+
+```
+
+```{r}
+ad.splsda.select.overlap <- venn(ad.splsda.select, show.plot = F)
+ad.inters.splsda <- attr(ad.splsda.select.overlap, 'intersections')
+ad.inters.splsda.taxa <- lapply(ad.inters.splsda, 
+                                FUN = function(x){as.data.frame(ad.taxa[x, ])})
+capture.output(ad.inters.splsda.taxa, 
+               file = "GeneratedData/ADselected_50_splsda.txt")
+```
+
+
+## High fat high sugar diet
+
+This study aimed to investigate the effect of high fat high sugar (HFHS) diet on the mouse microbiome [@susin2020variable]. This dataset includes 419 OTUs and 54 samples treated with two types of diets (HFHS vs. normal) and housed in two different facilities (TRI and PACE). The diet variation is the treatment effect, while the facility variation constitutes the potential batch effect. The actual batch effect in this dataset is weak, and enables to assess whether batch correction methods are able to preserve treatment variation in this context.
+
+Load the data as follows:
+
+```{r}
+data('HFHS_data')
+hfhs.x <- HFHS_data$X.clr
+hfhs.trt <- HFHS_data$Y.trt
+hfhs.batch <- HFHS_data$Y.bat
+```
+
+### Diagnostic plots: principal component analysis
+
+```{r}
+hfhs.pca.before <- pca(hfhs.x, ncomp = 3, scale = T)
+
+hfhs.batch.shape <- hfhs.batch
+levels(hfhs.batch.shape) <- c(1,19)
+
+plotIndiv(hfhs.pca.before, group = hfhs.trt, 
+          pch = as.numeric(as.character(hfhs.batch.shape)), 
+          title = 'Before batch effect correction (HFHS)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = hfhs.batch, 
+          col.per.group = pb_color(5:6), legend.title = 'Treatment', cex = 2)
+```
+
+### Batch correction
+
+
+#### removeBatchEffect
+
+```{r}
+hfhs.mod <- model.matrix( ~ hfhs.trt) # full model
+hfhs.rbe <- t(removeBatchEffect(t(hfhs.x), 
+                                batch = hfhs.batch, 
+                                design = hfhs.mod))
+```
+
+#### ComBat
+
+```{r}
+hfhs.combat <- t(ComBat(t(hfhs.x), 
+                        batch = hfhs.batch, 
+                        mod = hfhs.mod, 
+                        par.prior = F, prior.plots = F))
+```
+
+
+#### PLSDA-batch
+
+**The optimal number of components**
+
+```{r}
+hfhs.trt.tune <- plsda(X = hfhs.x, Y = hfhs.trt, ncomp = 5)
+hfhs.trt.tune$explained_variance #1
+
+hfhs.batch.tune <- PLSDA_batch(X = hfhs.x, 
+                               Y.trt = hfhs.trt, Y.bat = hfhs.batch,
+                               ncomp.trt = 1, ncomp.bat = 4)
+hfhs.batch.tune$explained_variance.bat #1
+```
+
+```{r}
+hfhs.plsda_batch.correct <- PLSDA_batch(X = hfhs.x, 
+                                        Y.trt = hfhs.trt, Y.bat = hfhs.batch, 
+                                        ncomp.trt = 1, ncomp.bat = 1)
+hfhs.plsda_batch <- hfhs.plsda_batch.correct$X.nobatch
+```
+
+
+#### sPLSDA-batch
+
+**The optimal number of variables to select per component**
+
+```{r, eval = F}
+set.seed(777)
+hfhs.test.keepX = c(seq(10, 100, 10), seq(120, 300, 20), seq(350, 419, 50), 419)
+hfhs.trt.tune.v <- tune.splsda(X = hfhs.x, Y = hfhs.trt, 
+                               ncomp = 1, test.keepX = hfhs.test.keepX, 
+                               validation = 'Mfold', folds = 4, nrepeat = 50)
+hfhs.trt.tune.v$choice.keepX #10
+```
+
+```{r}
+hfhs.splsda_batch.correct <- PLSDA_batch(X = hfhs.x, 
+                                         Y.trt = hfhs.trt, Y.bat = hfhs.batch, 
+                                         ncomp.trt = 1, keepX.trt = 10, 
+                                         ncomp.bat = 1)
+hfhs.splsda_batch <- hfhs.splsda_batch.correct$X.nobatch
+```
+
+### Evaluation
+
+#### PCA
+
+```{r}
+hfhs.pca.rbe <- pca(hfhs.rbe, ncomp = 3, scale = T)
+hfhs.pca.combat <- pca(hfhs.combat, ncomp = 3, scale = T)
+hfhs.pca.plsda_batch <- pca(hfhs.plsda_batch, ncomp = 3, scale = T)
+hfhs.pca.splsda_batch <- pca(hfhs.splsda_batch, ncomp = 3, scale = T)
+
+hfhs.xlim = c(-22,17)
+hfhs.ylim = c(-23,20)
+
+cex = 2
+
+plotIndiv(hfhs.pca.before, group = hfhs.trt, 
+          pch = as.numeric(as.character(hfhs.batch.shape)), 
+          title = 'Before batch effect correction (HFHS)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = hfhs.batch, 
+          col.per.group = pb_color(5:6), legend.title = 'Treatment', cex = cex, 
+          xlim = hfhs.xlim, ylim = hfhs.ylim)
+
+plotIndiv(hfhs.pca.rbe, group = hfhs.trt, 
+          pch = as.numeric(as.character(hfhs.batch.shape)), 
+          title = 'removeBatchEffect correction (HFHS)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = hfhs.batch, 
+          col.per.group = pb_color(5:6), legend.title = 'Treatment', cex = cex, 
+          xlim = hfhs.xlim, ylim = hfhs.ylim)
+
+plotIndiv(hfhs.pca.combat, group = hfhs.trt, 
+          pch = as.numeric(as.character(hfhs.batch.shape)), 
+          title = 'ComBat correction (HFHS)', ind.names = F, legend = T, 
+          legend.title.pch = 'Batch', pch.levels = hfhs.batch, 
+          col.per.group = pb_color(5:6), legend.title = 'Treatment', cex = cex, 
+          xlim = hfhs.xlim, ylim = hfhs.ylim)
+
+plotIndiv(hfhs.pca.plsda_batch, group = hfhs.trt, 
+          pch = as.numeric(as.character(hfhs.batch.shape)), 
+          title = 'PLSDA-batch correction (HFHS)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = hfhs.batch, 
+          col.per.group = pb_color(5:6), legend.title = 'Treatment', cex = cex, 
+          xlim = hfhs.xlim, ylim = hfhs.ylim)
+
+plotIndiv(hfhs.pca.splsda_batch, group = hfhs.trt, 
+          pch = as.numeric(as.character(hfhs.batch.shape)), 
+          title = 'sPLSDA-batch correction (HFHS)', ind.names = F, 
+          legend = T, legend.title.pch = 'Batch', pch.levels = hfhs.batch, 
+          col.per.group = pb_color(5:6), legend.title = 'Treatment', cex = cex, 
+          xlim = hfhs.xlim, ylim = hfhs.ylim)
+
+```
+
+#### RDA
+
+```{r, fig.height = 5, out.width = '70%'}
+# first scale the data
+hfhs.x.s = scale(hfhs.x)
+hfhs.rbe.s = scale(hfhs.rbe)
+hfhs.combat.s = scale(hfhs.combat)
+hfhs.plsda_batch.s = scale(hfhs.plsda_batch)
+hfhs.splsda_batch.s = scale(hfhs.splsda_batch)
+
+hfhs.corrected.list <- list(`Before correction` = hfhs.x.s, 
+                            removeBatchEffect = hfhs.rbe.s, 
+                            ComBat = hfhs.combat.s, 
+                            `PLSDA-batch` = hfhs.plsda_batch.s, 
+                            `sPLSDA-batch` = hfhs.splsda_batch.s)
+
+
+hfhs.rda.prop.df <- data.frame(treatment = NA, intersection = NA, 
+                               batch = NA,  residual = NA)
+
+Bat_Trt.factors <- data.frame(Batch = hfhs.batch, Treatment = hfhs.trt)
+
+for(i in 1:length(hfhs.corrected.list)){
+  rda.res = varpart(hfhs.corrected.list[[i]], ~ Treatment, ~ Batch, 
+                    data = Bat_Trt.factors)
+  hfhs.rda.prop.df[i, ] <- rda.res$part$indfract$Adj.R.squared
+}
+
+rownames(hfhs.rda.prop.df) <- names(hfhs.corrected.list)
+
+hfhs.rda.prop.df[hfhs.rda.prop.df < 0] = 0
+
+hfhs.rda.prop.df <- t(apply(hfhs.rda.prop.df, 1, function(x){x/sum(x)}))
+
+
+
+hfhs.rda.ggp <- data.frame(Prop = c(t(hfhs.rda.prop.df)),
+                           Methods = rep(rownames(hfhs.rda.prop.df), each = 4),
+                           Type = rep(c('Treatment', 
+                                        'Intersection', 
+                                        'Batch', 
+                                        'Residuals'), 5))
+
+hfhs.rda.ggp$Methods <- factor(hfhs.rda.ggp$Methods, 
+                               levels = c('Before correction', 
+                                          'removeBatchEffect', 
+                                          'ComBat', 
+                                          'PLSDA-batch', 
+                                          'sPLSDA-batch'))
+
+hfhs.rda.ggp$Type <- factor(hfhs.rda.ggp$Type, 
+                            levels = c('Residuals', 
+                                       'Batch', 
+                                       'Intersection', 
+                                       'Treatment'))
+
+hfhs.rda.ggp.position <- hfhs.rda.prop.df
+hfhs.rda.ggp.position[ ,1] <- hfhs.rda.prop.df[ ,1]/2 + 0.02
+hfhs.rda.ggp.position[ ,2] <- hfhs.rda.prop.df[ ,1] + 0.02 + 
+  hfhs.rda.prop.df[ ,2]/2 + 0.001
+hfhs.rda.ggp.position[ ,3] <- hfhs.rda.prop.df[ ,1] + 0.02 + 
+  hfhs.rda.prop.df[ ,2] + 0.001 + hfhs.rda.prop.df[ ,3]/2 + 0.015 
+hfhs.rda.ggp.position[ ,4] <- apply(hfhs.rda.prop.df, 1, sum)
+
+
+hfhs.rda.ggp$ypos <- c(t(hfhs.rda.ggp.position))
+
+
+ggplot(hfhs.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) + 
+  geom_bar(stat = 'identity') + ylab('Explained variance (%)') + 
+  scale_fill_manual(name = 'Variation sources', values = pb_color(11:14)) + 
+  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
+  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
+            vjust = 1.6, color = 'black', size = 3) 
+```
+
+#### Scatter plot
+
+```{r, fig.width = 6, fig.height = 6, out.width = '80%'}
+# before
+hfhs.r2.trt.before <- c()
+for(c in 1:ncol(hfhs.x.s)){
+  fit.res <- lm(hfhs.x.s[ ,c] ~ hfhs.trt)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.trt.before <- c(hfhs.r2.trt.before, fit.summary$r.squared)
+}
+
+
+hfhs.r2.bat.before <- c()
+for(c in 1:ncol(hfhs.x.s)){
+  fit.res <- lm(hfhs.x.s[ ,c] ~ hfhs.batch)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.bat.before <- c(hfhs.r2.bat.before, fit.summary$r.squared)
+}
+
+# removeBatchEffect
+hfhs.r2.trt.rbe <- c()
+for(c in 1:ncol(hfhs.rbe.s)){
+  fit.res <- lm(hfhs.rbe.s[ ,c] ~ hfhs.trt)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.trt.rbe <- c(hfhs.r2.trt.rbe, fit.summary$r.squared)
+}
+
+
+hfhs.r2.bat.rbe <- c()
+for(c in 1:ncol(hfhs.rbe.s)){
+  fit.res <- lm(hfhs.rbe.s[ ,c] ~ hfhs.batch)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.bat.rbe <- c(hfhs.r2.bat.rbe, fit.summary$r.squared)
+}
+
+# ComBat
+hfhs.r2.trt.combat <- c()
+for(c in 1:ncol(hfhs.combat.s)){
+  fit.res <- lm(hfhs.combat.s[ ,c] ~ hfhs.trt)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.trt.combat <- c(hfhs.r2.trt.combat, fit.summary$r.squared)
+}
+
+
+hfhs.r2.bat.combat <- c()
+for(c in 1:ncol(hfhs.combat.s)){
+  fit.res <- lm(hfhs.combat.s[ ,c] ~ hfhs.batch)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.bat.combat <- c(hfhs.r2.bat.combat, fit.summary$r.squared)
+}
+
+
+
+# PLSDA-batch
+hfhs.r2.trt.plsda_batch <- c()
+for(c in 1:ncol(hfhs.plsda_batch.s)){
+  fit.res <- lm(hfhs.plsda_batch.s[ ,c] ~ hfhs.trt)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.trt.plsda_batch <- c(hfhs.r2.trt.plsda_batch, fit.summary$r.squared)
+}
+
+
+hfhs.r2.bat.plsda_batch <- c()
+for(c in 1:ncol(hfhs.plsda_batch.s)){
+  fit.res <- lm(hfhs.plsda_batch.s[ ,c] ~ hfhs.batch)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.bat.plsda_batch <- c(hfhs.r2.bat.plsda_batch, fit.summary$r.squared)
+}
+
+# sPLSDA-batch
+hfhs.r2.trt.splsda_batch <- c()
+for(c in 1:ncol(hfhs.splsda_batch.s)){
+  fit.res <- lm(hfhs.splsda_batch.s[ ,c] ~ hfhs.trt)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.trt.splsda_batch <- c(hfhs.r2.trt.splsda_batch, fit.summary$r.squared)
+}
+
+hfhs.r2.bat.splsda_batch <- c()
+for(c in 1:ncol(hfhs.splsda_batch.s)){
+  fit.res <- lm(hfhs.splsda_batch.s[ ,c] ~ hfhs.batch)
+  fit.summary <- summary(fit.res)
+  hfhs.r2.bat.splsda_batch <- c(hfhs.r2.bat.splsda_batch, fit.summary$r.squared)
+}
+
+# plot
+xlabs = 'R2(variable, treatment)'
+ylabs = 'R2(variable, batch)'
+edgex = 1
+edgey = 0.6
+
+par(mfrow = c(3,2))
+plot(hfhs.r2.trt.before, hfhs.r2.bat.before, 
+     main = 'Before correction', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+plot(hfhs.r2.trt.rbe, hfhs.r2.bat.rbe, 
+     main = 'removeBatchEffect', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+
+plot(hfhs.r2.trt.combat, hfhs.r2.bat.combat, 
+     main = 'ComBat', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+
+plot(hfhs.r2.trt.plsda_batch, hfhs.r2.bat.plsda_batch, 
+     main = 'PLSDA-batch', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+
+plot(hfhs.r2.trt.splsda_batch, hfhs.r2.bat.splsda_batch, 
+     main = 'sPLSDA-batch', xlab = xlabs, ylab = ylabs,
+     xlim = c(0, edgex), ylim = c(0, edgey))
+par(mfrow = c(1,1))  
+```
+
+#### Alignment scores
+
+```{r}
+hfhs.var = 0.95
+hfhs.k = 5
+
+
+hfhs.scores <- 
+  c(alignment_score(hfhs.x, hfhs.batch, hfhs.var, hfhs.k, ncomp = 50),
+    alignment_score(hfhs.rbe, hfhs.batch, hfhs.var, hfhs.k, ncomp = 50),
+    alignment_score(hfhs.combat, hfhs.batch, hfhs.var, hfhs.k, ncomp = 50),
+    alignment_score(hfhs.plsda_batch, hfhs.batch, hfhs.var, hfhs.k, ncomp = 50),
+    alignment_score(hfhs.splsda_batch, hfhs.batch, hfhs.var, hfhs.k, ncomp = 50)
+  )
+
+hfhs.scores.df <- data.frame(scores = hfhs.scores, 
+                             methods = as.factor(c('Before correction',
+                                                   'removeBatchEffect',
+                                                   'ComBat', 
+                                                   'PLSDA-batch',
+                                                   'sPLSDA-batch')))
+
+hfhs.scores.df$methods <- factor(hfhs.scores.df$methods, 
+                                 levels = c('sPLSDA-batch', 
+                                            'PLSDA-batch', 
+                                            'ComBat', 
+                                            'removeBatchEffect', 
+                                            'Before correction'))
+
+
+ggplot() + geom_col(aes(x = hfhs.scores.df$methods, y = hfhs.scores.df$scores)) + 
+  geom_text(aes(x = hfhs.scores.df$methods, 
+                y = hfhs.scores.df$scores/2, 
+                label = round(hfhs.scores.df$scores, 3)), size = 3, col = 'white') + 
+  coord_flip() + theme_bw() + ylab('Alignment Scores') + xlab('') + ylim(0,0.4)
+```
+
+#### Variable selection
+
+```{r, out.width = '100%'}
+hfhs.splsda.before <- splsda(X = hfhs.x, Y = hfhs.trt, 
+                             ncomp = 3, keepX = rep(80,3))
+hfhs.splsda.rbe <- splsda(X = hfhs.rbe, Y = hfhs.trt, 
+                          ncomp = 3, keepX = rep(80,3))
+hfhs.splsda.combat <- splsda(X = hfhs.combat, Y = hfhs.trt, 
+                             ncomp = 3, keepX = rep(80,3))
+hfhs.splsda.plsda_batch <- splsda(X = hfhs.plsda_batch, Y = hfhs.trt, 
+                                  ncomp = 3, keepX = rep(80,3))
+hfhs.splsda.splsda_batch <- splsda(X = hfhs.splsda_batch, Y = hfhs.trt, 
+                                   ncomp = 3, keepX = rep(80,3))
+
+hfhs.select.before <- selectVar(hfhs.splsda.before, comp = 1)$name
+hfhs.select.rbe <- selectVar(hfhs.splsda.rbe, comp = 1)$name
+hfhs.select.combat <- selectVar(hfhs.splsda.combat, comp = 1)$name
+hfhs.select.plsda_batch <- selectVar(hfhs.splsda.plsda_batch, comp = 1)$name
+hfhs.select.splsda_batch <- selectVar(hfhs.splsda.splsda_batch, comp = 1)$name
+
+hfhs.splsda.select <- list(`Before correction` = hfhs.select.before,
+                           `removeBatchEffect` = hfhs.select.rbe,
+                           ComBat = hfhs.select.combat,
+                           `PLSDA-batch` = hfhs.select.plsda_batch,
+                           `sPLSDA-batch` = hfhs.select.splsda_batch)
+
+hfhs.splsda.upsetR <- fromList(hfhs.splsda.select)
+
+
+upset(hfhs.splsda.upsetR, main.bar.color = 'gray36',
+      sets.bar.color = pb_color(c(25:22,20)), matrix.color = 'gray36',
+      order.by = 'freq', empty.intersections = 'on',
+      queries = list(list(query = intersects, params = list('Before correction'), 
+                          color = pb_color(20), active = T), 
+                     list(query = intersects, params = list('removeBatchEffect'), 
+                          color = pb_color(22), active = T),
+                     list(query = intersects, params = list('ComBat'), 
+                          color = pb_color(23), active = T),
+                     list(query = intersects, params = list('PLSDA-batch'), 
+                          color = pb_color(24), active = T),
+                     list(query = intersects, params = list('sPLSDA-batch'), 
+                          color = pb_color(25), active = T)))
+
+```
+
+
+```{r}
+hfhs.splsda.select.overlap <- venn(hfhs.splsda.select, show.plot = F)
+hfhs.inters.splsda <- attr(hfhs.splsda.select.overlap, 'intersections')
+hfhs.inters.splsda.taxa <- lapply(hfhs.inters.splsda, 
+                                  FUN = function(x){as.data.frame(ad.taxa[x, ])})
+capture.output(hfhs.inters.splsda.taxa, 
+               file = "GeneratedData/HFHSselected_50_splsda.txt")
+```
+
+# References

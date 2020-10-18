@@ -1,0 +1,29 @@
+Package: PLSDAbatch
+Type: Package
+Title: PLSDA-batch
+Version: 0.1.0
+Author: Yiwen (Eva) Wang
+Maintainer: Yiwen (Eva) Wang <yiwenw5@student.unimelb.edu.au>
+Description: for batch effect correction in microbiome studies
+    1. Multivariate
+    2. Non-parametric
+    3. For non-systematic batch effects
+License: None
+Encoding: UTF-8
+LazyData: true
+Imports: 
+    mixOmics,
+    scales
+RoxygenNote: 7.1.1
+Depends: 
+    R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown,
+    prettydoc,
+    sva,
+    limma,
+    vegan,
+    UpSetR,
+    gplots
+VignetteBuilder: knitr
