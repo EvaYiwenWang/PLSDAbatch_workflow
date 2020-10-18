@@ -2,7 +2,7 @@
 % Please edit documentation in R/pb_color.R
 \name{pb_color}
 \alias{pb_color}
-\title{Color Palette for PLSDA-batch}
+\title{Color palette for PLSDA-batch}
 \usage{
 pb_color(num.vector)
 }
