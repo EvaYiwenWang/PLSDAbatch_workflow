@@ -1,28 +1,3 @@
-
-#require(mixOmics)
-##############
-#' Matrix Deflation
-#'
-#' This function removes the variance of given component \code{t} from the input matrix \code{X}.
-#' \deqn{\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X}
-#' It is a built-in funciton of \code{PLSDA_batch}.
-#'
-#' @param X A numeric matrix to be deflated. It assumes that samples are on the row,
-#' while variables are on the column. \code{NA}s are not allowed.
-#' @param t A component to be deflated out from the matrix.
-#'
-#' @return A deflated matrix with the same dimension as the input matrix.
-#'
-#' @examples
-#' A built-in funciton of PLSDA_batch, not separately used.
-#'
-#'
-#' @export
-mtx_deflation <- function(X, t){
-  X.res = X - t %*% (solve(crossprod(t))) %*% (t(t) %*% X)
-  return(invisible(X.res))
-}
-
 ###############
 #' Partial Least Squares Discriminant Analysis
 #'
@@ -30,6 +5,7 @@ mtx_deflation <- function(X, t){
 #' The latent dimensions are maximally associated with the outcome matrix \code{Y}.
 #' It is a built-in funciton of \code{PLSDA_batch}.
 #'
+#' @importFrom mixOmics explained_variance
 #' @param X A numeric matrix that is centered and scaled as an explanatory matrix. \code{NA}s are not allowed.
 #' @param Y A dummy matrix that is centered and scaled as an outcome matrix.
 #' @param ncomp Integer, the number of dimensions to include in the model.
@@ -118,8 +94,8 @@ PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.ite
     }
 
     # deflation
-    X.temp <- mtx_deflation(X.temp, t)
-    Y.temp <- mtx_deflation(Y.temp, u)
+    X.temp <- deflate_mtx(X.temp, t)
+    Y.temp <- deflate_mtx(Y.temp, u)
 
     mat.t[,h] = t
     mat.u[,h] = u
@@ -133,8 +109,8 @@ PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.ite
   rownames(mat.b) = colnames(Y)
   colnames(mat.t) = colnames(mat.u) = colnames(mat.a) = colnames(mat.b) = names(c.iter) = paste('comp', 1:ncomp)
 
-  exp.var.X = mixOmics::explained_variance(X, mat.t, ncomp = ncomp)
-  exp.var.Y = mixOmics::explained_variance(Y, mat.u, ncomp = ncomp)
+  exp.var.X = explained_variance(X, mat.t, ncomp = ncomp)
+  exp.var.Y = explained_variance(Y, mat.u, ncomp = ncomp)
 
   result = list(original_data = list(X = X, Y = Y),
                 defl_data = list(X = X.temp, Y = Y.temp),
@@ -151,6 +127,7 @@ PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.ite
 #' This function removes batch variation from the input data given batch grouping information
 #' and the number of associated components.
 #'
+#' @importFrom mixOmics unmap nearZeroVar
 #' @param X A numeric matrix as an explanatory matrix. \code{NA}s are not allowed.
 #' @param Y.trt A factor or a class vector for the treatment grouping information (categorical outcome variable).
 #' Without the input of \code{Y.trt}, treatment variation cannot be preserved before correcting for batch effects.
@@ -248,7 +225,7 @@ PLSDA_batch <- function(X,
     stop("'Y.bat' should be a factor or a class vector.")}
 
   Y.bat = as.factor(Y.bat)
-  Y.bat.mat = mixOmics::unmap(as.numeric(Y.bat))
+  Y.bat.mat = unmap(as.numeric(Y.bat))
   Y.bat.mat = as.matrix(Y.bat.mat)
   q.bat = ncol(Y.bat.mat)
 
@@ -261,7 +238,7 @@ PLSDA_batch <- function(X,
 
   ###################
   if(near.zero.var == TRUE){
-    nzv = mixOmics::nearZeroVar(X)
+    nzv = nearZeroVar(X)
 
     if (length(nzv$Position > 0)){
       warning("Zero- or near-zero variance predictors.\nReset predictors matrix to not near-zero variance predictors.\nSee $nzv for problematic predictors.")
@@ -311,7 +288,7 @@ PLSDA_batch <- function(X,
       stop("'Y.trt' should be a factor or a class vector.")}
 
     Y.trt = as.factor(Y.trt)
-    Y.trt.mat = mixOmics::unmap(as.numeric(Y.trt))
+    Y.trt.mat = unmap(as.numeric(Y.trt))
     Y.trt.mat = as.matrix(Y.trt.mat)
     q.trt = ncol(Y.trt.mat)
 
@@ -403,7 +380,7 @@ PLSDA_batch <- function(X,
   for(h in 1:ncomp.bat){
     a.bat = bat_loadings[,h]
     t.bat = X.temp %*% a.bat
-    X.temp <- mtx_deflation(X.temp, t.bat)
+    X.temp <- deflate_mtx(X.temp, t.bat)
   }
 
   X.nobat <- X.temp
@@ -444,4 +421,36 @@ PLSDA_batch <- function(X,
   return(invisible(result))
 }
 
-
+## ------------------------------------------------------------------------ ##
+#' Matrix Deflation
+#'
+#' This function removes the variance of given component \code{t} from the input matrix \code{X}.
+#' \deqn{\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X}
+#' It is a built-in funciton of \code{PLSDA_batch}.
+#'
+#' @param X A numeric matrix to be deflated. It assumes that samples are on the row,
+#' while variables are on the column. \code{NA}s are not allowed.
+#' @param t A component to be deflated out from the matrix.
+#'
+#' @return A deflated matrix with the same dimension as the input matrix.
+#' @keywords Internal
+#' @export
+#' @examples
+#' set.seed(123)
+#' X <- matrix(rnorm(100), ncol = 20)
+#' ## pca for original matrix
+#' pca.X <- mixOmics::pca(X)
+#' ## deflate by the first PC and perform pca on the deflated matrix
+#' t <- pca.X$variates$X[,1]
+#' X.deflate <- deflate_mtx(X, t)
+#' pca.X.deflate <- mixOmics::pca(X.deflate)
+#' ## see if the first PC of he deflated matrix
+#' ## equals the second original pc in terms of absolute value
+#' pca.X.deflate$variates$X[,1]
+#' # -2.0265641 -0.7937048 -1.7010822  2.4479385  2.0734125
+#' pca.X$variates$X[,2]
+#' #  2.0265641  0.7937048  1.7010822 -2.4479385 -2.0734125
+deflate_mtx <- function(X, t){
+  X.res = X - t %*% (solve(crossprod(t))) %*% (t(t) %*% X)
+  return(invisible(X.res))
+}

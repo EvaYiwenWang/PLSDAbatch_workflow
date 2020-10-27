@@ -2,7 +2,7 @@
 % Please edit documentation in R/alignment_score.R
 \name{alignment_score}
 \alias{alignment_score}
-\title{Alignment Score}
+\title{Alignment score for batch data}
 \usage{
 alignment_score(
   data,

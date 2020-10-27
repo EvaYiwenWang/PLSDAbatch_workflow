@@ -1,4 +1,4 @@
-#' Data Simulation
+#' Data Simulation with unwanted variability
 #'
 #' This function simulates data with treatment or/and batch effects
 #' under different \code{batch x treatment design}
