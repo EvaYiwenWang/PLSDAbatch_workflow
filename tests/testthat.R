@@ -1,5 +1,5 @@
 library(testthat)
 library(PLSDAbatch)
 
-setwd('./tests')
+# setwd('./tests')
 test_check("PLSDAbatch")

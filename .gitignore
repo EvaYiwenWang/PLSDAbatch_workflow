@@ -6,3 +6,5 @@
 ## mac
 .DS_Store
 inst/doc
+
+.gitattributes
