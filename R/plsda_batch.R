@@ -1,127 +1,4 @@
-###############
-#' Partial Least Squares Discriminant Analysis
-#'
-#' This function estimates latent dimensions from the explanatory matrix \code{X}.
-#' The latent dimensions are maximally associated with the outcome matrix \code{Y}.
-#' It is a built-in funciton of \code{PLSDA_batch}.
-#'
-#' @importFrom mixOmics explained_variance
-#' @param X A numeric matrix that is centered and scaled as an explanatory matrix. \code{NA}s are not allowed.
-#' @param Y A dummy matrix that is centered and scaled as an outcome matrix.
-#' @param ncomp Integer, the number of dimensions to include in the model.
-#' @param keepX A numeric vector of length \code{ncomp}, the number of variables to keep in \eqn{X}-loadings.
-#' By default all variables are kept in the model. A valid input of \code{keepX} extends \code{PLSDA} to a sparse version.
-#' @param tol Numeric, convergence stopping value.
-#' @param max.iter Integer, the maximum number of iterations.
-#'
-#' @return \code{PLSDA} returns a list that contains the following components:
-#'
-#' \item{original_data}{The original explanatory matrix \code{X} and outcome matrix \code{Y}.}
-#' \item{defl_data}{The centered and scaled deflated matrices (\eqn{\hat{X}} and \eqn{\hat{Y}})
-#' after removing the variance of latent components calculated with estimated latent dimensions.}
-#' \item{latent_var}{The latent components calculated with estimated latent dimensions.}
-#' \item{loadings}{The estimated latent dimensions.}
-#' \item{iters}{Number of iterations of the algorthm for each component.}
-#' \item{exp_var}{The amount of data variance explained per component (note that contrary to \code{PCA},
-#' this amount may not decrease as the aim of the method is not to maximise the variance,
-#' but the covariance between \code{X} and the dummy matrix \code{Y}).}
-#'
-#'
-#' @examples
-#' A built-in funciton of PLSDA_batch, not separately used.
-#'
-#' @export
-PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.iter = 500){
-  # Y is dummy matrix
-  # input X, Y are scaled
-  # don't consider NA value
-
-  # require(mixOmics)
-
-  mat.t = matrix(nrow = nrow(X), ncol = ncomp)
-  mat.u = matrix(nrow = nrow(X), ncol = ncomp)
-  mat.a = matrix(nrow = ncol(X), ncol = ncomp)
-  mat.b = matrix(nrow = ncol(Y), ncol = ncomp)
-
-  c.iter = NULL
-  X.temp = X
-  Y.temp = Y
-  for(h in 1:ncomp){
-    nx = ncol(X) - keepX[h]
-
-    # Initialisation
-    M = crossprod(X.temp, Y.temp)
-    svd.M = svd(M, nu = 1, nv = 1)
-    a.old = svd.M$u
-    b.old = svd.M$v
-
-    t = X.temp %*% a.old
-    u = Y.temp %*% b.old
-
-    iter = 1
-
-    # Iteration
-    repeat{
-      a.new = t(X.temp) %*%  u
-
-		  if (nx != 0){
-        abs_a = abs(a.new)
-        if(any(rank(abs_a, ties.method = "max") <= nx)){
-          a.new = ifelse(rank(abs_a, ties.method = "max") <= nx, 0,
-            sign(a.new) * (abs_a - max(abs_a[rank(abs_a, ties.method = "max") <= nx])))
-        }
-      }
-
-      a.new = a.new / drop(sqrt(crossprod(a.new)))
-
-      t = X.temp %*% a.new
-
-      b.new = t(Y.temp) %*% t
-
-      b.new = b.new / drop(sqrt(crossprod(b.new)))
-
-      u = Y.temp %*% b.new
-
-      if (crossprod(a.new - a.old) < tol) {break}
-      if (iter == max.iter){
-        warning(paste("Maximum number of iterations reached for the component", h), call. = FALSE)
-        break
-      }
-
-      a.old = a.new
-      b.old = b.new
-      iter = iter + 1
-    }
-
-    # deflation
-    X.temp <- deflate_mtx(X.temp, t)
-    Y.temp <- deflate_mtx(Y.temp, u)
-
-    mat.t[,h] = t
-    mat.u[,h] = u
-    mat.a[,h] = a.new
-    mat.b[,h] = b.new
-    c.iter[h] = iter
-  }
-
-  rownames(mat.t) = rownames(mat.u) = rownames(X)
-  rownames(mat.a) = colnames(X)
-  rownames(mat.b) = colnames(Y)
-  colnames(mat.t) = colnames(mat.u) = colnames(mat.a) = colnames(mat.b) = names(c.iter) = paste('comp', 1:ncomp)
-
-  exp.var.X = explained_variance(X, mat.t, ncomp = ncomp)
-  exp.var.Y = explained_variance(Y, mat.u, ncomp = ncomp)
-
-  result = list(original_data = list(X = X, Y = Y),
-                defl_data = list(X = X.temp, Y = Y.temp),
-                latent_comp = list(t = mat.t, u = mat.u),
-                loadings = list(a = mat.a, b = mat.b),
-                iters = c.iter,
-                exp_var = list(X = exp.var.X, Y = exp.var.Y))
-  return(invisible(result))
-}
-
-########################
+############################################################################
 #' Partial Least Squares Discriminant Analysis for Batch Effect Correction
 #'
 #' This function removes batch variation from the input data given batch grouping information
@@ -421,7 +298,7 @@ PLSDA_batch <- function(X,
   return(invisible(result))
 }
 
-## ------------------------------------------------------------------------ ##
+##############################
 #' Matrix Deflation
 #'
 #' This function removes the variance of given component \code{t} from the input matrix \code{X}.
@@ -453,4 +330,127 @@ PLSDA_batch <- function(X,
 deflate_mtx <- function(X, t){
   X.res = X - t %*% (solve(crossprod(t))) %*% (t(t) %*% X)
   return(invisible(X.res))
+}
+
+################################################
+#' Partial Least Squares Discriminant Analysis
+#'
+#' This function estimates latent dimensions from the explanatory matrix \code{X}.
+#' The latent dimensions are maximally associated with the outcome matrix \code{Y}.
+#' It is a built-in funciton of \code{PLSDA_batch}.
+#'
+#' @importFrom mixOmics explained_variance
+#' @param X A numeric matrix that is centered and scaled as an explanatory matrix. \code{NA}s are not allowed.
+#' @param Y A dummy matrix that is centered and scaled as an outcome matrix.
+#' @param ncomp Integer, the number of dimensions to include in the model.
+#' @param keepX A numeric vector of length \code{ncomp}, the number of variables to keep in \eqn{X}-loadings.
+#' By default all variables are kept in the model. A valid input of \code{keepX} extends \code{PLSDA} to a sparse version.
+#' @param tol Numeric, convergence stopping value.
+#' @param max.iter Integer, the maximum number of iterations.
+#'
+#' @return \code{PLSDA} returns a list that contains the following components:
+#'
+#' \item{original_data}{The original explanatory matrix \code{X} and outcome matrix \code{Y}.}
+#' \item{defl_data}{The centered and scaled deflated matrices (\eqn{\hat{X}} and \eqn{\hat{Y}})
+#' after removing the variance of latent components calculated with estimated latent dimensions.}
+#' \item{latent_var}{The latent components calculated with estimated latent dimensions.}
+#' \item{loadings}{The estimated latent dimensions.}
+#' \item{iters}{Number of iterations of the algorthm for each component.}
+#' \item{exp_var}{The amount of data variance explained per component (note that contrary to \code{PCA},
+#' this amount may not decrease as the aim of the method is not to maximise the variance,
+#' but the covariance between \code{X} and the dummy matrix \code{Y}).}
+#' @keywords Internal
+#'
+#' @examples
+#' A built-in funciton of PLSDA_batch, not separately used.
+#'
+#' @export
+PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.iter = 500){
+  # Y is dummy matrix
+  # input X, Y are scaled
+  # don't consider NA value
+
+  # require(mixOmics)
+
+  mat.t = matrix(nrow = nrow(X), ncol = ncomp)
+  mat.u = matrix(nrow = nrow(X), ncol = ncomp)
+  mat.a = matrix(nrow = ncol(X), ncol = ncomp)
+  mat.b = matrix(nrow = ncol(Y), ncol = ncomp)
+
+  c.iter = NULL
+  X.temp = X
+  Y.temp = Y
+  for(h in 1:ncomp){
+    nx = ncol(X) - keepX[h]
+
+    # Initialisation
+    M = crossprod(X.temp, Y.temp)
+    svd.M = svd(M, nu = 1, nv = 1)
+    a.old = svd.M$u
+    b.old = svd.M$v
+
+    t = X.temp %*% a.old
+    u = Y.temp %*% b.old
+
+    iter = 1
+
+    # Iteration
+    repeat{
+      a.new = t(X.temp) %*%  u
+
+      if (nx != 0){
+        abs_a = abs(a.new)
+        if(any(rank(abs_a, ties.method = "max") <= nx)){
+          a.new = ifelse(rank(abs_a, ties.method = "max") <= nx, 0,
+                         sign(a.new) * (abs_a - max(abs_a[rank(abs_a, ties.method = "max") <= nx])))
+        }
+      }
+
+      a.new = a.new / drop(sqrt(crossprod(a.new)))
+
+      t = X.temp %*% a.new
+
+      b.new = t(Y.temp) %*% t
+
+      b.new = b.new / drop(sqrt(crossprod(b.new)))
+
+      u = Y.temp %*% b.new
+
+      if (crossprod(a.new - a.old) < tol) {break}
+      if (iter == max.iter){
+        warning(paste("Maximum number of iterations reached for the component", h), call. = FALSE)
+        break
+      }
+
+      a.old = a.new
+      b.old = b.new
+      iter = iter + 1
+    }
+
+    # deflation
+    X.temp <- deflate_mtx(X.temp, t)
+    Y.temp <- deflate_mtx(Y.temp, u)
+
+    mat.t[,h] = t
+    mat.u[,h] = u
+    mat.a[,h] = a.new
+    mat.b[,h] = b.new
+    c.iter[h] = iter
+  }
+
+  rownames(mat.t) = rownames(mat.u) = rownames(X)
+  rownames(mat.a) = colnames(X)
+  rownames(mat.b) = colnames(Y)
+  colnames(mat.t) = colnames(mat.u) = colnames(mat.a) = colnames(mat.b) = names(c.iter) = paste('comp', 1:ncomp)
+
+  exp.var.X = explained_variance(X, mat.t, ncomp = ncomp)
+  exp.var.Y = explained_variance(Y, mat.u, ncomp = ncomp)
+
+  result = list(original_data = list(X = X, Y = Y),
+                defl_data = list(X = X.temp, Y = Y.temp),
+                latent_comp = list(t = mat.t, u = mat.u),
+                loadings = list(a = mat.a, b = mat.b),
+                iters = c.iter,
+                exp_var = list(X = exp.var.X, Y = exp.var.Y))
+  return(invisible(result))
 }

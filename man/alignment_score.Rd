@@ -2,7 +2,7 @@
 % Please edit documentation in R/alignment_score.R
 \name{alignment_score}
 \alias{alignment_score}
-\title{Alignment score for batch data}
+\title{Alignment Scores for Evaluating the Degree of Mixing Samples}
 \usage{
 alignment_score(
   data,

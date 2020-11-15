@@ -1,4 +1,4 @@
-#' Alignment score for batch data
+#' Alignment Scores for Evaluating the Degree of Mixing Samples
 #'
 #' This function evaluates the degree of mixing samples from different batches in the batch corrected data.
 #' It is based on the dissimilarity matrix from Principal Component Analysis.

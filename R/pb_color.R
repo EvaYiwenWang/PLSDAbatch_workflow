@@ -1,4 +1,4 @@
-#' Color palette for PLSDA-batch
+#' Color Palette for PLSDA-batch
 #'
 #' The function outputs a vector of colors.
 #'

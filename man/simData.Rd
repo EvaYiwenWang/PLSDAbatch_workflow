@@ -2,7 +2,7 @@
 % Please edit documentation in R/data_simulation.R
 \name{simData}
 \alias{simData}
-\title{Data Simulation with unwanted variability}
+\title{Data Simulation Based on Components and Multivariate Strategy}
 \usage{
 simData(
   bat.mean,

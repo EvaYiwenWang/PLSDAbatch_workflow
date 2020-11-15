@@ -1,4 +1,4 @@
-#' Data Simulation with unwanted variability
+#' Data Simulation Based on Components and Multivariate Strategy
 #'
 #' This function simulates data with treatment or/and batch effects
 #' under different \code{batch x treatment design}

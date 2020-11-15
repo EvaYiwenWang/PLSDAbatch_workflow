@@ -24,14 +24,14 @@ link-citations: true
 
 ---
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(dpi = 100, echo = T, warning = FALSE, message = FALSE, eval = TRUE,
+knitr::opts_chunk$set(dpi = 300, echo = T, warning = FALSE, message = FALSE, eval = TRUE,
                       fig.show = TRUE, fig.width = 6, fig.height = 4, fig.align ='center', 
                       out.width = '60%', cache = FALSE, fig.path = 'Figures/')
 ```
 
 # Introduction
 
-Add something.
+We analysed three 16S rRNA gene sequencing datasets at the operational taxonomic unit (OTU). The count data were filtered to alleviate sparsity, then transformed with Centered Log Ratio (CLR), a pragmatic way to handle both uneven library sizes and compositional structure as [@susin2020variable]. CLR also converts skewed data towards a Gaussian-like distribution. 
 
 # Packages installation and loading
 
@@ -62,7 +62,18 @@ sponge.trt <- sponge_data$Y.trt
 sponge.batch <- sponge_data$Y.bat
 ```
 
+"sponge_data" contains three objects:
+
+**sponge.x**: The CLR transformed microbial metagenome data, a data matrix with 32 samples (rows) and 24 OTUs (columns).
+
+**sponge.trt**: A factor indicates tissue types (Ectosome vs. Choanosom).
+
+**sponge.batch**: A factor indicates batch groups (Gel1 vs. Gel2)
+
+
 ### Diagnostic plots: principal component analysis
+
+Principal Component Analysis (PCA) is an unsupervised method used to explore the data variance structure by reducing its dimensions to a few principal components (PC) that explain the greatest variation in the data. If batch effects account for the largest proportion of variance in the data, we expect a separation of the samples from different batches on the first component. 
 
 ```{r}
 sponge.pca.before <- pca(sponge.x, ncomp = 3, scale = T)
@@ -77,8 +88,9 @@ plotIndiv(sponge.pca.before, group = sponge.trt,
           col.per.group = pb_color(1:2), legend.title = 'Tissue', cex = 2)
 ```
 
-### Batch correction
+In the sponge data, 21\% of the total data variance was explained by the first principal component, which highlighted a strong difference of samples across different tissues (effect of interest). The batch variation accounted for 19\% of the total variance in the second component. Thus in this study, batch effects are slightly weaker than the treatment effects. 
 
+### Batch correction
 
 #### removeBatchEffect
 
@@ -89,6 +101,8 @@ sponge.rbe <- t(removeBatchEffect(t(sponge.x),
                                   design = sponge.mod))
 ```
 
+We corrected the data using **removeBatchEffect**. 
+
 #### ComBat
 
 ```{r}
@@ -98,6 +112,7 @@ sponge.combat <- t(ComBat(t(sponge.x),
                           par.prior = F, prior.plots = F))
 ```
 
+We corrected the data using **ComBat**. 
 
 #### PLSDA-batch
 
@@ -112,6 +127,8 @@ sponge.batch.tune <- PLSDA_batch(X = sponge.x,
                                  ncomp.trt = 1, ncomp.bat = 5)
 sponge.batch.tune$explained_variance.bat #1
 ```
+
+To correct the data with **PLSDA-batch**, we need to specify the optimal number of components associated with either treatment (**ncomp.trt**) or batch effects (**ncomp.bat**). To choose these parameters, we estimated the explained variance in the outcome (**sponge.trt**) on each treatment component (\$Y) and similarly for the batch associated outcome (**sponge.batch**) and components. We chose the optimal number of components that explain 100\% variance in **Y**, either **Y.trt** or **Y.bat**. The remainder components should only explain some (unknown) noise. For sponge data, the optimal number of components associated with either treatment or batch effects are all **1**.
 
 ```{r}
 sponge.plsda_batch.correct <- PLSDA_batch(X = sponge.x, 
@@ -134,6 +151,9 @@ sponge.trt.tune.v <- tune.splsda(X = sponge.x, Y = sponge.trt,
 sponge.trt.tune.v$choice.keepX #1
 ```
 
+To correct the data with **sPLSDA-batch**, in addition to the number of components, we also need to specify the optimal number of variables to select on each treatment component (**keepX.trt**). For this purpose, we calculated the Balanced classification Error Rate (BER) = $\frac{\sum_{c=1}^{C}\frac{F_c}{T_c + F_c}}{C}$), where $F_c$ and $T_c$ represent the number of false and truly classified samples in the treatment group $c, c = 1,2$, where $C$ represents the total number of treatment groups [@tharwat2018classification]. The BER was evaluated through repeated cross-validation with **4** folds and **50** repeats using the "maximum" prediction distance as described in [@rohart2017mixomics] on a proposed grid of numbers of variables to select on each treatment component (**sponge.test.keepX**). The number of variables with the lowest BER has the strongest association with the treatment information. For sponge data, **keepX.trt** = 1.
+
+
 ```{r}
 sponge.splsda_batch.correct <- PLSDA_batch(X = sponge.x, 
                                            Y.trt = sponge.trt, Y.bat = sponge.batch, 
@@ -141,6 +161,7 @@ sponge.splsda_batch.correct <- PLSDA_batch(X = sponge.x,
                                            ncomp.bat = 1)
 sponge.splsda_batch <- sponge.splsda_batch.correct$X.nobatch
 ```
+
 
 ### Evaluation
 
@@ -152,8 +173,8 @@ sponge.pca.combat <- pca(sponge.combat, ncomp = 3, scale = T)
 sponge.pca.plsda_batch <- pca(sponge.plsda_batch, ncomp = 3, scale = T)
 sponge.pca.splsda_batch <- pca(sponge.splsda_batch, ncomp = 3, scale = T)
 
-sponge.xlim = c(-5,4.5)
-sponge.ylim = c(-5,4.5)
+sponge.xlim = c(-5.5,4.5)
+sponge.ylim = c(-5.5,4.5)
 cex = 2
 
 plotIndiv(sponge.pca.before, group = sponge.trt, 
@@ -192,6 +213,8 @@ plotIndiv(sponge.pca.splsda_batch, group = sponge.trt,
           xlim = sponge.xlim, ylim = sponge.ylim)
 
 ```
+
+After batch correction, the difference between batches became barely distinct, except for ComBat corrected data where a clear separation of the samples from two batches for the Choanosome tissue could still be observed. The variance explained by the first principal component that separated the different tissue types was increased in all of the corrected data, with PLSDA-batch resulting in the highest proportion of variance (24\%). 
 
 #### RDA
 
@@ -268,6 +291,10 @@ ggplot(sponge.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) +
   geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
             vjust = 1.6, color = 'black', size = 3) 
 ```
+
+
+We next focused on estimating the proportion of explained variance by treatment and batch effects globally for the batch corrected data. The different methods preserved similar proportion of treatment variance and removed all batch variance, with the exception of ComBat that still retained 1.5\% of batch variance. 
+
 
 #### Scatter plot
 
@@ -384,7 +411,11 @@ plot(sponge.r2.trt.splsda_batch, sponge.r2.bat.splsda_batch,
 par(mfrow = c(1,1))  
 ```
 
+The $R^2$ values represent the variance explained by batch or treatment effects for each variable estimated with one-way ANOVA. All methods performed similarly, with an exception of ComBat which still included one variable with a large proportion of batch variance.
+
 #### Alignment scores
+
+The alignment scores complement the PCA results especially when batch effect removal is difficult to assess on PCA sample plots. 
 
 ```{r}
 sponge.var = 0.95
@@ -426,6 +457,8 @@ ggplot() + geom_col(aes(x = sponge.scores.df$methods, y = sponge.scores.df$score
   coord_flip() + theme_bw() + ylab('Alignment Scores') + xlab('') + ylim(0,0.4)
 ```
 
+Based on alignment scores, we observed that the samples across different batches were better mixed after batch correction with different methods than before. The data corrected using PLSDA-batch and sPLSDA-batch had higher alignment scores than using removeBatchEffect and ComBat, indicating a better performance in removing batch variation. The ComBat corrected data had the lowest alignment score, which was consistent with PCA that the data still had residual batch variation remaining. 
+
 ## Anaerobic digestion
 
 This study explored the microbial indicators that could improve the efficacy of anaerobic digestion (AD) bioprocess and prevent its failure [@chapleur2016increasing]. The microbiota was profiled under various conditions. The dataset includes 231 OTUs and 75 samples treated with two different ranges of phenol concentration (effects of interest). These samples were processed at five different dates, which constituted the batch effect to remove.
@@ -439,6 +472,11 @@ ad.trt <- AD_data$Y.trt
 ad.batch <- AD_data$Y.bat
 ad.taxa <- AD_data$taxa
 ```
+
+For "AD_data", we have an extra object:
+
+**ad.taxa**: The taxonomic information of each OTU in **ad.x** matrix.
+
 
 ### Diagnostic plots: principal component analysis
 
@@ -455,6 +493,10 @@ plotIndiv(ad.pca.before, group = ad.trt,
           col.per.group = pb_color(3:4), legend.title = 'Treatment', cex = 2)
 ```
 
+In the AD data, 16\% of the total data variance was explained by the first principal component, which highlighted a strong difference of samples sequenced at 14/04/2016 and the other dates (the batch effect). The treatment variation is mostly on the second component. Thus in this study, batch effects are stronger than the treatment effects. 
+
+
+
 ### Batch correction
 
 
@@ -467,6 +509,8 @@ ad.rbe <- t(removeBatchEffect(t(ad.x),
                               design = ad.mod))
 ```
 
+We corrected the data using **removeBatchEffect**. 
+
 #### ComBat
 
 ```{r}
@@ -476,6 +520,7 @@ ad.combat <- t(ComBat(t(ad.x),
                       par.prior = F, prior.plots = F))
 ```
 
+We corrected the data using **ComBat**. 
 
 #### PLSDA-batch
 
@@ -491,6 +536,9 @@ ad.batch.tune <- PLSDA_batch(X = ad.x,
 ad.batch.tune$explained_variance.bat #4
 sum(ad.batch.tune$explained_variance.bat$Y[1:4])
 ```
+
+To correct the AD data with **PLSDA-batch**, we specified **1** as the optimal number of components associated with treatment effects, and **4** as with batch effects based on the 100\% variance explained in the outcome.
+
 
 ```{r}
 ad.plsda_batch.correct <- PLSDA_batch(X = ad.x, 
@@ -520,6 +568,8 @@ ad.splsda_batch.correct <- PLSDA_batch(X = ad.x,
                                        ncomp.bat = 4)
 ad.splsda_batch <- ad.splsda_batch.correct$X.nobatch
 ```
+
+To correct the AD data with **sPLSDA-batch**, in addition to the number of components, we also specified **keepX.trt** = 50 as the optimal number of variables to select on each treatment component using BER. 
 
 ### Evaluation
 
@@ -571,6 +621,8 @@ plotIndiv(ad.pca.splsda_batch, group = ad.trt,
           xlim = ad.xlim, ylim = ad.ylim)
 
 ```
+
+After batch correction, the difference between batches became barely distinct. The data variance explained by the first principal component that separated the different treatments was increased in all of the corrected data, with PLSDA-batch resulting in the highest proportion of variance (19\%). 
 
 #### RDA
 
@@ -647,6 +699,8 @@ ggplot(ad.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) +
   geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
             vjust = 1.6, color = 'black', size = 3) 
 ```
+
+In the AD data, we observed a small amount of intersection (0.7\%) between batch and treatment associated variance due to the unbalanced batch $\times$ treatment design. As the intersection was small, unweighted PLSDA-batch and sPLSDA-batch were still applicable, and thus the weighted version was not used. PLSDA-batch preserved the largest proportion of variance explained by treatment effects, and also the largest proportion of intersectional variance. sPLSDA-batch corrected data led to a slightly higher proportion of treatment variance and an undetectable intersectional variance than the other two univariate methods. 
 
 #### Scatter plot
 
@@ -761,7 +815,10 @@ plot(ad.r2.trt.splsda_batch, ad.r2.bat.splsda_batch,
      main = 'sPLSDA-batch', xlab = xlabs, ylab = ylabs,
      xlim = c(0, edgex), ylim = c(0, edgey))
 par(mfrow = c(1,1))  
+
 ```
+
+The corrected data from ComBat still included a few variables with a large proportion of batch variance. When considering the sum of all variables, removeBatchEffect removed slightly more batch variance but preserved less treatment variance than our proposed approaches.
 
 #### Alignment scores
 
@@ -798,6 +855,8 @@ ggplot() + geom_col(aes(x = ad.scores.df$methods, y = ad.scores.df$scores)) +
                 label = round(ad.scores.df$scores, 3)), size = 3, col = 'white') + 
   coord_flip() + theme_bw() + ylab('Alignment Scores') + xlab('') + ylim(0,0.85)
 ```
+
+Based on alignment scores, we observed that the samples across different batches were better mixed after batch correction with different methods than before. The data corrected using PLSDA-batch and sPLSDA-batch had higher alignment scores than using removeBatchEffect and ComBat, indicating a better performance in removing batch variation. Among corrected datasets, the ComBat corrected data had the lowest alignment score.
 
 #### Variable selection
 
@@ -842,7 +901,31 @@ upset(ad.splsda.upsetR, main.bar.color = 'gray36',
                      list(query = intersects, params = list('sPLSDA-batch'), 
                           color = pb_color(25), active = T)))
 
+###############################
+# without original data
+ad.splsda.select2 <- list(`removeBatchEffect` = ad.select.rbe,
+                         ComBat = ad.select.combat,
+                         `PLSDA-batch` = ad.select.plsda_batch,
+                         `sPLSDA-batch` = ad.select.splsda_batch)
+
+ad.splsda.upsetR2 <- fromList(ad.splsda.select2)
+
+
+upset(ad.splsda.upsetR2, main.bar.color = 'gray36',
+      sets.bar.color = pb_color(c(25:22)), matrix.color = 'gray36',
+      order.by = 'freq', empty.intersections = 'on',
+      queries = list(list(query = intersects, params = list('removeBatchEffect'), 
+                          color = pb_color(22), active = T),
+                     list(query = intersects, params = list('ComBat'), 
+                          color = pb_color(23), active = T),
+                     list(query = intersects, params = list('PLSDA-batch'), 
+                          color = pb_color(24), active = T),
+                     list(query = intersects, params = list('sPLSDA-batch'), 
+                          color = pb_color(25), active = T)))
+
 ```
+
+We applied sPLSDA to select 20\% of the total number of OTUs in the data. We then compared the OTU selections before and after batch effect correction with different methods. 
 
 ```{r}
 ad.splsda.select.overlap <- venn(ad.splsda.select, show.plot = F)
@@ -853,6 +936,7 @@ capture.output(ad.inters.splsda.taxa,
                file = "GeneratedData/ADselected_50_splsda.txt")
 ```
 
+We also saved the taxonomic information of intersectional OTUs into a txt file.
 
 ## High fat high sugar diet
 
@@ -882,6 +966,9 @@ plotIndiv(hfhs.pca.before, group = hfhs.trt,
           col.per.group = pb_color(5:6), legend.title = 'Treatment', cex = 2)
 ```
 
+In the HFHS data, 40\% of the total data variance was explained by the first principal component, which highlighted a strong difference of samples treated with HFHS and normal diets (the treatment effect). We did not observe any batch variation. 
+
+
 ### Batch correction
 
 
@@ -894,6 +981,8 @@ hfhs.rbe <- t(removeBatchEffect(t(hfhs.x),
                                 design = hfhs.mod))
 ```
 
+We corrected the data using **removeBatchEffect**. 
+
 #### ComBat
 
 ```{r}
@@ -903,6 +992,7 @@ hfhs.combat <- t(ComBat(t(hfhs.x),
                         par.prior = F, prior.plots = F))
 ```
 
+We corrected the data using **ComBat**. 
 
 #### PLSDA-batch
 
@@ -917,6 +1007,9 @@ hfhs.batch.tune <- PLSDA_batch(X = hfhs.x,
                                ncomp.trt = 1, ncomp.bat = 4)
 hfhs.batch.tune$explained_variance.bat #1
 ```
+
+To correct the HFHS data with **PLSDA-batch**, we specified **1** as the optimal number of components associated with either treatment or batch effects based on the 100\% variance explained in the outcome.
+
 
 ```{r}
 hfhs.plsda_batch.correct <- PLSDA_batch(X = hfhs.x, 
@@ -946,6 +1039,9 @@ hfhs.splsda_batch.correct <- PLSDA_batch(X = hfhs.x,
                                          ncomp.bat = 1)
 hfhs.splsda_batch <- hfhs.splsda_batch.correct$X.nobatch
 ```
+
+To correct the HFHS data with **sPLSDA-batch**, in addition to the number of components, we also specified **keepX.trt** = 10 as the optimal number of variables to select on each treatment component using BER. 
+
 
 ### Evaluation
 
@@ -999,6 +1095,9 @@ plotIndiv(hfhs.pca.splsda_batch, group = hfhs.trt,
 
 ```
 
+
+When batch variation was not observed on a PCA plot before batch correction, the proportion of variance explained by the first principal component (related to treatment effects) before and after batch correction was similar, indicating that treatment variation was preserved. Thus, batch correction methods are still relevant in the case where no batch effect is present.
+ 
 #### RDA
 
 ```{r, fig.height = 5, out.width = '70%'}
@@ -1074,6 +1173,9 @@ ggplot(hfhs.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) +
   geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
             vjust = 1.6, color = 'black', size = 3) 
 ```
+
+In the HFHS data where no batch variation was observed on the PCA plot, we still detected 1.8\% of the variance explained by batch effects. The differences of preserved treatment variance and removed batch variance from the different corrected data were small.
+
 
 #### Scatter plot
 
@@ -1190,6 +1292,8 @@ plot(hfhs.r2.trt.splsda_batch, hfhs.r2.bat.splsda_batch,
 par(mfrow = c(1,1))  
 ```
 
+Combat corrected data included one variable with a large proportion of batch variance. Compared to our proposed approaches, removeBatchEffect removed more batch variance.
+
 #### Alignment scores
 
 ```{r}
@@ -1226,6 +1330,8 @@ ggplot() + geom_col(aes(x = hfhs.scores.df$methods, y = hfhs.scores.df$scores)) 
                 label = round(hfhs.scores.df$scores, 3)), size = 3, col = 'white') + 
   coord_flip() + theme_bw() + ylab('Alignment Scores') + xlab('') + ylim(0,0.4)
 ```
+
+In the case of an undetected batch effect, such as the HFHS data, the corrected data from PLSDA-batch and sPLSDA-batch had lower alignment scores than those from removeBatchEffect and ComBat. However, the other assessment measures we used suggested that our methods removed sufficient batch variation. Therefore, it is possible that PLSDA-batch and sPLSDA-batch removed more sampling noise, leading to a decrease in total variance of the corrected data and more emphasis on batch variance. In the case of weak batch effect, the alignment scores may not be fully appropriate. 
 
 #### Variable selection
 
@@ -1270,8 +1376,33 @@ upset(hfhs.splsda.upsetR, main.bar.color = 'gray36',
                      list(query = intersects, params = list('sPLSDA-batch'), 
                           color = pb_color(25), active = T)))
 
+
+###############################
+# without original data
+
+hfhs.splsda.select2 <- list(`removeBatchEffect` = hfhs.select.rbe,
+                           ComBat = hfhs.select.combat,
+                           `PLSDA-batch` = hfhs.select.plsda_batch,
+                           `sPLSDA-batch` = hfhs.select.splsda_batch)
+
+hfhs.splsda.upsetR2 <- fromList(hfhs.splsda.select2)
+
+
+upset(hfhs.splsda.upsetR2, main.bar.color = 'gray36',
+      sets.bar.color = pb_color(c(25:22)), matrix.color = 'gray36',
+      order.by = 'freq', empty.intersections = 'on',
+      queries = list(list(query = intersects, params = list('removeBatchEffect'), 
+                          color = pb_color(22), active = T),
+                     list(query = intersects, params = list('ComBat'), 
+                          color = pb_color(23), active = T),
+                     list(query = intersects, params = list('PLSDA-batch'), 
+                          color = pb_color(24), active = T),
+                     list(query = intersects, params = list('sPLSDA-batch'), 
+                          color = pb_color(25), active = T)))
+
 ```
 
+We applied sPLSDA to select 20\% of the total number of OTUs in the data. We then compared the OTU selections before and after batch effect correction with different methods. 
 
 ```{r}
 hfhs.splsda.select.overlap <- venn(hfhs.splsda.select, show.plot = F)
@@ -1281,5 +1412,7 @@ hfhs.inters.splsda.taxa <- lapply(hfhs.inters.splsda,
 capture.output(hfhs.inters.splsda.taxa, 
                file = "GeneratedData/HFHSselected_50_splsda.txt")
 ```
+
+We also saved the taxonomic information of intersectional OTUs into a txt file.
 
 # References

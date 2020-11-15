@@ -42,3 +42,4 @@ It is a built-in funciton of \code{PLSDA_batch}.
 A built-in funciton of PLSDA_batch, not separately used.
 
 }
+\keyword{Internal}
