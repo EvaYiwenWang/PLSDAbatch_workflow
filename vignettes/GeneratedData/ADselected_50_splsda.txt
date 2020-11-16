@@ -1,0 +1,249 @@
+$`PLSDA-batch`
+             Kingdom     Phylum      Class         Order          Family
+Cluster_189 Bacteria Firmicutes Clostridia Clostridiales      Family XIV
+Cluster_71  Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+                        Genus         Species
+Cluster_189     unknown genus unknown species
+Cluster_71  Ruminiclostridium unknown species
+
+$`sPLSDA-batch`
+             Kingdom     Phylum      Class         Order              Family
+Cluster_105 Bacteria Firmicutes Clostridia Clostridiales Syntrophomonadaceae
+Cluster_209 Bacteria Firmicutes Clostridia Clostridiales      Peptococcaceae
+                     Genus                       Species
+Cluster_105 Syntrophomonas anaerobic digester metagenome
+Cluster_209 Sporotomaculum   Sporotomaculum syntrophicum
+
+$`Before correction`
+             Kingdom        Phylum           Class              Order
+Cluster_140 Bacteria    Firmicutes      Clostridia      Clostridiales
+Cluster_12   Archaea Euryarchaeota Methanobacteria Methanobacteriales
+                         Family            Genus         Species
+Cluster_140          Family XIV    unknown genus unknown species
+Cluster_12  Methanobacteriaceae Methanobacterium unknown species
+
+$removeBatchEffect
+            Kingdom        Phylum       Class         Order             Family
+Cluster_37 Bacteria Bacteroidetes Bacteroidia Bacteroidales Porphyromonadaceae
+                    Genus           Species
+Cluster_37 Proteiniphilum Multi-affiliation
+
+$`PLSDA-batch:sPLSDA-batch`
+             Kingdom     Phylum      Class         Order
+Cluster_8   Bacteria Firmicutes Clostridia Clostridiales
+Cluster_116 Bacteria Firmicutes Clostridia Clostridiales
+                                   Family         Genus         Species
+Cluster_8                 Ruminococcaceae       Ercella unknown species
+Cluster_116 Clostridiales vadinBB60 group unknown genus unknown species
+
+$`removeBatchEffect:ComBat`
+             Kingdom        Phylum        Class          Order          Family
+Cluster_121 Bacteria Bacteroidetes  Bacteroidia  Bacteroidales   Rikenellaceae
+Cluster_143 Bacteria  Spirochaetae Spirochaetes Spirochaetales Spirochaetaceae
+                                      Genus         Species
+Cluster_121 Blvii28 wastewater-sludge group unknown species
+Cluster_143                   Sphaerochaeta unknown species
+
+$`Before correction:PLSDA-batch`
+            Kingdom     Phylum      Class         Order          Family
+Cluster_84 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+                         Genus         Species
+Cluster_84 Acetanaerobacterium unknown species
+
+$`Before correction:sPLSDA-batch`
+             Kingdom     Phylum         Class           Order
+Cluster_164 Bacteria Firmicutes Negativicutes Selenomonadales
+Cluster_119 Bacteria Firmicutes    Clostridia   Clostridiales
+Cluster_64  Bacteria Firmicutes    Clostridia   Clostridiales
+                        Family             Genus           Species
+Cluster_164     unknown family     unknown genus   unknown species
+Cluster_119     Peptococcaceae     Pelotomaculum   unknown species
+Cluster_64  Gracilibacteraceae Multi-affiliation Multi-affiliation
+
+$`ComBat:PLSDA-batch:sPLSDA-batch`
+            Kingdom        Phylum Class         Order         Family
+Cluster_90 Bacteria Cloacimonetes    W5 unknown order unknown family
+                   Genus         Species
+Cluster_90 unknown genus unknown species
+
+$`Before correction:ComBat:PLSDA-batch`
+            Kingdom     Phylum   Class      Order           Family
+Cluster_31 Bacteria Firmicutes Bacilli Bacillales Paenibacillaceae
+                      Genus         Species
+Cluster_31 Aneurinibacillus unknown species
+
+$`removeBatchEffect:ComBat:PLSDA-batch`
+            Kingdom        Phylum          Class             Order
+Cluster_106 Archaea Euryarchaeota Thermoplasmata Thermoplasmatales
+                                      Family         Genus         Species
+Cluster_106 Thermoplasmatales Incertae Sedis unknown genus unknown species
+
+$`Before correction:ComBat:sPLSDA-batch`
+            Kingdom     Phylum      Class         Order          Family
+Cluster_94 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+                    Genus                                     Species
+Cluster_94 Ruminococcus 1 bacterium enrichment culture clone KWE55-24
+
+$`removeBatchEffect:ComBat:sPLSDA-batch`
+            Kingdom     Phylum      Class         Order           Family
+Cluster_41 Bacteria Firmicutes Clostridia Clostridiales  Ruminococcaceae
+Cluster_58 Bacteria Firmicutes Clostridia Clostridiales Clostridiaceae 2
+                               Genus              Species
+Cluster_41             unknown genus      unknown species
+Cluster_58 Clostridium sensu stricto Clostridium aceticum
+
+$`Before correction:PLSDA-batch:sPLSDA-batch`
+            Kingdom     Phylum      Class Order         Family         Genus
+Cluster_96 Bacteria Firmicutes Clostridia MBA03 unknown family unknown genus
+                   Species
+Cluster_96 unknown species
+
+$`Before correction:removeBatchEffect:ComBat`
+            Kingdom      Phylum      Class Order         Family         Genus
+Cluster_75 Bacteria Tenericutes Mollicutes NB1-n unknown family unknown genus
+                   Species
+Cluster_75 unknown species
+
+$`Before correction:removeBatchEffect:sPLSDA-batch`
+             Kingdom     Phylum      Class         Order
+Cluster_210 Bacteria Firmicutes Clostridia Clostridiales
+                                   Family         Genus         Species
+Cluster_210 Clostridiales vadinBB60 group unknown genus unknown species
+
+$`removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
+            Kingdom        Phylum       Class         Order              Family
+Cluster_14 Bacteria    Firmicutes  Clostridia Clostridiales Christensenellaceae
+Cluster_40 Bacteria Bacteroidetes Bacteroidia Bacteroidales  Porphyromonadaceae
+Cluster_52 Bacteria Bacteroidetes Bacteroidia Bacteroidales       Rikenellaceae
+                                       Genus         Species
+Cluster_14                     unknown genus unknown species
+Cluster_40                    Proteiniphilum unknown species
+Cluster_52 vadinBC27 wastewater-sludge group unknown species
+
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch`
+             Kingdom          Phylum         Class         Order
+Cluster_184 Bacteria      Firmicutes    Clostridia Clostridiales
+Cluster_218 Bacteria      Firmicutes    Clostridia Clostridiales
+Cluster_151 Bacteria      Firmicutes    Clostridia Clostridiales
+Cluster_129 Bacteria Armatimonadetes unknown class unknown order
+Cluster_248 Bacteria   Bacteroidetes   Bacteroidia Bacteroidales
+                         Family                         Genus           Species
+Cluster_184 Syntrophomonadaceae                Syntrophomonas   unknown species
+Cluster_218 Christensenellaceae Christensenellaceae R-7 group   unknown species
+Cluster_151 Christensenellaceae Christensenellaceae R-7 group   unknown species
+Cluster_129      unknown family                 unknown genus   unknown species
+Cluster_248     Marinilabiaceae              Ruminofilibacter Multi-affiliation
+
+$`Before correction:removeBatchEffect:ComBat:sPLSDA-batch`
+            Kingdom      Phylum        Class          Order          Family
+Cluster_51 Bacteria Chloroflexi Anaerolineae Anaerolineales Anaerolineaceae
+                   Genus         Species
+Cluster_51 unknown genus unknown species
+
+$`Before correction:removeBatchEffect:PLSDA-batch:sPLSDA-batch`
+             Kingdom     Phylum      Class   Order         Family         Genus
+Cluster_118 Bacteria Firmicutes Clostridia M55-D21 unknown family unknown genus
+                    Species
+Cluster_118 unknown species
+
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
+             Kingdom         Phylum               Class                  Order
+Cluster_144 Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_35  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_16  Bacteria  Synergistetes         Synergistia          Synergistales
+Cluster_193 Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_68  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_6   Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_127 Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_46  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_138 Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_5   Bacteria  Bacteroidetes         Bacteroidia          Bacteroidales
+Cluster_110 Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_23  Bacteria Proteobacteria Deltaproteobacteria      Bdellovibrionales
+Cluster_24  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_130 Bacteria     Firmicutes             Bacilli           TSCOR001-H18
+Cluster_65  Bacteria     Firmicutes          Clostridia Thermoanaerobacterales
+Cluster_54  Bacteria     Firmicutes    Erysipelotrichia     Erysipelotrichales
+Cluster_198 Bacteria  Bacteroidetes         Bacteroidia          Bacteroidales
+Cluster_7   Bacteria  Bacteroidetes         Bacteroidia          Bacteroidales
+Cluster_48  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_104 Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_88  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_59  Bacteria     Firmicutes          Clostridia Thermoanaerobacterales
+Cluster_43  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_74  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_145 Bacteria Proteobacteria Deltaproteobacteria      Bdellovibrionales
+Cluster_62  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_28  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_61  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_38  Bacteria    Chloroflexi        Anaerolineae         Anaerolineales
+Cluster_19  Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_9   Bacteria     Firmicutes          Clostridia          Clostridiales
+Cluster_222 Bacteria Proteobacteria Gammaproteobacteria           Chromatiales
+                                   Family                           Genus
+Cluster_144 Clostridiales vadinBB60 group                   unknown genus
+Cluster_35            Syntrophomonadaceae                  Syntrophomonas
+Cluster_16                 Synergistaceae                   unknown genus
+Cluster_193               Lachnospiraceae                      Tyzzerella
+Cluster_68                     Family XIV                   unknown genus
+Cluster_6                 Lachnospiraceae                     Mobilitalea
+Cluster_127  Clostridiales Incertae Sedis                   Proteiniborus
+Cluster_46                Ruminococcaceae               Ruminiclostridium
+Cluster_138               Ruminococcaceae               Ruminiclostridium
+Cluster_5                 Marinilabiaceae                Ruminofilibacter
+Cluster_110               Lachnospiraceae               Anaerosporobacter
+Cluster_23             Bacteriovoracaceae                   unknown genus
+Cluster_24             Gracilibacteraceae                       Lutispora
+Cluster_130                unknown family                   unknown genus
+Cluster_65                           SRB2                   unknown genus
+Cluster_54            Erysipelotrichaceae     Erysipelotrichaceae UCG-004
+Cluster_198               Marinilabiaceae                Ruminofilibacter
+Cluster_7                   Rikenellaceae Blvii28 wastewater-sludge group
+Cluster_48                Lachnospiraceae               Anaerosporobacter
+Cluster_104                Peptococcaceae                   Pelotomaculum
+Cluster_88          Caldicoprobacteraceae                Caldicoprobacter
+Cluster_59        Thermoanaerobacteraceae                        Moorella
+Cluster_43                Ruminococcaceae               Ruminiclostridium
+Cluster_74                Lachnospiraceae                   unknown genus
+Cluster_145            Bacteriovoracaceae                   unknown genus
+Cluster_62  Clostridiales vadinBB60 group                   unknown genus
+Cluster_28              Heliobacteriaceae                  Hydrogenispora
+Cluster_61             Gracilibacteraceae               Multi-affiliation
+Cluster_38                Anaerolineaceae                   unknown genus
+Cluster_19                     Family XIV                   unknown genus
+Cluster_9             Christensenellaceae   Christensenellaceae R-7 group
+Cluster_222        Ectothiorhodospiraceae                 Thioalkalispira
+                      Species
+Cluster_144   unknown species
+Cluster_35    unknown species
+Cluster_16    unknown species
+Cluster_193   unknown species
+Cluster_68    unknown species
+Cluster_6     unknown species
+Cluster_127 Multi-affiliation
+Cluster_46    unknown species
+Cluster_138   unknown species
+Cluster_5   Multi-affiliation
+Cluster_110 Multi-affiliation
+Cluster_23    unknown species
+Cluster_24    unknown species
+Cluster_130   unknown species
+Cluster_65    unknown species
+Cluster_54    unknown species
+Cluster_198 Multi-affiliation
+Cluster_7     unknown species
+Cluster_48    unknown species
+Cluster_104 Multi-affiliation
+Cluster_88    unknown species
+Cluster_59  Multi-affiliation
+Cluster_43    unknown species
+Cluster_74    unknown species
+Cluster_145   unknown species
+Cluster_62    unknown species
+Cluster_28    unknown species
+Cluster_61  Multi-affiliation
+Cluster_38    unknown species
+Cluster_19    unknown species
+Cluster_9     unknown species
+Cluster_222   unknown species
+
