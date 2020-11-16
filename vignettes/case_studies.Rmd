@@ -1,7 +1,7 @@
 ---
 title: 'Case Studies'
 author: 
-- 'Yiwen Wang'
+- 'Yiwen (Eva) Wang'
 - 'Melbourne Integrative Genomics, School of Mathematics and Statistics, The University of Melbourne, Australia'
 - 'yiwenw5@student.unimelb.edu.au'
 date: '`r format(Sys.time(), "%d %B, %Y")`'
@@ -26,7 +26,7 @@ link-citations: true
 ```{r setup, include = FALSE}
 knitr::opts_chunk$set(dpi = 300, echo = T, warning = FALSE, message = FALSE, eval = TRUE,
                       fig.show = TRUE, fig.width = 6, fig.height = 4, fig.align ='center', 
-                      out.width = '60%', cache = FALSE, fig.path = 'Figures/')
+                      out.width = '60%', cache = FALSE)
 ```
 
 # Introduction

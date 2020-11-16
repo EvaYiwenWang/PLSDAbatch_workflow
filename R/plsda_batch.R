@@ -362,7 +362,7 @@ deflate_mtx <- function(X, t){
 #' @keywords Internal
 #'
 #' @examples
-#' A built-in funciton of PLSDA_batch, not separately used.
+#' # A built-in funciton of PLSDA_batch, not separately used.
 #'
 #' @export
 PLSDA <- function(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.iter = 500){

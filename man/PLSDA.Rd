@@ -39,7 +39,7 @@ The latent dimensions are maximally associated with the outcome matrix \code{Y}.
 It is a built-in funciton of \code{PLSDA_batch}.
 }
 \examples{
-A built-in funciton of PLSDA_batch, not separately used.
+# A built-in funciton of PLSDA_batch, not separately used.
 
 }
 \keyword{Internal}
