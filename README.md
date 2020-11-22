@@ -16,5 +16,7 @@ devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch", build_vig
 ## Reference
 
 Wang, Y., & Lê Cao, K. A. (2020). A multivariate method to correct for batch effects in microbiome data. bioRxiv.
+https://www.biorxiv.org/content/10.1101/2020.10.27.358283v1
+
 
 
