@@ -216,13 +216,18 @@ Setting this argument to <code>FALSE</code> extends <code>PLSDA_batch</code> to 
 <dt>explained_variance.bat</dt><dd><p>The amount of data variance explained per batch associated component.</p></dd>
 <dt>weight</dt><dd><p>The sample weights, all \(1\) for a balanced <code>batch x treatment design</code>.</p></dd>
 
+    <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
+
+    <p>Wang Y, Lê Cao K (2020).
+&#8220;A multivariate method to correct for batch effects in microbiome data.&#8221;
+<em>bioRxiv</em>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'>## First example</span>
 <span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>X</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'>#centered log ratio transformed data</span>
-<span class='va'>Y.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>Y.trt</span>
-<span class='va'>Y.bat</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>Y.bat</span>
+<span class='va'>X</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'>#centered log ratio transformed data</span>
+<span class='va'>Y.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
+<span class='va'>Y.bat</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
 <span class='va'>ad_plsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y.trt</span>, <span class='va'>Y.bat</span>, ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>, ncomp.bat <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
 <span class='va'>ad_X.corrected</span> <span class='op'>&lt;-</span> <span class='va'>ad_plsda_batch</span><span class='op'>$</span><span class='va'>X.nobatch</span> <span class='co'>#batch corrected data</span>
 

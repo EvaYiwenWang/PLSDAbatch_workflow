@@ -43,3 +43,6 @@ batch = sponge_data$Y.bat # batch information
 alignment_score(X, batch, 0.95, 3, ncomp = 20)
 
 }
+\references{
+\insertRef{butler2018integrating}{PLSDAbatch}
+}

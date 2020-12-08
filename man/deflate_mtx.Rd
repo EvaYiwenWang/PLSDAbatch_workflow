@@ -36,4 +36,7 @@ pca.X.deflate$variates$X[,1]
 pca.X$variates$X[,2]
 #  2.0265641  0.7937048  1.7010822 -2.4479385 -2.0734125
 }
+\references{
+\insertRef{barker2003partial}{PLSDAbatch}
+}
 \keyword{Internal}

@@ -78,3 +78,6 @@ simulation2 <- simData(bat.mean = 7, sd.bat = 8, trt.mean = 3, sd.trt = 2,
                        percentage_samples = 0.2, percentage_overlap_variables = 0.5)
 
 }
+\references{
+\insertRef{wang2020multivariate}{PLSDAbatch}
+}

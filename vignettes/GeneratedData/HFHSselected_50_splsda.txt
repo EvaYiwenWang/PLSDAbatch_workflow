@@ -1,123 +1,258 @@
 $`PLSDA-batch`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+             hfhs.taxa[x, ]
+Kingdom            Bacteria
+Phylum           Firmicutes
+Class       Erysipelotrichi
+Order    Erysipelotrichales
+Family  Erysipelotrichaceae
+Genus           Allobaculum
+Species                    
 
 $`sPLSDA-batch`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+        hfhs.taxa[x, ]
+Kingdom       Bacteria
+Phylum      Firmicutes
+Class       Clostridia
+Order    Clostridiales
+Family                
+Genus                 
+Species               
 
 $`Before correction`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+        hfhs.taxa[x, ]
+Kingdom       Bacteria
+Phylum      Firmicutes
+Class       Clostridia
+Order    Clostridiales
+Family                
+Genus                 
+Species               
 
 $`Before correction:ComBat`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+        hfhs.taxa[x, ]
+Kingdom       Bacteria
+Phylum   Bacteroidetes
+Class      Bacteroidia
+Order    Bacteroidales
+Family           S24-7
+Genus                 
+Species               
 
 $`PLSDA-batch:sPLSDA-batch`
-     Kingdom Phylum Class Order Family Genus Species
-NA      <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.1    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+         Kingdom        Phylum       Class         Order          Family
+OTU_22  Bacteria Bacteroidetes Bacteroidia Bacteroidales           S24-7
+OTU_257 Bacteria    Firmicutes  Clostridia Clostridiales Lachnospiraceae
+              Genus Species
+OTU_22                     
+OTU_257 Coprococcus        
 
 $`removeBatchEffect:sPLSDA-batch`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+             hfhs.taxa[x, ]
+Kingdom            Bacteria
+Phylum       Proteobacteria
+Class   Deltaproteobacteria
+Order    Desulfovibrionales
+Family  Desulfovibrionaceae
+Genus         Desulfovibrio
+Species                    
 
 $`Before correction:removeBatchEffect:ComBat`
-     Kingdom Phylum Class Order Family Genus Species
-NA      <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.1    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+         Kingdom        Phylum       Class         Order          Family
+OTU_34  Bacteria Bacteroidetes Bacteroidia Bacteroidales           S24-7
+OTU_123 Bacteria    Firmicutes  Clostridia Clostridiales Ruminococcaceae
+               Genus Species
+OTU_34                      
+OTU_123 Oscillospira        
 
 $`removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+             hfhs.taxa[x, ]
+Kingdom            Bacteria
+Phylum           Firmicutes
+Class       Erysipelotrichi
+Order    Erysipelotrichales
+Family  Erysipelotrichaceae
+Genus           Allobaculum
+Species                    
 
 $`Before correction:removeBatchEffect:ComBat:PLSDA-batch`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+         hfhs.taxa[x, ]
+Kingdom        Bacteria
+Phylum       Firmicutes
+Class        Clostridia
+Order     Clostridiales
+Family  Ruminococcaceae
+Genus      Oscillospira
+Species                
 
 $ComBat
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+             hfhs.taxa[x, ]
+Kingdom            Bacteria
+Phylum      Verrucomicrobia
+Class      Verrucomicrobiae
+Order    Verrucomicrobiales
+Family  Verrucomicrobiaceae
+Genus           Akkermansia
+Species         muciniphila
 
 $`Before correction:removeBatchEffect:PLSDA-batch:sPLSDA-batch`
-   Kingdom Phylum Class Order Family Genus Species
-NA    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+        hfhs.taxa[x, ]
+Kingdom       Bacteria
+Phylum   Bacteroidetes
+Class      Bacteroidia
+Order    Bacteroidales
+Family           S24-7
+Genus                 
+Species               
 
 $`Before correction:removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
-      Kingdom Phylum Class Order Family Genus Species
-NA       <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.1     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.2     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.3     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.4     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.5     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.6     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.7     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.8     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.9     <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.10    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.11    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.12    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.13    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.14    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.15    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.16    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.17    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.18    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.19    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.20    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.21    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.22    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.23    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.24    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.25    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.26    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.27    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.28    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.29    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.30    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.31    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.32    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.33    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.34    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.35    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.36    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.37    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.38    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.39    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.40    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.41    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.42    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.43    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.44    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.45    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.46    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.47    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.48    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.49    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.50    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.51    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.52    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.53    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.54    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.55    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.56    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.57    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.58    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.59    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.60    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.61    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.62    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.63    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.64    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.65    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.66    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.67    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.68    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.69    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.70    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.71    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.72    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
-NA.73    <NA>   <NA>  <NA>  <NA>   <NA>  <NA>    <NA>
+          Kingdom         Phylum               Class              Order
+OTU_13   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_94   Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_18   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_3    Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_187  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_49   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_61   Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_8    Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_85   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_6    Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_7    Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_21   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_882  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_453  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_79   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_190  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_544  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_134  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_48   Bacteria     Firmicutes     Erysipelotrichi Erysipelotrichales
+OTU_657  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_249  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_427  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_32   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_465  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_613  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_65   Bacteria Proteobacteria Deltaproteobacteria Desulfovibrionales
+OTU_27   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_41   Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_1139 Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_157  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_51   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_928  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_169  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_385  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_177  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_210  Bacteria Proteobacteria Deltaproteobacteria Desulfovibrionales
+OTU_50   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_188  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_693  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_531  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_335  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_91   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_573  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_166  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_566  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_500  Bacteria     Firmicutes     Erysipelotrichi Erysipelotrichales
+OTU_766  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_540  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_110  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_1041 Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_100  Bacteria Actinobacteria      Coriobacteriia   Coriobacteriales
+OTU_494  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_439  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_581  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_625  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_175  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_1025 Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_565  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_390  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_958  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_611  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_167  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_93   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_14   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_129  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_67   Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_885  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_29   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_43   Bacteria  Cyanobacteria              4C0d-2                YS2
+OTU_170  Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_927  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_26   Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+OTU_59   Bacteria     Firmicutes          Clostridia      Clostridiales
+OTU_203  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+                      Family          Genus   Species
+OTU_13                 S24-7                         
+OTU_94                                               
+OTU_18        Prevotellaceae     Prevotella          
+OTU_3                  S24-7                         
+OTU_187                S24-7                         
+OTU_49                 S24-7                         
+OTU_61       Ruminococcaceae   Oscillospira          
+OTU_8                  S24-7                         
+OTU_85                 S24-7                         
+OTU_6                                                
+OTU_7                  S24-7                         
+OTU_21                 S24-7                         
+OTU_882                S24-7                         
+OTU_453                                              
+OTU_79                 S24-7                         
+OTU_190      Ruminococcaceae                         
+OTU_544                                              
+OTU_134      Ruminococcaceae   Ruminococcus          
+OTU_48   Erysipelotrichaceae                         
+OTU_657      Lachnospiraceae          Dorea          
+OTU_249                S24-7                         
+OTU_427      Lachnospiraceae                         
+OTU_32                 S24-7                         
+OTU_465      Lachnospiraceae    Coprococcus          
+OTU_613                                              
+OTU_65   Desulfovibrionaceae                         
+OTU_27        Prevotellaceae     Prevotella          
+OTU_41       Lachnospiraceae [Ruminococcus]    gnavus
+OTU_1139     Lachnospiraceae                         
+OTU_157                S24-7                         
+OTU_51                 S24-7                         
+OTU_928                S24-7                         
+OTU_169       Clostridiaceae                         
+OTU_385                S24-7                         
+OTU_177                S24-7                         
+OTU_210  Desulfovibrionaceae  Desulfovibrio          
+OTU_50                 S24-7                         
+OTU_188                S24-7                         
+OTU_693                S24-7                         
+OTU_531                S24-7                         
+OTU_335                                              
+OTU_91                 S24-7                         
+OTU_573                S24-7                         
+OTU_166      Ruminococcaceae                         
+OTU_566                S24-7                         
+OTU_500  Erysipelotrichaceae    Allobaculum          
+OTU_766      Ruminococcaceae   Oscillospira          
+OTU_540                S24-7                         
+OTU_110        Rikenellaceae                         
+OTU_1041               S24-7                         
+OTU_100    Coriobacteriaceae  Adlercreutzia          
+OTU_494                S24-7                         
+OTU_439                S24-7                         
+OTU_581                S24-7                         
+OTU_625                                              
+OTU_175                                              
+OTU_1025               S24-7                         
+OTU_565                S24-7                         
+OTU_390                S24-7                         
+OTU_958                                              
+OTU_611      Ruminococcaceae   Oscillospira          
+OTU_167                S24-7                         
+OTU_93                 S24-7                         
+OTU_14                 S24-7                         
+OTU_129      Ruminococcaceae   Oscillospira          
+OTU_67       Lachnospiraceae                         
+OTU_885                S24-7                         
+OTU_29         Rikenellaceae                         
+OTU_43                                               
+OTU_170      Ruminococcaceae   Oscillospira          
+OTU_927                S24-7                         
+OTU_26                 S24-7                         
+OTU_59       Ruminococcaceae   Oscillospira          
+OTU_203       Bacteroidaceae    Bacteroides uniformis
 

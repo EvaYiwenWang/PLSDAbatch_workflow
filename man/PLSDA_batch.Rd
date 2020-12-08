@@ -72,9 +72,9 @@ and the number of associated components.
 \examples{
 ## First example
 data('AD_data')
-X = AD_data$X.clr #centered log ratio transformed data
-Y.trt = AD_data$Y.trt
-Y.bat = AD_data$Y.bat
+X = AD_data$EgData$X.clr #centered log ratio transformed data
+Y.trt = AD_data$EgData$Y.trt
+Y.bat = AD_data$EgData$Y.bat
 ad_plsda_batch <- PLSDA_batch(X, Y.trt, Y.bat, ncomp.trt = 1, ncomp.bat = 5)
 ad_X.corrected <- ad_plsda_batch$X.nobatch #batch corrected data
 
@@ -100,4 +100,7 @@ sdata_swplsda_batch <- PLSDA_batch(simulation$data, simulation$Y.trt, simulation
                                    ncomp.bat = 1, balance = F)
 
 
+}
+\references{
+\insertRef{wang2020multivariate}{PLSDAbatch}
 }

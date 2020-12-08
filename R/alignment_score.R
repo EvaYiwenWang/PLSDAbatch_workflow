@@ -4,6 +4,7 @@
 #' It is based on the dissimilarity matrix from Principal Component Analysis.
 #'
 #' @importFrom mixOmics pca
+#' @importFrom Rdpack reprompt
 #' @param data A numeric matrix. Samples are in rows, while variables are in columns. \code{NA}s are not allowed.
 #' @param batch A factor or a class vector for the batch grouping information (categorical outcome variable).
 #' The length should be equal to the number of samples in the data.
@@ -16,6 +17,9 @@
 #'
 #' @return A numeric alignment score that ranges from \code{0} to \code{1}, representing poor to perfect
 #' performance of mixing the samples from different batches.
+#'
+#' @references
+#' \insertRef{butler2018integrating}{PLSDAbatch}
 #'
 #' @examples
 #' data('sponge_data')

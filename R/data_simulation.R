@@ -4,6 +4,7 @@
 #' under different \code{batch x treatment design}
 #' using component-based and multivariate strategy.
 #'
+#' @importFrom Rdpack reprompt
 #' @param bat.mean Numeric, the absolute mean of two batches respectively in batch associated components.
 #' @param sd.bat Numeric, the variability of batch effects.
 #' @param trt.mean Numeric, the absolute mean of two treatment groups respectively in treatment associated components.
@@ -29,6 +30,9 @@
 #' \item{true.batch}{The variables assigned with the batch effect.}
 #' \item{tComp_relevant}{The component simulated with the treatment effect.}
 #' \item{bComp_relevant}{The component simulated with the batch effect.}
+#'
+#' @references
+#' \insertRef{wang2020multivariate}{PLSDAbatch}
 #'
 #' @examples
 #' ## First example

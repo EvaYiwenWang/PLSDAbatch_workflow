@@ -565,42 +565,10 @@ prop.gvar.all <- rbind(`Before correction` = colMeans(gvar.before),
 
 prop.gvar.all[prop.gvar.all < 0] = 0
 prop.gvar.all <- t(apply(prop.gvar.all, 1, function(x){x/sum(x)}))
+colnames(prop.gvar.all) <- c('Treatment', 'Intersection', 'Batch', 'Residuals')
 
-gvar.ggpplot <- data.frame(Prop = c(t(prop.gvar.all)),
-                           Methods = rep(rownames(prop.gvar.all), each = 4),
-                           Type = rep(c('Treatment', 'Intersection', 
-                                        'Batch', 'Residuals'), 6))
+partVar_plot(prop.df = prop.gvar.all)
 
-gvar.ggpplot$Methods <- factor(gvar.ggpplot$Methods, 
-                               levels = c('Before correction', 
-                                          'Ground-truth data', 
-                                          'removeBatchEffect', 
-                                          'ComBat', 
-                                          'PLSDA-batch', 
-                                          'sPLSDA-batch'))
-gvar.ggpplot$Type <- factor(gvar.ggpplot$Type, 
-                            levels = c('Residuals', 
-                                       'Batch', 
-                                       'Intersection', 
-                                       'Treatment'))
-
-prop.gvar.all.position <- prop.gvar.all
-prop.gvar.all.position[ ,1] <- prop.gvar.all[ ,1]/2 + 0.02
-prop.gvar.all.position[ ,2] <- prop.gvar.all[ ,1] + 0.02 + 
-  prop.gvar.all[ ,2]/2 + 0.001
-prop.gvar.all.position[ ,3] <- prop.gvar.all[ ,1] + 0.02 + 
-  prop.gvar.all[ ,2] + 0.001 + prop.gvar.all[ ,3]/2 + 0.015 
-prop.gvar.all.position[ ,4] <- apply(prop.gvar.all, 1, sum)
-
-gvar.ggpplot$ypos <- c(t(prop.gvar.all.position))
-
-ggplot(gvar.ggpplot, aes(x = Methods, y = Prop, fill = Type)) + 
-  geom_bar(stat = 'identity') + scale_fill_manual(name = 'Variation sources', 
-                                                  values = pb_color(11:14)) + 
-  theme_bw() + ylab('Explained variance (%)') + 
-  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
-            vjust = 1.6, color = "black", size = 3) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 We first considered the proportion of variance explained by treatment and batch effects before and after batch correction across all variables using pRDA. Efficient batch correction methods should generate data with a smaller proportion of batch associated variance and larger proportion of treatment variance compared to the original data. The figure shows that there was no intersection shared between treatment and batch variation with a balanced batch $\times$ treatment design. All methods successfully removed batch variation, but PLSDA-batch and sPLSDA-batch preserved more proportion of treatment variance than removeBatchEffect and ComBat. In addition, the data corrected by sPLSDA-batch included almost as much proportion of treatment variance as the ground-truth data.
@@ -1224,44 +1192,10 @@ prop.gvar.all <- rbind(`Before correction` = colMeans(gvar.before),
 
 prop.gvar.all[prop.gvar.all < 0] = 0
 prop.gvar.all <- t(apply(prop.gvar.all, 1, function(x){x/sum(x)}))
+colnames(prop.gvar.all) <- c('Treatment', 'Intersection', 'Batch', 'Residuals')
 
-gvar.ggpplot <- data.frame(Prop = c(t(prop.gvar.all)),
-                           Methods = rep(rownames(prop.gvar.all), each = 4),
-                           Type = rep(c('Treatment', 'Intersection', 
-                                        'Batch', 'Residuals'), 8))
+partVar_plot(prop.df = prop.gvar.all)
 
-gvar.ggpplot$Methods <- factor(gvar.ggpplot$Methods, 
-                               levels = c('Before correction', 
-                                          'Ground-truth data', 
-                                          'removeBatchEffect', 
-                                          'ComBat', 
-                                          'wPLSDA-batch', 
-                                          'swPLSDA-batch', 
-                                          'PLSDA-batch', 
-                                          'sPLSDA-batch'))
-gvar.ggpplot$Type <- factor(gvar.ggpplot$Type, 
-                            levels = c('Residuals', 
-                                       'Batch', 
-                                       'Intersection', 
-                                       'Treatment'))
-
-prop.gvar.all.position <- prop.gvar.all
-prop.gvar.all.position[ ,1] <- prop.gvar.all[ ,1]/2 + 0.02
-prop.gvar.all.position[ ,2] <- prop.gvar.all[ ,1] + 0.02 + 
-  prop.gvar.all[ ,2]/2 + 0.001
-prop.gvar.all.position[ ,3] <- prop.gvar.all[ ,1] + 0.02 + 
-  prop.gvar.all[ ,2] + 0.001 + prop.gvar.all[ ,3]/2 + 0.015 
-prop.gvar.all.position[ ,4] <- apply(prop.gvar.all, 1, sum)
-
-gvar.ggpplot$ypos <- c(t(prop.gvar.all.position))
-
-ggplot(gvar.ggpplot, aes(x = Methods, y = Prop, fill = Type)) + 
-  geom_bar(stat = 'identity') + scale_fill_manual(name = 'Variation sources',
-                                                  values = pb_color(11:14)) + 
-  theme_bw() + ylab('Explained variance (%)') + 
-  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
-            vjust = 1.6, color = 'black', size = 3) + 
-  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 

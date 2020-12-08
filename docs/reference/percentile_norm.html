@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Matrix Deflation — deflate_mtx • PLSDAbatch</title>
+<title>Percentile Normalisation — percentile_norm • PLSDAbatch</title>
 
 
 <!-- jquery -->
@@ -39,10 +39,11 @@
 
 
 
-<meta property="og:title" content="Matrix Deflation — deflate_mtx" />
-<meta property="og:description" content="This function removes the variance of given component t from the input matrix X.
-$$\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X$$
-It is a built-in funciton of PLSDA_batch." />
+<meta property="og:title" content="Percentile Normalisation — percentile_norm" />
+<meta property="og:description" content="This function corrects for batch effects in case-control microbiome studies.
+Briefly, the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples are
+converted to percentiles of the equivalent variables in control (i.e. healthy) samples within a batch prior to
+pooling data across batches. Pooled batches must have similar case and control cohort definitions." />
 
 
 
@@ -120,59 +121,60 @@ It is a built-in funciton of PLSDA_batch." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Matrix Deflation</h1>
+    <h1>Percentile Normalisation</h1>
     
-    <div class="hidden name"><code>deflate_mtx.Rd</code></div>
+    <div class="hidden name"><code>percentile_norm.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This function removes the variance of given component <code>t</code> from the input matrix <code>X</code>.
-$$\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X$$
-It is a built-in funciton of <code>PLSDA_batch</code>.</p>
+    <p>This function corrects for batch effects in case-control microbiome studies.
+Briefly, the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples are
+converted to percentiles of the equivalent variables in control (i.e. healthy) samples within a batch prior to
+pooling data across batches. Pooled batches must have similar case and control cohort definitions.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>deflate_mtx</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>t</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>percentile_norm</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>, batch <span class='op'>=</span> <span class='va'>batch</span>, trt <span class='op'>=</span> <span class='va'>trt</span>, <span class='va'>ctrl.grp</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>X</th>
-      <td><p>A numeric matrix to be deflated. It assumes that samples are on the row,
-while variables are on the column. <code>NA</code>s are not allowed.</p></td>
+      <th>data</th>
+      <td><p>A data frame that contains the microbial variables and required to be corrected for batch effects.
+Samples as rows and variables as columns.</p></td>
     </tr>
     <tr>
-      <th>t</th>
-      <td><p>A component to be deflated out from the matrix.</p></td>
+      <th>batch</th>
+      <td><p>A factor or a class vector for the batch grouping information (categorical outcome variable).</p></td>
+    </tr>
+    <tr>
+      <th>trt</th>
+      <td><p>A factor or a class vector for the treatment grouping information (categorical outcome variable).</p></td>
+    </tr>
+    <tr>
+      <th>ctrl.grp</th>
+      <td><p>Character, the name of control samples (i.e. healthy).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A deflated matrix with the same dimension as the input matrix.</p>
+    <p>A data frame that corrected for batch effects.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
-    <p>Barker M, Rayens W (2003).
-&#8220;Partial least squares for discrimination.&#8221;
-<em>Journal of Chemometrics: A Journal of the Chemometrics Society</em>, <b>17</b>(3), 166--173.</p>
+    <p>Gibbons SM, Duvallet C, Alm EJ (2018).
+&#8220;Correcting for batch effects in case-control microbiome studies.&#8221;
+<em>PLoS computational biology</em>, <b>14</b>(4), e1006102.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/Random.html'>set.seed</a></span><span class='op'>(</span><span class='fl'>123</span><span class='op'>)</span>
-<span class='va'>X</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/matrix.html'>matrix</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/stats/Normal.html'>rnorm</a></span><span class='op'>(</span><span class='fl'>100</span><span class='op'>)</span>, ncol <span class='op'>=</span> <span class='fl'>20</span><span class='op'>)</span>
-<span class='co'>## pca for original matrix</span>
-<span class='va'>pca.X</span> <span class='op'>&lt;-</span> <span class='fu'>mixOmics</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mixOmics/man/pca.html'>pca</a></span><span class='op'>(</span><span class='va'>X</span><span class='op'>)</span>
-<span class='co'>## deflate by the first PC and perform pca on the deflated matrix</span>
-<span class='va'>t</span> <span class='op'>&lt;-</span> <span class='va'>pca.X</span><span class='op'>$</span><span class='va'>variates</span><span class='op'>$</span><span class='va'>X</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>
-<span class='va'>X.deflate</span> <span class='op'>&lt;-</span> <span class='fu'>deflate_mtx</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>t</span><span class='op'>)</span>
-<span class='va'>pca.X.deflate</span> <span class='op'>&lt;-</span> <span class='fu'>mixOmics</span><span class='fu'>::</span><span class='fu'><a href='https://rdrr.io/pkg/mixOmics/man/pca.html'>pca</a></span><span class='op'>(</span><span class='va'>X.deflate</span><span class='op'>)</span>
-<span class='co'>## see if the first PC of he deflated matrix</span>
-<span class='co'>## equals the second original pc in terms of absolute value</span>
-<span class='va'>pca.X.deflate</span><span class='op'>$</span><span class='va'>variates</span><span class='op'>$</span><span class='va'>X</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;          1          2          3          4          5 
-#&gt; -2.0265641 -0.7937048 -1.7010822  2.4479385  2.0734125 </div><div class='input'><span class='co'># -2.0265641 -0.7937048 -1.7010822  2.4479385  2.0734125</span>
-<span class='va'>pca.X</span><span class='op'>$</span><span class='va'>variates</span><span class='op'>$</span><span class='va'>X</span><span class='op'>[</span>,<span class='fl'>2</span><span class='op'>]</span>
-</div><div class='output co'>#&gt;          1          2          3          4          5 
-#&gt;  2.0265641  0.7937048  1.7010822 -2.4479385 -2.0734125 </div><div class='input'><span class='co'>#  2.0265641  0.7937048  1.7010822 -2.4479385 -2.0734125</span>
+    <pre class="examples"><div class='input'>
+<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
+<span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span>
+<span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
+<span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
+<span class='va'>ad.PN</span> <span class='op'>&lt;-</span> <span class='fu'>percentile_norm</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ad.clr</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span>,
+                         trt <span class='op'>=</span> <span class='va'>ad.trt</span>, ctrl.grp <span class='op'>=</span> <span class='st'>'0-0.5'</span><span class='op'>)</span>
+
 </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">

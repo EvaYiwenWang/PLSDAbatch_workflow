@@ -80,7 +80,7 @@
                         <h4 class="author">Melbourne Integrative Genomics, School of Mathematics and Statistics, The University of Melbourne, Australia</h4>
                         <h4 class="author"><a href="mailto:yiwenw5@student.unimelb.edu.au">yiwenw5@student.unimelb.edu.au</a></h4>
             
-            <h4 class="date">16 November, 2020</h4>
+            <h4 class="date">09 December, 2020</h4>
       
       
       <div class="hidden name"><code>case_studies.Rmd</code></div>
@@ -293,8 +293,8 @@
                               `sPLSDA-batch` <span class="op">=</span> <span class="va">sponge.splsda_batch.s</span><span class="op">)</span>
 
 
-<span class="va">sponge.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="cn">NA</span>, intersection <span class="op">=</span> <span class="cn">NA</span>, 
-                                 batch <span class="op">=</span> <span class="cn">NA</span>,  residual <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
+<span class="va">sponge.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="cn">NA</span>, Intersection <span class="op">=</span> <span class="cn">NA</span>, 
+                                 Batch <span class="op">=</span> <span class="cn">NA</span>,  Residuals <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
 
 <span class="va">Bat_Trt.factors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Batch <span class="op">=</span> <span class="va">sponge.batch</span>, Treatment <span class="op">=</span> <span class="va">sponge.trt</span><span class="op">)</span>
 
@@ -310,46 +310,7 @@
 
 <span class="va">sponge.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sponge.rda.prop.df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="va">x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span>
 
-
-
-<span class="va">sponge.rda.ggp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">sponge.rda.prop.df</span><span class="op">)</span><span class="op">)</span>,
-                             Methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">sponge.rda.prop.df</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
-                             Type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Treatment'</span>, 
-                                          <span class="st">'Intersection'</span>, 
-                                          <span class="st">'Batch'</span>, 
-                                          <span class="st">'Residuals'</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">sponge.rda.ggp</span><span class="op">$</span><span class="va">Methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sponge.rda.ggp</span><span class="op">$</span><span class="va">Methods</span>, 
-                                 levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Before correction'</span>, 
-                                            <span class="st">'removeBatchEffect'</span>, 
-                                            <span class="st">'ComBat'</span>, 
-                                            <span class="st">'PLSDA-batch'</span>, 
-                                            <span class="st">'sPLSDA-batch'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">sponge.rda.ggp</span><span class="op">$</span><span class="va">Type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">sponge.rda.ggp</span><span class="op">$</span><span class="va">Type</span>, 
-                              levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Residuals'</span>, 
-                                         <span class="st">'Batch'</span>, 
-                                         <span class="st">'Intersection'</span>, 
-                                         <span class="st">'Treatment'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">sponge.rda.ggp.position</span> <span class="op">&lt;-</span> <span class="va">sponge.rda.prop.df</span>
-<span class="va">sponge.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">sponge.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.02</span>
-<span class="va">sponge.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">sponge.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.02</span> <span class="op">+</span> 
-  <span class="va">sponge.rda.prop.df</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.001</span>
-<span class="va">sponge.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">sponge.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.02</span> <span class="op">+</span> 
-  <span class="va">sponge.rda.prop.df</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.001</span> <span class="op">+</span> <span class="va">sponge.rda.prop.df</span><span class="op">[</span> ,<span class="fl">3</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.015</span> 
-<span class="va">sponge.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">sponge.rda.prop.df</span>, <span class="fl">1</span>, <span class="va">sum</span><span class="op">)</span>
-
-
-<span class="va">sponge.rda.ggp</span><span class="op">$</span><span class="va">ypos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">sponge.rda.ggp.position</span><span class="op">)</span><span class="op">)</span>
-
-
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">sponge.rda.ggp</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Methods</span>, y <span class="op">=</span> <span class="va">Prop</span>, fill <span class="op">=</span> <span class="va">Type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_bar</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">'identity'</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ylab</span><span class="op">(</span><span class="st">'Explained variance (%)'</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_fill_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">'Variation sources'</span>, values <span class="op">=</span> <span class="fu"><a href="../reference/pb_color.html">pb_color</a></span><span class="op">(</span><span class="fl">11</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_text</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">ypos</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Prop</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, 
-            vjust <span class="op">=</span> <span class="fl">1.6</span>, color <span class="op">=</span> <span class="st">'black'</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </code></pre></div>
+<span class="fu"><a href="../reference/partVar_plot.html">partVar_plot</a></span><span class="op">(</span>prop.df <span class="op">=</span> <span class="va">sponge.rda.prop.df</span><span class="op">)</span></code></pre></div>
 <p><img src="case_studies_files/figure-html/unnamed-chunk-11-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p>We next focused on estimating the proportion of explained variance by treatment and batch effects globally for the batch corrected data. The different methods preserved similar proportion of treatment variance and removed all batch variance, with the exception of ComBat that still retained 1.5% of batch variance.</p>
 </div>
@@ -524,10 +485,10 @@
 <p>Load the data as follows:</p>
 <div class="sourceCode"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'AD_data'</span><span class="op">)</span>
-<span class="va">ad.x</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">X.clr</span>
-<span class="va">ad.trt</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">Y.trt</span>
-<span class="va">ad.batch</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">Y.bat</span>
-<span class="va">ad.taxa</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">taxa</span></code></pre></div>
+<span class="va">ad.x</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">X.clr</span>
+<span class="va">ad.trt</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.trt</span>
+<span class="va">ad.batch</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.bat</span>
+<span class="va">ad.taxa</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">taxa</span></code></pre></div>
 <p>For "AD_data", we have an extra object:</p>
 <p><strong>ad.taxa</strong>: The taxonomic information of each OTU in <strong>ad.x</strong> matrix.</p>
 <div id="diagnostic-plots-principal-component-analysis-1" class="section level3">
@@ -705,8 +666,8 @@
                           `sPLSDA-batch` <span class="op">=</span> <span class="va">ad.splsda_batch.s</span><span class="op">)</span>
 
 
-<span class="va">ad.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="cn">NA</span>, intersection <span class="op">=</span> <span class="cn">NA</span>, 
-                             batch <span class="op">=</span> <span class="cn">NA</span>,  residual <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
+<span class="va">ad.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="cn">NA</span>, Intersection <span class="op">=</span> <span class="cn">NA</span>, 
+                             Batch <span class="op">=</span> <span class="cn">NA</span>,  Residuals <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
 
 <span class="va">Bat_Trt.factors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Batch <span class="op">=</span> <span class="va">ad.batch</span>, Treatment <span class="op">=</span> <span class="va">ad.trt</span><span class="op">)</span>
 
@@ -722,46 +683,7 @@
 
 <span class="va">ad.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">ad.rda.prop.df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="va">x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span>
 
-
-
-<span class="va">ad.rda.ggp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">ad.rda.prop.df</span><span class="op">)</span><span class="op">)</span>,
-                         Methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">ad.rda.prop.df</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
-                         Type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Treatment'</span>, 
-                                      <span class="st">'Intersection'</span>, 
-                                      <span class="st">'Batch'</span>, 
-                                      <span class="st">'Residuals'</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">ad.rda.ggp</span><span class="op">$</span><span class="va">Methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">ad.rda.ggp</span><span class="op">$</span><span class="va">Methods</span>, 
-                             levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Before correction'</span>, 
-                                        <span class="st">'removeBatchEffect'</span>, 
-                                        <span class="st">'ComBat'</span>, 
-                                        <span class="st">'PLSDA-batch'</span>, 
-                                        <span class="st">'sPLSDA-batch'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">ad.rda.ggp</span><span class="op">$</span><span class="va">Type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">ad.rda.ggp</span><span class="op">$</span><span class="va">Type</span>, 
-                          levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Residuals'</span>, 
-                                     <span class="st">'Batch'</span>, 
-                                     <span class="st">'Intersection'</span>, 
-                                     <span class="st">'Treatment'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">ad.rda.ggp.position</span> <span class="op">&lt;-</span> <span class="va">ad.rda.prop.df</span>
-<span class="va">ad.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">ad.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.02</span>
-<span class="va">ad.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">ad.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.02</span> <span class="op">+</span> 
-  <span class="va">ad.rda.prop.df</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.001</span>
-<span class="va">ad.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">ad.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.02</span> <span class="op">+</span> 
-  <span class="va">ad.rda.prop.df</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.001</span> <span class="op">+</span> <span class="va">ad.rda.prop.df</span><span class="op">[</span> ,<span class="fl">3</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.015</span> 
-<span class="va">ad.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">ad.rda.prop.df</span>, <span class="fl">1</span>, <span class="va">sum</span><span class="op">)</span>
-
-
-<span class="va">ad.rda.ggp</span><span class="op">$</span><span class="va">ypos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">ad.rda.ggp.position</span><span class="op">)</span><span class="op">)</span>
-
-
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">ad.rda.ggp</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Methods</span>, y <span class="op">=</span> <span class="va">Prop</span>, fill <span class="op">=</span> <span class="va">Type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_bar</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">'identity'</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ylab</span><span class="op">(</span><span class="st">'Explained variance (%)'</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_fill_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">'Variation sources'</span>, values <span class="op">=</span> <span class="fu"><a href="../reference/pb_color.html">pb_color</a></span><span class="op">(</span><span class="fl">11</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_text</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">ypos</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Prop</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, 
-            vjust <span class="op">=</span> <span class="fl">1.6</span>, color <span class="op">=</span> <span class="st">'black'</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </code></pre></div>
+<span class="fu"><a href="../reference/partVar_plot.html">partVar_plot</a></span><span class="op">(</span>prop.df <span class="op">=</span> <span class="va">ad.rda.prop.df</span><span class="op">)</span></code></pre></div>
 <p><img src="case_studies_files/figure-html/unnamed-chunk-23-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p>In the AD data, we observed a small amount of intersection (0.7%) between batch and treatment associated variance due to the unbalanced batch <span class="math inline">\(\times\)</span> treatment design. As the intersection was small, unweighted PLSDA-batch and sPLSDA-batch were still applicable, and thus the weighted version was not used. PLSDA-batch preserved the largest proportion of variance explained by treatment effects, and also the largest proportion of intersectional variance. sPLSDA-batch corrected data led to a slightly higher proportion of treatment variance and an undetectable intersectional variance than the other two univariate methods.</p>
 </div>
@@ -1006,9 +928,10 @@
 <p>Load the data as follows:</p>
 <div class="sourceCode"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/data.html">data</a></span><span class="op">(</span><span class="st">'HFHS_data'</span><span class="op">)</span>
-<span class="va">hfhs.x</span> <span class="op">&lt;-</span> <span class="va">HFHS_data</span><span class="op">$</span><span class="va">X.clr</span>
-<span class="va">hfhs.trt</span> <span class="op">&lt;-</span> <span class="va">HFHS_data</span><span class="op">$</span><span class="va">Y.trt</span>
-<span class="va">hfhs.batch</span> <span class="op">&lt;-</span> <span class="va">HFHS_data</span><span class="op">$</span><span class="va">Y.bat</span></code></pre></div>
+<span class="va">hfhs.x</span> <span class="op">&lt;-</span> <span class="va">HFHS_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">X.clr</span>
+<span class="va">hfhs.trt</span> <span class="op">&lt;-</span> <span class="va">HFHS_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.trt</span>
+<span class="va">hfhs.batch</span> <span class="op">&lt;-</span> <span class="va">HFHS_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.bat</span>
+<span class="va">hfhs.taxa</span> <span class="op">&lt;-</span> <span class="va">HFHS_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">taxa</span></code></pre></div>
 <div id="diagnostic-plots-principal-component-analysis-2" class="section level3">
 <h3 class="hasAnchor">
 <a href="#diagnostic-plots-principal-component-analysis-2" class="anchor"></a>Diagnostic plots: principal component analysis</h3>
@@ -1178,8 +1101,8 @@
                             `sPLSDA-batch` <span class="op">=</span> <span class="va">hfhs.splsda_batch.s</span><span class="op">)</span>
 
 
-<span class="va">hfhs.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>treatment <span class="op">=</span> <span class="cn">NA</span>, intersection <span class="op">=</span> <span class="cn">NA</span>, 
-                               batch <span class="op">=</span> <span class="cn">NA</span>,  residual <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
+<span class="va">hfhs.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Treatment <span class="op">=</span> <span class="cn">NA</span>, Intersection <span class="op">=</span> <span class="cn">NA</span>, 
+                               Batch <span class="op">=</span> <span class="cn">NA</span>,  Residuals <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span>
 
 <span class="va">Bat_Trt.factors</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Batch <span class="op">=</span> <span class="va">hfhs.batch</span>, Treatment <span class="op">=</span> <span class="va">hfhs.trt</span><span class="op">)</span>
 
@@ -1195,46 +1118,7 @@
 
 <span class="va">hfhs.rda.prop.df</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">hfhs.rda.prop.df</span>, <span class="fl">1</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="va">x</span><span class="op">/</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html">sum</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">}</span><span class="op">)</span><span class="op">)</span>
 
-
-
-<span class="va">hfhs.rda.ggp</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html">data.frame</a></span><span class="op">(</span>Prop <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">hfhs.rda.prop.df</span><span class="op">)</span><span class="op">)</span>,
-                           Methods <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/colnames.html">rownames</a></span><span class="op">(</span><span class="va">hfhs.rda.prop.df</span><span class="op">)</span>, each <span class="op">=</span> <span class="fl">4</span><span class="op">)</span>,
-                           Type <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Treatment'</span>, 
-                                        <span class="st">'Intersection'</span>, 
-                                        <span class="st">'Batch'</span>, 
-                                        <span class="st">'Residuals'</span><span class="op">)</span>, <span class="fl">5</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">hfhs.rda.ggp</span><span class="op">$</span><span class="va">Methods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">hfhs.rda.ggp</span><span class="op">$</span><span class="va">Methods</span>, 
-                               levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Before correction'</span>, 
-                                          <span class="st">'removeBatchEffect'</span>, 
-                                          <span class="st">'ComBat'</span>, 
-                                          <span class="st">'PLSDA-batch'</span>, 
-                                          <span class="st">'sPLSDA-batch'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">hfhs.rda.ggp</span><span class="op">$</span><span class="va">Type</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/factor.html">factor</a></span><span class="op">(</span><span class="va">hfhs.rda.ggp</span><span class="op">$</span><span class="va">Type</span>, 
-                            levels <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">'Residuals'</span>, 
-                                       <span class="st">'Batch'</span>, 
-                                       <span class="st">'Intersection'</span>, 
-                                       <span class="st">'Treatment'</span><span class="op">)</span><span class="op">)</span>
-
-<span class="va">hfhs.rda.ggp.position</span> <span class="op">&lt;-</span> <span class="va">hfhs.rda.prop.df</span>
-<span class="va">hfhs.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">hfhs.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.02</span>
-<span class="va">hfhs.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">hfhs.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.02</span> <span class="op">+</span> 
-  <span class="va">hfhs.rda.prop.df</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.001</span>
-<span class="va">hfhs.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">3</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="va">hfhs.rda.prop.df</span><span class="op">[</span> ,<span class="fl">1</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.02</span> <span class="op">+</span> 
-  <span class="va">hfhs.rda.prop.df</span><span class="op">[</span> ,<span class="fl">2</span><span class="op">]</span> <span class="op">+</span> <span class="fl">0.001</span> <span class="op">+</span> <span class="va">hfhs.rda.prop.df</span><span class="op">[</span> ,<span class="fl">3</span><span class="op">]</span><span class="op">/</span><span class="fl">2</span> <span class="op">+</span> <span class="fl">0.015</span> 
-<span class="va">hfhs.rda.ggp.position</span><span class="op">[</span> ,<span class="fl">4</span><span class="op">]</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/apply.html">apply</a></span><span class="op">(</span><span class="va">hfhs.rda.prop.df</span>, <span class="fl">1</span>, <span class="va">sum</span><span class="op">)</span>
-
-
-<span class="va">hfhs.rda.ggp</span><span class="op">$</span><span class="va">ypos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/t.html">t</a></span><span class="op">(</span><span class="va">hfhs.rda.ggp.position</span><span class="op">)</span><span class="op">)</span>
-
-
-<span class="fu">ggplot</span><span class="op">(</span><span class="va">hfhs.rda.ggp</span>, <span class="fu">aes</span><span class="op">(</span>x <span class="op">=</span> <span class="va">Methods</span>, y <span class="op">=</span> <span class="va">Prop</span>, fill <span class="op">=</span> <span class="va">Type</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_bar</span><span class="op">(</span>stat <span class="op">=</span> <span class="st">'identity'</span><span class="op">)</span> <span class="op">+</span> <span class="fu">ylab</span><span class="op">(</span><span class="st">'Explained variance (%)'</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">scale_fill_manual</span><span class="op">(</span>name <span class="op">=</span> <span class="st">'Variation sources'</span>, values <span class="op">=</span> <span class="fu"><a href="../reference/pb_color.html">pb_color</a></span><span class="op">(</span><span class="fl">11</span><span class="op">:</span><span class="fl">14</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">theme_bw</span><span class="op">(</span><span class="op">)</span> <span class="op">+</span> <span class="fu">theme</span><span class="op">(</span>axis.text.x <span class="op">=</span> <span class="fu">element_text</span><span class="op">(</span>angle <span class="op">=</span> <span class="fl">45</span>, hjust <span class="op">=</span> <span class="fl">1</span><span class="op">)</span><span class="op">)</span> <span class="op">+</span> 
-  <span class="fu">geom_text</span><span class="op">(</span><span class="fu">aes</span><span class="op">(</span>y <span class="op">=</span> <span class="va">ypos</span>, label <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html">round</a></span><span class="op">(</span><span class="va">Prop</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span><span class="op">)</span>, 
-            vjust <span class="op">=</span> <span class="fl">1.6</span>, color <span class="op">=</span> <span class="st">'black'</span>, size <span class="op">=</span> <span class="fl">3</span><span class="op">)</span> </code></pre></div>
+<span class="fu"><a href="../reference/partVar_plot.html">partVar_plot</a></span><span class="op">(</span>prop.df <span class="op">=</span> <span class="va">hfhs.rda.prop.df</span><span class="op">)</span></code></pre></div>
 <p><img src="case_studies_files/figure-html/unnamed-chunk-37-1.png" width="70%" style="display: block; margin: auto;"></p>
 <p>In the HFHS data where no batch variation was observed on the PCA plot, we still detected 1.8% of the variance explained by batch effects. The differences of preserved treatment variance and removed batch variance from the different corrected data were small.</p>
 </div>
@@ -1467,7 +1351,7 @@
 <code class="sourceCode R"><span class="va">hfhs.splsda.select.overlap</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/pkg/gplots/man/venn.html">venn</a></span><span class="op">(</span><span class="va">hfhs.splsda.select</span>, show.plot <span class="op">=</span> <span class="cn">F</span><span class="op">)</span>
 <span class="va">hfhs.inters.splsda</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span><span class="op">(</span><span class="va">hfhs.splsda.select.overlap</span>, <span class="st">'intersections'</span><span class="op">)</span>
 <span class="va">hfhs.inters.splsda.taxa</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span><span class="op">(</span><span class="va">hfhs.inters.splsda</span>, 
-                                  FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">ad.taxa</span><span class="op">[</span><span class="va">x</span>, <span class="op">]</span><span class="op">)</span><span class="op">}</span><span class="op">)</span>
+                                  FUN <span class="op">=</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">{</span><span class="fu"><a href="https://rdrr.io/r/base/as.data.frame.html">as.data.frame</a></span><span class="op">(</span><span class="va">hfhs.taxa</span><span class="op">[</span><span class="va">x</span>, <span class="op">]</span><span class="op">)</span><span class="op">}</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/utils/capture.output.html">capture.output</a></span><span class="op">(</span><span class="va">hfhs.inters.splsda.taxa</span>, 
                file <span class="op">=</span> <span class="st">"GeneratedData/HFHSselected_50_splsda.txt"</span><span class="op">)</span></code></pre></div>
 <p>We also saved the taxonomic information of intersectional OTUs into a txt file.</p>

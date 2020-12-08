@@ -233,8 +233,8 @@ sponge.corrected.list <- list(`Before correction` = sponge.x.s,
                               `sPLSDA-batch` = sponge.splsda_batch.s)
 
 
-sponge.rda.prop.df <- data.frame(treatment = NA, intersection = NA, 
-                                 batch = NA,  residual = NA)
+sponge.rda.prop.df <- data.frame(Treatment = NA, Intersection = NA, 
+                                 Batch = NA,  Residuals = NA)
 
 Bat_Trt.factors <- data.frame(Batch = sponge.batch, Treatment = sponge.trt)
 
@@ -250,46 +250,7 @@ sponge.rda.prop.df[sponge.rda.prop.df < 0] = 0
 
 sponge.rda.prop.df <- t(apply(sponge.rda.prop.df, 1, function(x){x/sum(x)}))
 
-
-
-sponge.rda.ggp <- data.frame(Prop = c(t(sponge.rda.prop.df)),
-                             Methods = rep(rownames(sponge.rda.prop.df), each = 4),
-                             Type = rep(c('Treatment', 
-                                          'Intersection', 
-                                          'Batch', 
-                                          'Residuals'), 5))
-
-sponge.rda.ggp$Methods <- factor(sponge.rda.ggp$Methods, 
-                                 levels = c('Before correction', 
-                                            'removeBatchEffect', 
-                                            'ComBat', 
-                                            'PLSDA-batch', 
-                                            'sPLSDA-batch'))
-
-sponge.rda.ggp$Type <- factor(sponge.rda.ggp$Type, 
-                              levels = c('Residuals', 
-                                         'Batch', 
-                                         'Intersection', 
-                                         'Treatment'))
-
-sponge.rda.ggp.position <- sponge.rda.prop.df
-sponge.rda.ggp.position[ ,1] <- sponge.rda.prop.df[ ,1]/2 + 0.02
-sponge.rda.ggp.position[ ,2] <- sponge.rda.prop.df[ ,1] + 0.02 + 
-  sponge.rda.prop.df[ ,2]/2 + 0.001
-sponge.rda.ggp.position[ ,3] <- sponge.rda.prop.df[ ,1] + 0.02 + 
-  sponge.rda.prop.df[ ,2] + 0.001 + sponge.rda.prop.df[ ,3]/2 + 0.015 
-sponge.rda.ggp.position[ ,4] <- apply(sponge.rda.prop.df, 1, sum)
-
-
-sponge.rda.ggp$ypos <- c(t(sponge.rda.ggp.position))
-
-
-ggplot(sponge.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) + 
-  geom_bar(stat = 'identity') + ylab('Explained variance (%)') + 
-  scale_fill_manual(name = 'Variation sources', values = pb_color(11:14)) + 
-  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
-            vjust = 1.6, color = 'black', size = 3) 
+partVar_plot(prop.df = sponge.rda.prop.df)
 ```
 
 
@@ -467,10 +428,10 @@ Load the data as follows:
 
 ```{r}
 data('AD_data')
-ad.x <- AD_data$X.clr
-ad.trt <- AD_data$Y.trt
-ad.batch <- AD_data$Y.bat
-ad.taxa <- AD_data$taxa
+ad.x <- AD_data$EgData$X.clr
+ad.trt <- AD_data$EgData$Y.trt
+ad.batch <- AD_data$EgData$Y.bat
+ad.taxa <- AD_data$EgData$taxa
 ```
 
 For "AD_data", we have an extra object:
@@ -641,8 +602,8 @@ ad.corrected.list <- list(`Before correction` = ad.x.s,
                           `sPLSDA-batch` = ad.splsda_batch.s)
 
 
-ad.rda.prop.df <- data.frame(treatment = NA, intersection = NA, 
-                             batch = NA,  residual = NA)
+ad.rda.prop.df <- data.frame(Treatment = NA, Intersection = NA, 
+                             Batch = NA,  Residuals = NA)
 
 Bat_Trt.factors <- data.frame(Batch = ad.batch, Treatment = ad.trt)
 
@@ -658,46 +619,7 @@ ad.rda.prop.df[ad.rda.prop.df < 0] = 0
 
 ad.rda.prop.df <- t(apply(ad.rda.prop.df, 1, function(x){x/sum(x)}))
 
-
-
-ad.rda.ggp <- data.frame(Prop = c(t(ad.rda.prop.df)),
-                         Methods = rep(rownames(ad.rda.prop.df), each = 4),
-                         Type = rep(c('Treatment', 
-                                      'Intersection', 
-                                      'Batch', 
-                                      'Residuals'), 5))
-
-ad.rda.ggp$Methods <- factor(ad.rda.ggp$Methods, 
-                             levels = c('Before correction', 
-                                        'removeBatchEffect', 
-                                        'ComBat', 
-                                        'PLSDA-batch', 
-                                        'sPLSDA-batch'))
-
-ad.rda.ggp$Type <- factor(ad.rda.ggp$Type, 
-                          levels = c('Residuals', 
-                                     'Batch', 
-                                     'Intersection', 
-                                     'Treatment'))
-
-ad.rda.ggp.position <- ad.rda.prop.df
-ad.rda.ggp.position[ ,1] <- ad.rda.prop.df[ ,1]/2 + 0.02
-ad.rda.ggp.position[ ,2] <- ad.rda.prop.df[ ,1] + 0.02 + 
-  ad.rda.prop.df[ ,2]/2 + 0.001
-ad.rda.ggp.position[ ,3] <- ad.rda.prop.df[ ,1] + 0.02 + 
-  ad.rda.prop.df[ ,2] + 0.001 + ad.rda.prop.df[ ,3]/2 + 0.015 
-ad.rda.ggp.position[ ,4] <- apply(ad.rda.prop.df, 1, sum)
-
-
-ad.rda.ggp$ypos <- c(t(ad.rda.ggp.position))
-
-
-ggplot(ad.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) + 
-  geom_bar(stat = 'identity') + ylab('Explained variance (%)') + 
-  scale_fill_manual(name = 'Variation sources', values = pb_color(11:14)) + 
-  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
-            vjust = 1.6, color = 'black', size = 3) 
+partVar_plot(prop.df = ad.rda.prop.df)
 ```
 
 In the AD data, we observed a small amount of intersection (0.7\%) between batch and treatment associated variance due to the unbalanced batch $\times$ treatment design. As the intersection was small, unweighted PLSDA-batch and sPLSDA-batch were still applicable, and thus the weighted version was not used. PLSDA-batch preserved the largest proportion of variance explained by treatment effects, and also the largest proportion of intersectional variance. sPLSDA-batch corrected data led to a slightly higher proportion of treatment variance and an undetectable intersectional variance than the other two univariate methods. 
@@ -946,9 +868,10 @@ Load the data as follows:
 
 ```{r}
 data('HFHS_data')
-hfhs.x <- HFHS_data$X.clr
-hfhs.trt <- HFHS_data$Y.trt
-hfhs.batch <- HFHS_data$Y.bat
+hfhs.x <- HFHS_data$EgData$X.clr
+hfhs.trt <- HFHS_data$EgData$Y.trt
+hfhs.batch <- HFHS_data$EgData$Y.bat
+hfhs.taxa <- HFHS_data$EgData$taxa
 ```
 
 ### Diagnostic plots: principal component analysis
@@ -1115,8 +1038,8 @@ hfhs.corrected.list <- list(`Before correction` = hfhs.x.s,
                             `sPLSDA-batch` = hfhs.splsda_batch.s)
 
 
-hfhs.rda.prop.df <- data.frame(treatment = NA, intersection = NA, 
-                               batch = NA,  residual = NA)
+hfhs.rda.prop.df <- data.frame(Treatment = NA, Intersection = NA, 
+                               Batch = NA,  Residuals = NA)
 
 Bat_Trt.factors <- data.frame(Batch = hfhs.batch, Treatment = hfhs.trt)
 
@@ -1132,46 +1055,7 @@ hfhs.rda.prop.df[hfhs.rda.prop.df < 0] = 0
 
 hfhs.rda.prop.df <- t(apply(hfhs.rda.prop.df, 1, function(x){x/sum(x)}))
 
-
-
-hfhs.rda.ggp <- data.frame(Prop = c(t(hfhs.rda.prop.df)),
-                           Methods = rep(rownames(hfhs.rda.prop.df), each = 4),
-                           Type = rep(c('Treatment', 
-                                        'Intersection', 
-                                        'Batch', 
-                                        'Residuals'), 5))
-
-hfhs.rda.ggp$Methods <- factor(hfhs.rda.ggp$Methods, 
-                               levels = c('Before correction', 
-                                          'removeBatchEffect', 
-                                          'ComBat', 
-                                          'PLSDA-batch', 
-                                          'sPLSDA-batch'))
-
-hfhs.rda.ggp$Type <- factor(hfhs.rda.ggp$Type, 
-                            levels = c('Residuals', 
-                                       'Batch', 
-                                       'Intersection', 
-                                       'Treatment'))
-
-hfhs.rda.ggp.position <- hfhs.rda.prop.df
-hfhs.rda.ggp.position[ ,1] <- hfhs.rda.prop.df[ ,1]/2 + 0.02
-hfhs.rda.ggp.position[ ,2] <- hfhs.rda.prop.df[ ,1] + 0.02 + 
-  hfhs.rda.prop.df[ ,2]/2 + 0.001
-hfhs.rda.ggp.position[ ,3] <- hfhs.rda.prop.df[ ,1] + 0.02 + 
-  hfhs.rda.prop.df[ ,2] + 0.001 + hfhs.rda.prop.df[ ,3]/2 + 0.015 
-hfhs.rda.ggp.position[ ,4] <- apply(hfhs.rda.prop.df, 1, sum)
-
-
-hfhs.rda.ggp$ypos <- c(t(hfhs.rda.ggp.position))
-
-
-ggplot(hfhs.rda.ggp, aes(x = Methods, y = Prop, fill = Type)) + 
-  geom_bar(stat = 'identity') + ylab('Explained variance (%)') + 
-  scale_fill_manual(name = 'Variation sources', values = pb_color(11:14)) + 
-  theme_bw() + theme(axis.text.x = element_text(angle = 45, hjust = 1)) + 
-  geom_text(aes(y = ypos, label = round(Prop, digits = 3)), 
-            vjust = 1.6, color = 'black', size = 3) 
+partVar_plot(prop.df = hfhs.rda.prop.df)
 ```
 
 In the HFHS data where no batch variation was observed on the PCA plot, we still detected 1.8\% of the variance explained by batch effects. The differences of preserved treatment variance and removed batch variance from the different corrected data were small.
@@ -1408,7 +1292,7 @@ We applied sPLSDA to select 20\% of the total number of OTUs in the data. We the
 hfhs.splsda.select.overlap <- venn(hfhs.splsda.select, show.plot = F)
 hfhs.inters.splsda <- attr(hfhs.splsda.select.overlap, 'intersections')
 hfhs.inters.splsda.taxa <- lapply(hfhs.inters.splsda, 
-                                  FUN = function(x){as.data.frame(ad.taxa[x, ])})
+                                  FUN = function(x){as.data.frame(hfhs.taxa[x, ])})
 capture.output(hfhs.inters.splsda.taxa, 
                file = "GeneratedData/HFHSselected_50_splsda.txt")
 ```

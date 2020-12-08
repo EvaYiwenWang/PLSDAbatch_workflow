@@ -5,6 +5,7 @@
 #' and the number of associated components.
 #'
 #' @importFrom mixOmics unmap nearZeroVar
+#' @importFrom Rdpack reprompt
 #' @param X A numeric matrix as an explanatory matrix. \code{NA}s are not allowed.
 #' @param Y.trt A factor or a class vector for the treatment grouping information (categorical outcome variable).
 #' Without the input of \code{Y.trt}, treatment variation cannot be preserved before correcting for batch effects.
@@ -40,13 +41,15 @@
 #' \item{explained_variance.bat}{The amount of data variance explained per batch associated component.}
 #' \item{weight}{The sample weights, all \eqn{1} for a balanced \code{batch x treatment design}.}
 #'
+#' @references
+#' \insertRef{wang2020multivariate}{PLSDAbatch}
 #'
 #' @examples
 #' ## First example
 #' data('AD_data')
-#' X = AD_data$X.clr #centered log ratio transformed data
-#' Y.trt = AD_data$Y.trt
-#' Y.bat = AD_data$Y.bat
+#' X = AD_data$EgData$X.clr #centered log ratio transformed data
+#' Y.trt = AD_data$EgData$Y.trt
+#' Y.bat = AD_data$EgData$Y.bat
 #' ad_plsda_batch <- PLSDA_batch(X, Y.trt, Y.bat, ncomp.trt = 1, ncomp.bat = 5)
 #' ad_X.corrected <- ad_plsda_batch$X.nobatch #batch corrected data
 #'
@@ -305,11 +308,16 @@ PLSDA_batch <- function(X,
 #' \deqn{\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X}
 #' It is a built-in funciton of \code{PLSDA_batch}.
 #'
+#' @importFrom Rdpack reprompt
 #' @param X A numeric matrix to be deflated. It assumes that samples are on the row,
 #' while variables are on the column. \code{NA}s are not allowed.
 #' @param t A component to be deflated out from the matrix.
 #'
 #' @return A deflated matrix with the same dimension as the input matrix.
+#'
+#' @references
+#' \insertRef{barker2003partial}{PLSDAbatch}
+#'
 #' @keywords Internal
 #' @export
 #' @examples
@@ -340,6 +348,7 @@ deflate_mtx <- function(X, t){
 #' It is a built-in funciton of \code{PLSDA_batch}.
 #'
 #' @importFrom mixOmics explained_variance
+#' @importFrom Rdpack reprompt
 #' @param X A numeric matrix that is centered and scaled as an explanatory matrix. \code{NA}s are not allowed.
 #' @param Y A dummy matrix that is centered and scaled as an outcome matrix.
 #' @param ncomp Integer, the number of dimensions to include in the model.
@@ -359,6 +368,10 @@ deflate_mtx <- function(X, t){
 #' \item{exp_var}{The amount of data variance explained per component (note that contrary to \code{PCA},
 #' this amount may not decrease as the aim of the method is not to maximise the variance,
 #' but the covariance between \code{X} and the dummy matrix \code{Y}).}
+#'
+#' @references
+#' \insertRef{barker2003partial}{PLSDAbatch}
+#'
 #' @keywords Internal
 #'
 #' @examples

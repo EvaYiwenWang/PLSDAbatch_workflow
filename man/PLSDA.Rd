@@ -42,4 +42,7 @@ It is a built-in funciton of \code{PLSDA_batch}.
 # A built-in funciton of PLSDA_batch, not separately used.
 
 }
+\references{
+\insertRef{barker2003partial}{PLSDAbatch}
+}
 \keyword{Internal}

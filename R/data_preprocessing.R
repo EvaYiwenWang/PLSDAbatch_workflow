@@ -1,0 +1,53 @@
+####################################################
+#' Prefiltering for Microbiome Data
+#'
+#' This function prefilters the data to remove samples or microbial variables with excess zeroes.
+#'
+#' @param data The data to be prefiltered.
+#' @param keep.spl The minimum counts of a sample to be kept.
+#' @param keep.var The minimum proportion of counts of a variable to be kept.
+#'
+#' @return \code{PreFL} returns a list that contains the following components:
+#' \item{data.filter}{The filtered data matrix.}
+#' \item{sample.idx}{The indexs of samples kept.}
+#' \item{var.idx}{The indexs of variables kept.}
+#' \item{zero.prob}{The proportion of zeros of the input data.}
+#'
+#' @export
+#'
+#' @examples
+#' data('AD_data')
+#' ad.count <- AD_data$FullData$X.count
+#' ad.filter.res <- PreFL(data = ad.count)
+#'
+#' # The proportion of zeroes of the AD count data
+#' ad.zero.prob <- ad.filter.res$zero.prob
+#'
+#' # The filtered AD count data
+#' ad.filter <- ad.filter.res$data.filter
+#'
+#'
+PreFL <- function(data,
+                  keep.spl = 10,
+                  keep.var = 0.01){
+
+  # zero prob
+  zero.prob <- sum(data == 0)/(nrow(data) * ncol(data))
+
+  # sample
+  keep.sample = which(apply(data, 1, sum) > keep.spl)
+  data <- data[keep.sample, ]
+
+  # variable
+  keep.var = which(colSums(data)*100/(sum(colSums(data))) > keep.var)
+  data.out <- as.matrix(data[, keep.var])
+
+  result = list(data.filter = data.out,
+                sample.idx = keep.sample,
+                var.idx = keep.var,
+                zero.prob = zero.prob)
+
+  return(invisible(result))
+}
+
+
