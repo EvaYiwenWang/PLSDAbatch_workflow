@@ -3,7 +3,7 @@
 #'
 #' This function prefilters the data to remove samples or microbial variables with excess zeroes.
 #'
-#' @param data The data to be prefiltered.
+#' @param data The data to be prefiltered. The samples in rows and variables in columns.
 #' @param keep.spl The minimum counts of a sample to be kept.
 #' @param keep.var The minimum proportion of counts of a variable to be kept.
 #'

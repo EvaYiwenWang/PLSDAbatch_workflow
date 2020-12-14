@@ -7,7 +7,7 @@
 PreFL(data, keep.spl = 10, keep.var = 0.01)
 }
 \arguments{
-\item{data}{The data to be prefiltered.}
+\item{data}{The data to be prefiltered. The samples in rows and variables in columns.}
 
 \item{keep.spl}{The minimum counts of a sample to be kept.}
 
