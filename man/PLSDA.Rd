@@ -26,7 +26,7 @@ By default all variables are kept in the model. A valid input of \code{keepX} ex
 \item{original_data}{The original explanatory matrix \code{X} and outcome matrix \code{Y}.}
 \item{defl_data}{The centered and scaled deflated matrices (\eqn{\hat{X}} and \eqn{\hat{Y}})
 after removing the variance of latent components calculated with estimated latent dimensions.}
-\item{latent_var}{The latent components calculated with estimated latent dimensions.}
+\item{latent_comp}{The latent components calculated with estimated latent dimensions.}
 \item{loadings}{The estimated latent dimensions.}
 \item{iters}{Number of iterations of the algorthm for each component.}
 \item{exp_var}{The amount of data variance explained per component (note that contrary to \code{PCA},
