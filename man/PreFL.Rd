@@ -36,3 +36,6 @@ ad.filter <- ad.filter.res$data.filter
 
 
 }
+\references{
+\insertRef{le2016mixmc}{PLSDAbatch}
+}

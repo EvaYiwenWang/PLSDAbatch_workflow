@@ -51,12 +51,13 @@ none
 This function draws a PCA sample plot with density plots per principal component.
 }
 \examples{
+library(mixOmics) # pca
 data('AD_data')
 ad.clr <- AD_data$EgData$X.clr
 ad.pca.before <- pca(ad.clr, ncomp = 3, scale = TRUE)
 ad.batch = AD_data$EgData$Y.bat
 ad.trt = AD_data$EgData$Y.trt
-Scatter_Density(project = ad.pca.before, batch = ad.batch, trt = ad.trt)
+Scatter_Density(object = ad.pca.before, batch = ad.batch, trt = ad.trt)
 
 
 }

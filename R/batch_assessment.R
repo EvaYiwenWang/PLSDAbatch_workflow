@@ -3,6 +3,7 @@
 #'
 #' This function draws a partitioned variance plot explained by different sources.
 #'
+#' @importFrom ggplot2 ggplot
 #' @param prop.df A data frame that contains the proportion of variance explained by different sources.
 #' @param text.cex Numeric, the size of text on the plot.
 #' @param x.angle Numeric, angle of x axis, in the range of \eqn{0} to \eqn{360}.

@@ -4,44 +4,63 @@
 \alias{linear_regres}
 \title{Linear Regression}
 \usage{
-linear_regres(
-  data,
-  trt,
-  batch = NULL,
-  model = "linear model",
-  p.adjust.method = "fdr"
-)
+linear_regres(data, trt, batch, type = "linear model", p.adjust.method = "fdr")
 }
 \arguments{
-\item{data}{A data frame that contains the response variables in the model.
+\item{data}{A data frame that contains the response variables for the linear regression.
 Samples as rows and variables as columns.}
 
 \item{trt}{A factor or a class vector for the treatment grouping information (categorical outcome variable).}
 
 \item{batch}{A factor or a class vector for the batch grouping information (categorical outcome variable).}
 
-\item{model}{The model to be used for fitting, either 'linear model' or 'linear mixed model'.}
+\item{type}{The type of model to be used for fitting, either 'linear model' or 'linear mixed model'.}
 
 \item{p.adjust.method}{The method to be used for p-value adjustment, either "holm", "hochberg", "hommel",
 "bonferroni", "BH", "BY", "fdr" or "none".}
 }
 \value{
 \code{linear_regres} returns a list that contains the following components:
-\item{p_adjusted}{The adjusted p-values for each variable from the input data.}
-\item{model}{The model used for fitting.}
+\item{type}{The type of model used for fitting.}
+\item{model}{Each object fitted.}
+\item{raw.p}{The p-values for each response variable.}
+\item{adj.p}{The adjusted p-values for each response variable.}
 \item{p.adjust.method}{The method used for p-value adjustment.}
+\item{R2}{The proportion of variation in the response variable that is explained by the predictor variables.
+A higher R2 indicates a better model. Results for 'linear model' only.}
+\item{adj.R2}{Adjusted R2 for many predictor variables in the model. Results for 'linear model' only.}
+\item{cond.R2}{The proportion of variation in the response variable that is explained by the "complete" model with all covariates.
+Results for 'linear mixed model' only. Similar to \code{R2} in linear model.}
+\item{marg.R2}{The proportion of variation in the response variable that is explained by the fixed effects part only.
+Results for 'linear mixed model' only.}
+\item{RMSE}{The average error performed by the model in predicting the outcome for an observation.
+A lower RMSE indicates a better model.}
+\item{RSE}{also known as the model \eqn{sigma}, is a variant of the RMSE adjusted for the number of predictors in the model.
+A lower RSE indicates a better model.}
+\item{AIC}{A penalisation value for including additional predictor variables to a model.
+A lower AIC indicates a better model.}
+\item{BIC}{is a variant of AIC with a stronger penalty for including additional variables to the model.}
 }
 \description{
-This function fits linear regression on each variable of the input data including linear model,
-linear mixed model and adjusts p-values for multiple comparisons using one of several methods.
+This function fits linear regression (linear model or linear mixed model) on each microbial variable
+and includes treatment and batch effects as covariates. It generates p-values, adjusted p-values for
+multiple comparisons, and evaluation metrics of model quality.
+}
+\note{
+\code{R2, adj.R2, cond.R2, marg.R2, RMSE, RSE, AIC, BIC} all include the results of two models:
+(i) the full input model; (ii) a model without batch effects. It can help to decide whether it is better to include
+batch effects.
 }
 \examples{
 data('AD_data')
 ad.clr <- AD_data$EgData$X.clr
 ad.batch = AD_data$EgData$Y.bat
 ad.trt = AD_data$EgData$Y.trt
-ad.lm <- linear_regres(data = ad.clr, trt = ad.trt, batch = ad.batch, model = 'linear model')
+ad.lm <- linear_regres(data = ad.clr, trt = ad.trt, batch = ad.batch, type = 'linear model')
 ad.p.adj <- ad.lm$p_adjusted
+head(ad.lm$AIC)
 
-
+}
+\references{
+\insertRef{daniel2020performance}{PLSDAbatch}
 }

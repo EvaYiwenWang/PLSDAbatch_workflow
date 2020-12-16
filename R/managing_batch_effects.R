@@ -1,24 +1,49 @@
 ###################################
 #' Linear Regression
 #'
-#' This function fits linear regression on each variable of the input data including linear model,
-#' linear mixed model and adjusts p-values for multiple comparisons using one of several methods.
+#' This function fits linear regression (linear model or linear mixed model) on each microbial variable
+#' and includes treatment and batch effects as covariates. It generates p-values, adjusted p-values for
+#' multiple comparisons, and evaluation metrics of model quality.
+#'
 #'
 #' @importFrom lmerTest lmer
+#' @importFrom performance rmse r2
 #'
-#' @param data A data frame that contains the response variables in the model.
+#' @param data A data frame that contains the response variables for the linear regression.
 #' Samples as rows and variables as columns.
 #' @param trt A factor or a class vector for the treatment grouping information (categorical outcome variable).
 #' @param batch A factor or a class vector for the batch grouping information (categorical outcome variable).
-#' @param model The model to be used for fitting, either 'linear model' or 'linear mixed model'.
+#' @param type The type of model to be used for fitting, either 'linear model' or 'linear mixed model'.
 #' @param p.adjust.method The method to be used for p-value adjustment, either "holm", "hochberg", "hommel",
 #' "bonferroni", "BH", "BY", "fdr" or "none".
 #'
 #' @return \code{linear_regres} returns a list that contains the following components:
-#' \item{p_adjusted}{The adjusted p-values for each variable from the input data.}
-#' \item{model}{The model used for fitting.}
+#' \item{type}{The type of model used for fitting.}
+#' \item{model}{Each object fitted.}
+#' \item{raw.p}{The p-values for each response variable.}
+#' \item{adj.p}{The adjusted p-values for each response variable.}
 #' \item{p.adjust.method}{The method used for p-value adjustment.}
+#' \item{R2}{The proportion of variation in the response variable that is explained by the predictor variables.
+#' A higher R2 indicates a better model. Results for 'linear model' only.}
+#' \item{adj.R2}{Adjusted R2 for many predictor variables in the model. Results for 'linear model' only.}
+#' \item{cond.R2}{The proportion of variation in the response variable that is explained by the "complete" model with all covariates.
+#' Results for 'linear mixed model' only. Similar to \code{R2} in linear model.}
+#' \item{marg.R2}{The proportion of variation in the response variable that is explained by the fixed effects part only.
+#' Results for 'linear mixed model' only.}
+#' \item{RMSE}{The average error performed by the model in predicting the outcome for an observation.
+#' A lower RMSE indicates a better model.}
+#' \item{RSE}{also known as the model \eqn{sigma}, is a variant of the RMSE adjusted for the number of predictors in the model.
+#' A lower RSE indicates a better model.}
+#' \item{AIC}{A penalisation value for including additional predictor variables to a model.
+#' A lower AIC indicates a better model.}
+#' \item{BIC}{is a variant of AIC with a stronger penalty for including additional variables to the model.}
 #'
+#' @note \code{R2, adj.R2, cond.R2, marg.R2, RMSE, RSE, AIC, BIC} all include the results of two models:
+#' (i) the full input model; (ii) a model without batch effects. It can help to decide whether it is better to include
+#' batch effects.
+#'
+#' @references
+#' \insertRef{daniel2020performance}{PLSDAbatch}
 #'
 #' @export
 #'
@@ -27,47 +52,82 @@
 #' ad.clr <- AD_data$EgData$X.clr
 #' ad.batch = AD_data$EgData$Y.bat
 #' ad.trt = AD_data$EgData$Y.trt
-#' ad.lm <- linear_regres(data = ad.clr, trt = ad.trt, batch = ad.batch, model = 'linear model')
+#' ad.lm <- linear_regres(data = ad.clr, trt = ad.trt, batch = ad.batch, type = 'linear model')
 #' ad.p.adj <- ad.lm$p_adjusted
-#'
+#' head(ad.lm$AIC)
 #'
 linear_regres <- function(data,
                           trt,
-                          batch = NULL,
-                          model = 'linear model',
+                          batch,
+                          type = 'linear model',
                           p.adjust.method = 'fdr'){
 
-  if(!is.null(batch)){
-    if(model == 'linear model'){
-      p <- apply(data, 2, FUN = function(x){
-        res.lm <- lm(x ~ trt + batch)
-        summary.res <- summary(res.lm)
-        p <- summary.res$coefficients[2,4]
-      })
-      p.adj <- p.adjust(p, method = p.adjust.method)
-    }
+  if(type == 'linear model'){
+    model <- list()
+    p <- c()
+    R2 = adj.R2 = RMSE = RSE = AIC = BIC = data.frame(trt.only = NA, trt.batch = NA)
+    for(i in 1:ncol(data)){
+      res.lm0 <- lm(data[,i] ~ trt)
+      res.lm <- lm(data[,i] ~ trt + batch)
+      summary.res0 <- summary(res.lm0)
+      summary.res <- summary(res.lm)
 
-    if(model == 'linear mixed model'){
-      p <- apply(data, 2, FUN = function(x){
-        res.lmm <- lmer(x ~ trt + (1|batch))
-        summary.res <- summary(res.lmm)
-        p <- summary.res$coefficients[2,4]
-      })
-      p.adj <- p.adjust(p, method = p.adjust.method)
-    }}else{
-      p <- apply(data, 2, FUN = function(x){
-        res.lm <- lm(x ~ trt)
-        summary.res <- summary(res.lm)
-        p <- summary.res$coefficients[2,4]
-      })
-      p.adj <- p.adjust(p, method = p.adjust.method)
+      model[[i]] <- res.lm
+      p[i] <- summary.res$coefficients[2,4]
+
+      R2[i, ] <- c(summary.res0$r.squared, summary.res$r.squared)
+      adj.R2[i, ] <- c(summary.res0$adj.r.squared, summary.res$adj.r.squared)
+      RMSE[i, ] <- c(rmse(res.lm0), rmse(res.lm))
+      RSE[i, ] <- c(summary.res0$sigma, summary.res$sigma)
+      AIC[i, ] <- c(AIC(res.lm0), AIC(res.lm))
+      BIC[i, ] <- c(BIC(res.lm0), BIC(res.lm))
     }
-  result = list(p_adjusted = p.adj,
+    p.adj <- p.adjust(p, method = p.adjust.method)
+    cond.R2 = marg.R2 = NA
+    rownames(R2) = rownames(adj.R2) = colnames(data)
+  }
+
+  if(type == 'linear mixed model'){
+    model <- list()
+    p <- c()
+    cond.R2 = marg.R2 = RMSE = RSE = AIC = BIC = data.frame(trt.only = NA, trt.batch = NA)
+    for(i in 1:ncol(data)){
+      res.lm0 <- lm(data[,i] ~ trt)
+      res.lmm <- lmer(data[,i] ~ trt + (1|batch))
+      summary.res0 <- summary(res.lm0)
+      summary.res <- summary(res.lmm)
+
+      model[[i]] <- res.lmm
+      p[i] <- summary.res$coefficients[2,4]
+
+      cond.R2[i, ] <- c(summary.res0$r.squared, as.numeric(r2(res.lmm)[1]))
+      marg.R2[i, ] <- c(NA, as.numeric(r2(res.lmm)[2]))
+      RMSE[i, ] <- c(rmse(res.lm0), rmse(res.lmm))
+      RSE[i, ] <- c(summary.res0$sigma, summary.res$sigma)
+      AIC[i, ] <- c(AIC(res.lm0), AIC(res.lmm))
+      BIC[i, ] <- c(BIC(res.lm0), BIC(res.lmm))
+    }
+    p.adj <- p.adjust(p, method = p.adjust.method)
+    R2 = adj.R2 = NA
+    rownames(cond.R2) = rownames(marg.R2) = colnames(data)
+  }
+  names(model) = names(p) = names(p.adj) = rownames(RMSE) = rownames(RSE) = rownames(AIC) = rownames(BIC) = colnames(data)
+
+  result = list(type = type,
                 model = model,
-                p.adjust.method = p.adjust.method)
+                raw.p = p,
+                adj.p = p.adj,
+                p.adjust.method = p.adjust.method,
+                R2 = R2,
+                adj.R2 = adj.R2,
+                cond.R2 = cond.R2,
+                marg.R2 = marg.R2,
+                RMSE = RMSE,
+                RSE = RSE,
+                AIC = AIC,
+                BIC = BIC)
 
   return(invisible(result))
-
 }
 
 

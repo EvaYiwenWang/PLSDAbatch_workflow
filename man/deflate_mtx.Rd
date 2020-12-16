@@ -22,9 +22,10 @@ It is a built-in funciton of \code{PLSDA_batch}.
 }
 \examples{
 set.seed(123)
+library(mixOmics) # pca
 X <- matrix(rnorm(100), ncol = 20)
 ## pca for original matrix
-pca.X <- mixOmics::pca(X)
+pca.X <- pca(X)
 ## deflate by the first PC and perform pca on the deflated matrix
 t <- pca.X$variates$X[,1]
 X.deflate <- deflate_mtx(X, t)

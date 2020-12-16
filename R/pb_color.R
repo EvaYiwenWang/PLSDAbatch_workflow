@@ -11,7 +11,7 @@
 #' A vector of colors (25 colors max.)
 #'
 #' @examples
-#' my.colors = pb_color(1:5)
+#' pb_color(1:5)
 #'
 #' @export
 pb_color <- function(num.vector){

@@ -25,12 +25,13 @@
 #' @export
 #'
 #' @examples
+#' library(mixOmics) # pca
 #' data('AD_data')
 #' ad.clr <- AD_data$EgData$X.clr
 #' ad.pca.before <- pca(ad.clr, ncomp = 3, scale = TRUE)
 #' ad.batch = AD_data$EgData$Y.bat
 #' ad.trt = AD_data$EgData$Y.trt
-#' Scatter_Density(project = ad.pca.before, batch = ad.batch, trt = ad.trt)
+#' Scatter_Density(object = ad.pca.before, batch = ad.batch, trt = ad.trt)
 #'
 #'
 Scatter_Density <- function(object,
@@ -102,6 +103,7 @@ Scatter_Density <- function(object,
 #'
 #' This function draws side-by-side box plots for each batch.
 #'
+#' @importFrom ggplot2 ggplot
 #' @param df A data frame used to draw the box plots.
 #' @param title Character, the plot title.
 #' @param batch.legend.title Character, the legend title of batches.
@@ -142,6 +144,7 @@ box_plot <- function(df, title = NULL,
 #'
 #' This function draws an overlap of multiple density plots for each batch.
 #'
+#' @importFrom ggplot2 ggplot
 #' @param df A data frame used to draw the density plots.
 #' @param title Character, the plot title.
 #' @param batch.legend.title Character, the legend title of batches.

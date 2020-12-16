@@ -13,6 +13,9 @@
 #' \item{var.idx}{The indexs of variables kept.}
 #' \item{zero.prob}{The proportion of zeros of the input data.}
 #'
+#' @references
+#' \insertRef{le2016mixmc}{PLSDAbatch}
+#'
 #' @export
 #'
 #' @examples

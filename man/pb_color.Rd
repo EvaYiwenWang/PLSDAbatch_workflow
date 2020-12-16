@@ -17,6 +17,6 @@ A vector of colors (25 colors max.)
 The function outputs a vector of colors.
 }
 \examples{
-my.colors = pb_color(1:5)
+pb_color(1:5)
 
 }
