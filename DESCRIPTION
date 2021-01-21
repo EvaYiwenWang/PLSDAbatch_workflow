@@ -18,7 +18,8 @@ Imports:
     ggplot2,
     gridExtra,
     ggpubr,
-    lmerTest
+    lmerTest,
+    performance
 Suggests: 
     knitr,
     rmarkdown,
