@@ -16,22 +16,8 @@ devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch")
 ```
 ### Installation with vignettes
 
-The listed CRAN and Bioconductor packages need to be installed first.
 ```r
-# CRAN
-cran.pkgs <- c('vegan', 'UpSetR', 'gplots', 'prettydoc', 'knitr', 'rmarkdown')
-install.packages(cran.pkgs)
-
-# Bioconductor
-bioc.pkgs <- c('sva', 'limma')
-
-if (!requireNamespace("BiocManager", quietly = TRUE))
-    install.packages("BiocManager")
-    
-BiocManager::install(bioc.pkgs)
-```
-```r
-devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch", build_vignettes = T)
+devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch", dependencies = T, build_vignettes = T)
 ```
 
 ## Reference
