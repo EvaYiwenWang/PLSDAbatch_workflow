@@ -7,8 +7,8 @@
 deflate_mtx(X, t)
 }
 \arguments{
-\item{X}{A numeric matrix to be deflated. It assumes that samples are on the row,
-while variables are on the column. \code{NA}s are not allowed.}
+\item{X}{A numeric matrix to be deflated. It assumes that samples are
+on the row, while variables are on the column. \code{NA}s are not allowed.}
 
 \item{t}{A component to be deflated out from the matrix.}
 }
@@ -16,28 +16,18 @@ while variables are on the column. \code{NA}s are not allowed.}
 A deflated matrix with the same dimension as the input matrix.
 }
 \description{
-This function removes the variance of given component \code{t} from the input matrix \code{X}.
-\deqn{\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X}
-It is a built-in funciton of \code{PLSDA_batch}.
+This function removes the variance of given component \code{t} from the
+input matrix \code{X}. \deqn{\hat{X} = X - t (t^{\top}t)^{-1}t^{\top}X}
+It is a built-in function of \code{PLSDA_batch}.
 }
 \examples{
-set.seed(123)
-library(mixOmics) # pca
-X <- matrix(rnorm(100), ncol = 20)
-## pca for original matrix
-pca.X <- pca(X)
-## deflate by the first PC and perform pca on the deflated matrix
-t <- pca.X$variates$X[,1]
-X.deflate <- deflate_mtx(X, t)
-pca.X.deflate <- mixOmics::pca(X.deflate)
-## see if the first PC of he deflated matrix
-## equals the second original pc in terms of absolute value
-pca.X.deflate$variates$X[,1]
-# -2.0265641 -0.7937048 -1.7010822  2.4479385  2.0734125
-pca.X$variates$X[,2]
-#  2.0265641  0.7937048  1.7010822 -2.4479385 -2.0734125
+# A built-in funciton of PLSDA_batch, not separately used.
+
 }
 \references{
 \insertRef{barker2003partial}{PLSDAbatch}
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }
 \keyword{Internal}

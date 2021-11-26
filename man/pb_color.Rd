@@ -7,8 +7,8 @@
 pb_color(num.vector)
 }
 \arguments{
-\item{num.vector}{An integer vector specifying which color to use in the palette
-(there are only 25 colors available).}
+\item{num.vector}{An integer vector specifying which color to use in
+the palette (there are only 25 colors available).}
 }
 \value{
 A vector of colors (25 colors max.)
@@ -17,6 +17,9 @@ A vector of colors (25 colors max.)
 The function outputs a vector of colors.
 }
 \examples{
-pb_color(1:5)
+pb_color(seq_len(5))
 
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

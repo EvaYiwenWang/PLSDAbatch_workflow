@@ -1,249 +1,234 @@
 $`PLSDA-batch`
-        Kingdom     Phylum      Class         Order          Family
-OTU189 Bacteria Firmicutes Clostridia Clostridiales      Family XIV
-OTU71  Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
-                   Genus         Species
-OTU189     unknown genus unknown species
-OTU71  Ruminiclostridium unknown species
+        Kingdom        Phylum          Class             Order
+OTU71  Bacteria    Firmicutes     Clostridia     Clostridiales
+OTU106  Archaea Euryarchaeota Thermoplasmata Thermoplasmatales
+OTU84  Bacteria    Firmicutes     Clostridia     Clostridiales
+OTU177 Bacteria    Firmicutes     Clostridia     Clostridiales
+                                 Family                         Genus
+OTU71                   Ruminococcaceae             Ruminiclostridium
+OTU106 Thermoplasmatales Incertae Sedis                 unknown genus
+OTU84                   Ruminococcaceae           Acetanaerobacterium
+OTU177              Christensenellaceae Christensenellaceae R-7 group
+               Species
+OTU71  unknown species
+OTU106 unknown species
+OTU84  unknown species
+OTU177 unknown species
 
 $`sPLSDA-batch`
+        Kingdom     Phylum      Class         Order
+OTU116 Bacteria Firmicutes Clostridia Clostridiales
+OTU209 Bacteria Firmicutes Clostridia Clostridiales
+OTU216 Bacteria Firmicutes Clostridia Clostridiales
+OTU87  Bacteria Firmicutes Clostridia Clostridiales
+                              Family          Genus                     Species
+OTU116 Clostridiales vadinBB60 group  unknown genus             unknown species
+OTU209                Peptococcaceae Sporotomaculum Sporotomaculum syntrophicum
+OTU216                    Family XIV  unknown genus             unknown species
+OTU87                 Peptococcaceae  Pelotomaculum             unknown species
+
+$`Before:ComBat`
         Kingdom     Phylum      Class         Order              Family
-OTU105 Bacteria Firmicutes Clostridia Clostridiales Syntrophomonadaceae
-OTU209 Bacteria Firmicutes Clostridia Clostridiales      Peptococcaceae
-                Genus                       Species
-OTU105 Syntrophomonas anaerobic digester metagenome
-OTU209 Sporotomaculum   Sporotomaculum syntrophicum
+OTU218 Bacteria Firmicutes Clostridia Clostridiales Christensenellaceae
+                               Genus         Species
+OTU218 Christensenellaceae R-7 group unknown species
 
-$`Before correction`
-        Kingdom        Phylum           Class              Order
-OTU140 Bacteria    Firmicutes      Clostridia      Clostridiales
-OTU12   Archaea Euryarchaeota Methanobacteria Methanobacteriales
-                    Family            Genus         Species
-OTU140          Family XIV    unknown genus unknown species
-OTU12  Methanobacteriaceae Methanobacterium unknown species
+$`Before:PLSDA-batch`
+        Kingdom      Phylum        Class          Order          Family
+OTU223 Bacteria Chloroflexi Anaerolineae Anaerolineales Anaerolineaceae
+               Genus                       Species
+OTU223 unknown genus anaerobic digester metagenome
 
-$removeBatchEffect
-       Kingdom        Phylum       Class         Order             Family
-OTU37 Bacteria Bacteroidetes Bacteroidia Bacteroidales Porphyromonadaceae
-               Genus           Species
-OTU37 Proteiniphilum Multi-affiliation
+$`Before:removeBatchEffect`
+        Kingdom        Phylum        Class          Order          Family
+OTU143 Bacteria  Spirochaetae Spirochaetes Spirochaetales Spirochaetaceae
+OTU211 Bacteria Synergistetes  Synergistia  Synergistales  Synergistaceae
+                Genus                    Species
+OTU143  Sphaerochaeta            unknown species
+OTU211 Aminobacterium Aminobacterium colombiense
 
 $`PLSDA-batch:sPLSDA-batch`
-        Kingdom     Phylum      Class         Order
-OTU8   Bacteria Firmicutes Clostridia Clostridiales
-OTU116 Bacteria Firmicutes Clostridia Clostridiales
-                              Family         Genus         Species
-OTU8                 Ruminococcaceae       Ercella unknown species
-OTU116 Clostridiales vadinBB60 group unknown genus unknown species
+        Kingdom        Phylum       Class         Order          Family
+OTU225 Bacteria Bacteroidetes Bacteroidia Bacteroidales Marinilabiaceae
+OTU17  Bacteria    Firmicutes  Clostridia Clostridiales Ruminococcaceae
+               Genus           Species
+OTU225 unknown genus   unknown species
+OTU17    Acetivibrio Multi-affiliation
 
 $`removeBatchEffect:ComBat`
-        Kingdom        Phylum        Class          Order          Family
-OTU121 Bacteria Bacteroidetes  Bacteroidia  Bacteroidales   Rikenellaceae
-OTU143 Bacteria  Spirochaetae Spirochaetes Spirochaetales Spirochaetaceae
-                                 Genus         Species
-OTU121 Blvii28 wastewater-sludge group unknown species
-OTU143                   Sphaerochaeta unknown species
+       Kingdom        Phylum       Class         Order              Family
+OTU91 Bacteria    Firmicutes  Clostridia Clostridiales      Peptococcaceae
+OTU16 Bacteria Synergistetes Synergistia Synergistales      Synergistaceae
+OTU85 Bacteria Synergistetes Synergistia Synergistales      Synergistaceae
+OTU18 Bacteria    Firmicutes  Clostridia Clostridiales Christensenellaceae
+              Genus           Species
+OTU91 unknown genus   unknown species
+OTU16 unknown genus   unknown species
+OTU85 unknown genus Multi-affiliation
+OTU18 unknown genus   unknown species
 
-$`Before correction:PLSDA-batch`
-       Kingdom     Phylum      Class         Order          Family
-OTU84 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
-                    Genus         Species
-OTU84 Acetanaerobacterium unknown species
+$`Before:ComBat:PLSDA-batch`
+        Kingdom      Phylum        Class          Order          Family
+OTU159 Bacteria Chloroflexi Anaerolineae Anaerolineales Anaerolineaceae
+               Genus         Species
+OTU159 unknown genus unknown species
 
-$`Before correction:sPLSDA-batch`
-        Kingdom     Phylum         Class           Order             Family
-OTU164 Bacteria Firmicutes Negativicutes Selenomonadales     unknown family
-OTU119 Bacteria Firmicutes    Clostridia   Clostridiales     Peptococcaceae
-OTU64  Bacteria Firmicutes    Clostridia   Clostridiales Gracilibacteraceae
-                   Genus           Species
-OTU164     unknown genus   unknown species
-OTU119     Pelotomaculum   unknown species
-OTU64  Multi-affiliation Multi-affiliation
+$`Before:PLSDA-batch:sPLSDA-batch`
+        Kingdom     Phylum      Class         Order              Family
+OTU105 Bacteria Firmicutes Clostridia Clostridiales Syntrophomonadaceae
+                Genus                       Species
+OTU105 Syntrophomonas anaerobic digester metagenome
 
-$`ComBat:PLSDA-batch:sPLSDA-batch`
-       Kingdom        Phylum Class         Order         Family         Genus
-OTU90 Bacteria Cloacimonetes    W5 unknown order unknown family unknown genus
-              Species
-OTU90 unknown species
+$`Before:removeBatchEffect:ComBat:PLSDA-batch`
+        Kingdom     Phylum      Class       Order         Family         Genus
+OTU117 Bacteria Firmicutes Clostridia B55-F-B-G02 unknown family unknown genus
+               Species
+OTU117 unknown species
 
-$`Before correction:ComBat:PLSDA-batch`
-       Kingdom     Phylum   Class      Order           Family            Genus
-OTU31 Bacteria Firmicutes Bacilli Bacillales Paenibacillaceae Aneurinibacillus
-              Species
-OTU31 unknown species
-
-$`removeBatchEffect:ComBat:PLSDA-batch`
-       Kingdom        Phylum          Class             Order
-OTU106 Archaea Euryarchaeota Thermoplasmata Thermoplasmatales
-                                 Family         Genus         Species
-OTU106 Thermoplasmatales Incertae Sedis unknown genus unknown species
-
-$`Before correction:ComBat:sPLSDA-batch`
-       Kingdom     Phylum      Class         Order          Family
-OTU94 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
-               Genus                                     Species
-OTU94 Ruminococcus 1 bacterium enrichment culture clone KWE55-24
-
-$`removeBatchEffect:ComBat:sPLSDA-batch`
-       Kingdom     Phylum      Class         Order           Family
-OTU41 Bacteria Firmicutes Clostridia Clostridiales  Ruminococcaceae
-OTU58 Bacteria Firmicutes Clostridia Clostridiales Clostridiaceae 2
-                          Genus              Species
-OTU41             unknown genus      unknown species
-OTU58 Clostridium sensu stricto Clostridium aceticum
-
-$`Before correction:PLSDA-batch:sPLSDA-batch`
-       Kingdom     Phylum      Class Order         Family         Genus
-OTU96 Bacteria Firmicutes Clostridia MBA03 unknown family unknown genus
-              Species
-OTU96 unknown species
-
-$`Before correction:removeBatchEffect:ComBat`
-       Kingdom      Phylum      Class Order         Family         Genus
-OTU75 Bacteria Tenericutes Mollicutes NB1-n unknown family unknown genus
-              Species
-OTU75 unknown species
-
-$`Before correction:removeBatchEffect:sPLSDA-batch`
-        Kingdom     Phylum      Class         Order
-OTU210 Bacteria Firmicutes Clostridia Clostridiales
-                              Family         Genus         Species
-OTU210 Clostridiales vadinBB60 group unknown genus unknown species
+$`Before:removeBatchEffect:ComBat:sPLSDA-batch`
+        Kingdom         Phylum               Class             Order
+OTU130 Bacteria     Firmicutes             Bacilli      TSCOR001-H18
+OTU145 Bacteria Proteobacteria Deltaproteobacteria Bdellovibrionales
+OTU44  Bacteria Planctomycetes       Phycisphaerae     KCLunmb-38-53
+                   Family         Genus         Species
+OTU130     unknown family unknown genus unknown species
+OTU145 Bacteriovoracaceae unknown genus unknown species
+OTU44      unknown family unknown genus unknown species
 
 $`removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
-       Kingdom        Phylum       Class         Order              Family
-OTU14 Bacteria    Firmicutes  Clostridia Clostridiales Christensenellaceae
-OTU40 Bacteria Bacteroidetes Bacteroidia Bacteroidales  Porphyromonadaceae
-OTU52 Bacteria Bacteroidetes Bacteroidia Bacteroidales       Rikenellaceae
-                                  Genus         Species
-OTU14                     unknown genus unknown species
-OTU40                    Proteiniphilum unknown species
-OTU52 vadinBC27 wastewater-sludge group unknown species
+       Kingdom     Phylum      Class         Order              Family
+OTU19 Bacteria Firmicutes Clostridia Clostridiales          Family XIV
+OTU41 Bacteria Firmicutes Clostridia Clostridiales     Ruminococcaceae
+OTU9  Bacteria Firmicutes Clostridia Clostridiales Christensenellaceae
+OTU27 Bacteria Firmicutes Clostridia Clostridiales Christensenellaceae
+                              Genus         Species
+OTU19                 unknown genus unknown species
+OTU41                 unknown genus unknown species
+OTU9  Christensenellaceae R-7 group unknown species
+OTU27                 unknown genus unknown species
 
-$`Before correction:removeBatchEffect:ComBat:PLSDA-batch`
-        Kingdom          Phylum         Class         Order              Family
-OTU184 Bacteria      Firmicutes    Clostridia Clostridiales Syntrophomonadaceae
-OTU218 Bacteria      Firmicutes    Clostridia Clostridiales Christensenellaceae
-OTU151 Bacteria      Firmicutes    Clostridia Clostridiales Christensenellaceae
-OTU129 Bacteria Armatimonadetes unknown class unknown order      unknown family
-OTU248 Bacteria   Bacteroidetes   Bacteroidia Bacteroidales     Marinilabiaceae
-                               Genus           Species
-OTU184                Syntrophomonas   unknown species
-OTU218 Christensenellaceae R-7 group   unknown species
-OTU151 Christensenellaceae R-7 group   unknown species
-OTU129                 unknown genus   unknown species
-OTU248              Ruminofilibacter Multi-affiliation
-
-$`Before correction:removeBatchEffect:ComBat:sPLSDA-batch`
-       Kingdom      Phylum        Class          Order          Family
-OTU51 Bacteria Chloroflexi Anaerolineae Anaerolineales Anaerolineaceae
-              Genus         Species
-OTU51 unknown genus unknown species
-
-$`Before correction:removeBatchEffect:PLSDA-batch:sPLSDA-batch`
-        Kingdom     Phylum      Class   Order         Family         Genus
-OTU118 Bacteria Firmicutes Clostridia M55-D21 unknown family unknown genus
-               Species
-OTU118 unknown species
-
-$`Before correction:removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
-        Kingdom         Phylum               Class                  Order
-OTU144 Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU35  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU16  Bacteria  Synergistetes         Synergistia          Synergistales
-OTU193 Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU68  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU6   Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU127 Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU46  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU138 Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU5   Bacteria  Bacteroidetes         Bacteroidia          Bacteroidales
-OTU110 Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU23  Bacteria Proteobacteria Deltaproteobacteria      Bdellovibrionales
-OTU24  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU130 Bacteria     Firmicutes             Bacilli           TSCOR001-H18
-OTU65  Bacteria     Firmicutes          Clostridia Thermoanaerobacterales
-OTU54  Bacteria     Firmicutes    Erysipelotrichia     Erysipelotrichales
-OTU198 Bacteria  Bacteroidetes         Bacteroidia          Bacteroidales
-OTU7   Bacteria  Bacteroidetes         Bacteroidia          Bacteroidales
-OTU48  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU104 Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU88  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU59  Bacteria     Firmicutes          Clostridia Thermoanaerobacterales
-OTU43  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU74  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU145 Bacteria Proteobacteria Deltaproteobacteria      Bdellovibrionales
-OTU62  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU28  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU61  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU38  Bacteria    Chloroflexi        Anaerolineae         Anaerolineales
-OTU19  Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU9   Bacteria     Firmicutes          Clostridia          Clostridiales
-OTU222 Bacteria Proteobacteria Gammaproteobacteria           Chromatiales
+$`Before:removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
+        Kingdom          Phylum               Class                  Order
+OTU46  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU24  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU68  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU59  Bacteria      Firmicutes          Clostridia Thermoanaerobacterales
+OTU28  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU104 Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU61  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU35  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU118 Bacteria      Firmicutes          Clostridia                M55-D21
+OTU65  Bacteria      Firmicutes          Clostridia Thermoanaerobacterales
+OTU193 Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU54  Bacteria      Firmicutes    Erysipelotrichia     Erysipelotrichales
+OTU96  Bacteria      Firmicutes          Clostridia                  MBA03
+OTU88  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU43  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU6   Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU62  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU56  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU198 Bacteria   Bacteroidetes         Bacteroidia          Bacteroidales
+OTU144 Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU23  Bacteria  Proteobacteria Deltaproteobacteria      Bdellovibrionales
+OTU48  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU135 Bacteria   Bacteroidetes         Bacteroidia          Bacteroidales
+OTU51  Bacteria     Chloroflexi        Anaerolineae         Anaerolineales
+OTU74  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU138 Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU205 Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU7   Bacteria   Bacteroidetes         Bacteroidia          Bacteroidales
+OTU36  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU127 Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU151 Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU5   Bacteria   Bacteroidetes         Bacteroidia          Bacteroidales
+OTU64  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU94  Bacteria      Firmicutes          Clostridia          Clostridiales
+OTU76  Bacteria Armatimonadetes    Chthonomonadetes       Chthonomonadales
+OTU248 Bacteria   Bacteroidetes         Bacteroidia          Bacteroidales
                               Family                           Genus
-OTU144 Clostridiales vadinBB60 group                   unknown genus
-OTU35            Syntrophomonadaceae                  Syntrophomonas
-OTU16                 Synergistaceae                   unknown genus
-OTU193               Lachnospiraceae                      Tyzzerella
-OTU68                     Family XIV                   unknown genus
-OTU6                 Lachnospiraceae                     Mobilitalea
-OTU127  Clostridiales Incertae Sedis                   Proteiniborus
 OTU46                Ruminococcaceae               Ruminiclostridium
-OTU138               Ruminococcaceae               Ruminiclostridium
-OTU5                 Marinilabiaceae                Ruminofilibacter
-OTU110               Lachnospiraceae               Anaerosporobacter
-OTU23             Bacteriovoracaceae                   unknown genus
 OTU24             Gracilibacteraceae                       Lutispora
-OTU130                unknown family                   unknown genus
-OTU65                           SRB2                   unknown genus
-OTU54            Erysipelotrichaceae     Erysipelotrichaceae UCG-004
-OTU198               Marinilabiaceae                Ruminofilibacter
-OTU7                   Rikenellaceae Blvii28 wastewater-sludge group
-OTU48                Lachnospiraceae               Anaerosporobacter
-OTU104                Peptococcaceae                   Pelotomaculum
-OTU88          Caldicoprobacteraceae                Caldicoprobacter
+OTU68                     Family XIV                   unknown genus
 OTU59        Thermoanaerobacteraceae                        Moorella
-OTU43                Ruminococcaceae               Ruminiclostridium
-OTU74                Lachnospiraceae                   unknown genus
-OTU145            Bacteriovoracaceae                   unknown genus
-OTU62  Clostridiales vadinBB60 group                   unknown genus
 OTU28              Heliobacteriaceae                  Hydrogenispora
+OTU104                Peptococcaceae                   Pelotomaculum
 OTU61             Gracilibacteraceae               Multi-affiliation
-OTU38                Anaerolineaceae                   unknown genus
-OTU19                     Family XIV                   unknown genus
-OTU9             Christensenellaceae   Christensenellaceae R-7 group
-OTU222        Ectothiorhodospiraceae                 Thioalkalispira
-                 Species
-OTU144   unknown species
-OTU35    unknown species
-OTU16    unknown species
-OTU193   unknown species
-OTU68    unknown species
-OTU6     unknown species
-OTU127 Multi-affiliation
-OTU46    unknown species
-OTU138   unknown species
-OTU5   Multi-affiliation
-OTU110 Multi-affiliation
-OTU23    unknown species
-OTU24    unknown species
-OTU130   unknown species
-OTU65    unknown species
-OTU54    unknown species
-OTU198 Multi-affiliation
-OTU7     unknown species
-OTU48    unknown species
-OTU104 Multi-affiliation
-OTU88    unknown species
-OTU59  Multi-affiliation
-OTU43    unknown species
-OTU74    unknown species
-OTU145   unknown species
-OTU62    unknown species
-OTU28    unknown species
-OTU61  Multi-affiliation
-OTU38    unknown species
-OTU19    unknown species
-OTU9     unknown species
-OTU222   unknown species
+OTU35            Syntrophomonadaceae                  Syntrophomonas
+OTU118                unknown family                   unknown genus
+OTU65                           SRB2                   unknown genus
+OTU193               Lachnospiraceae                      Tyzzerella
+OTU54            Erysipelotrichaceae     Erysipelotrichaceae UCG-004
+OTU96                 unknown family                   unknown genus
+OTU88          Caldicoprobacteraceae                Caldicoprobacter
+OTU43                Ruminococcaceae               Ruminiclostridium
+OTU6                 Lachnospiraceae                     Mobilitalea
+OTU62  Clostridiales vadinBB60 group                   unknown genus
+OTU56            Christensenellaceae   Christensenellaceae R-7 group
+OTU198               Marinilabiaceae                Ruminofilibacter
+OTU144 Clostridiales vadinBB60 group                   unknown genus
+OTU23             Bacteriovoracaceae                   unknown genus
+OTU48                Lachnospiraceae               Anaerosporobacter
+OTU135            Porphyromonadaceae                  Proteiniphilum
+OTU51                Anaerolineaceae                   unknown genus
+OTU74                Lachnospiraceae                   unknown genus
+OTU138               Ruminococcaceae               Ruminiclostridium
+OTU205           Christensenellaceae                   unknown genus
+OTU7                   Rikenellaceae Blvii28 wastewater-sludge group
+OTU36                     Family XIV                   unknown genus
+OTU127  Clostridiales Incertae Sedis                   Proteiniborus
+OTU151           Christensenellaceae   Christensenellaceae R-7 group
+OTU5                 Marinilabiaceae                Ruminofilibacter
+OTU64             Gracilibacteraceae               Multi-affiliation
+OTU94                Ruminococcaceae                  Ruminococcus 1
+OTU76                 unknown family                   unknown genus
+OTU248               Marinilabiaceae                Ruminofilibacter
+                                           Species
+OTU46                              unknown species
+OTU24                              unknown species
+OTU68                              unknown species
+OTU59                            Multi-affiliation
+OTU28                              unknown species
+OTU104                           Multi-affiliation
+OTU61                            Multi-affiliation
+OTU35                              unknown species
+OTU118                             unknown species
+OTU65                              unknown species
+OTU193                             unknown species
+OTU54                              unknown species
+OTU96                              unknown species
+OTU88                              unknown species
+OTU43                              unknown species
+OTU6                               unknown species
+OTU62                              unknown species
+OTU56                              unknown species
+OTU198                           Multi-affiliation
+OTU144                             unknown species
+OTU23                              unknown species
+OTU48                              unknown species
+OTU135                           Multi-affiliation
+OTU51                              unknown species
+OTU74                              unknown species
+OTU138                             unknown species
+OTU205                             unknown species
+OTU7                               unknown species
+OTU36                              unknown species
+OTU127                           Multi-affiliation
+OTU151                             unknown species
+OTU5                             Multi-affiliation
+OTU64                            Multi-affiliation
+OTU94  bacterium enrichment culture clone KWE55-24
+OTU76                              unknown species
+OTU248                           Multi-affiliation
+
+$Before
+        Kingdom        Phylum           Class              Order
+OTU110 Bacteria    Firmicutes      Clostridia      Clostridiales
+OTU141 Bacteria    Firmicutes      Clostridia      Clostridiales
+OTU31  Bacteria    Firmicutes         Bacilli         Bacillales
+OTU86   Archaea Euryarchaeota Methanomicrobia Methanomicrobiales
+                    Family             Genus           Species
+OTU110     Lachnospiraceae Anaerosporobacter Multi-affiliation
+OTU141     Ruminococcaceae     unknown genus   unknown species
+OTU31     Paenibacillaceae  Aneurinibacillus   unknown species
+OTU86  Methanomicrobiaceae    Methanoculleus   unknown species
 

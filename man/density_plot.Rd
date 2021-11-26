@@ -9,6 +9,7 @@ density_plot(
   title = NULL,
   batch.legend.title = "Batch",
   xlab = "Value",
+  color.set = NULL,
   title.hjust = 0.5
 )
 }
@@ -21,7 +22,11 @@ density_plot(
 
 \item{xlab}{Character, x-axis title.}
 
-\item{title.hjust}{Numeric, horizontal justification of the plot title, in the range of \eqn{0} to \eqn{1}.}
+\item{color.set}{A vector of character, indicating the set of colors to use.
+The colors are represented by hexadecimal color code.}
+
+\item{title.hjust}{Numeric, horizontal justification of the plot title,
+in the range of \eqn{0} to \eqn{1}.}
 }
 \value{
 none
@@ -30,10 +35,23 @@ none
 This function draws an overlap of multiple density plots for each batch.
 }
 \examples{
+# The first example
 data('AD_data')
-ad.clr <- AD_data$EgData$X.clr
-ad.batch = AD_data$EgData$Y.bat
+ad.clr <- AD_data$EgData$X.clr # centered log ratio transformed data
+ad.batch = AD_data$EgData$Y.bat # batch information
 ad.df <- data.frame(value = ad.clr[,1], batch = ad.batch)
 density_plot(df = ad.df, title = 'OTU 12')
 
+# The second example
+colorlist <- rainbow(10)
+density_plot(df = ad.df, title = 'OTU 12', color.set = colorlist)
+
+}
+\seealso{
+\code{\link{Scatter_Density}}, \code{\link{box_plot}},
+\code{\link{alignment_score}} and \code{\link{partVar_plot}} as the other
+methods for batch effect detection and batch effect removal assessment.
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

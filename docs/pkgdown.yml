@@ -1,8 +1,8 @@
-pandoc: 1.19.2.1
+pandoc: 2.14.0.3
 pkgdown: 1.6.1
 pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
   simulation_study: simulation_study.html
-last_built: 2021-01-22T03:58Z
+last_built: 2021-11-26T07:06Z
 

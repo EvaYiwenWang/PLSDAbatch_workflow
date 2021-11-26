@@ -7,7 +7,8 @@
 PreFL(data, keep.spl = 10, keep.var = 0.01)
 }
 \arguments{
-\item{data}{The data to be prefiltered. The samples in rows and variables in columns.}
+\item{data}{The data to be prefiltered. The samples in rows and variables
+in columns.}
 
 \item{keep.spl}{The minimum counts of a sample to be kept.}
 
@@ -21,11 +22,12 @@ PreFL(data, keep.spl = 10, keep.var = 0.01)
 \item{zero.prob}{The proportion of zeros of the input data.}
 }
 \description{
-This function prefilters the data to remove samples or microbial variables with excess zeroes.
+This function prefilters the data to remove samples or microbial variables
+with excess zeroes.
 }
 \examples{
 data('AD_data')
-ad.count <- AD_data$FullData$X.count
+ad.count <- AD_data$FullData$X.count # microbial count data
 ad.filter.res <- PreFL(data = ad.count)
 
 # The proportion of zeroes of the AD count data
@@ -38,4 +40,7 @@ ad.filter <- ad.filter.res$data.filter
 }
 \references{
 \insertRef{le2016mixmc}{PLSDAbatch}
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

@@ -7,31 +7,26 @@
 percentileofscore(df, control.index)
 }
 \arguments{
-\item{df}{A data frame that contains the microbial variables and required to be converted into percentile scores.
-Samples as rows and variables as columns.}
+\item{df}{A data frame that contains the microbial variables and required to
+be converted into percentile scores. Samples as rows and variables
+as columns.}
 
-\item{control.index}{A numeric vector that contains the indexes of control samples.}
+\item{control.index}{A numeric vector that contains the indexes
+of control samples.}
 }
 \value{
-A data frame of percentile scores for each microbial variable and each sample.
+A data frame of percentile scores for each microbial variable
+and each sample.
 }
 \description{
-This function converts the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples
-to percentiles of the equivalent variables in control (i.e. healthy) samples.
+This function converts the relative abundance of microbial variables
+(i.e. bacterial taxa) in case (i.e. disease) samples to percentiles of
+the equivalent variables in control (i.e. healthy) samples.
+It is a built-in function of \code{percentile_norm}.
 }
 \examples{
+# A built-in function of percentile_norm, not separately used.
 
-data('AD_data')
-ad.clr <- AD_data$EgData$X.clr
-ad.batch = AD_data$EgData$Y.bat
-ad.trt = AD_data$EgData$Y.trt
-
-batch1.idx <- which(ad.batch == '09/04/2015')
-trt.batch1 <- ad.trt[batch1.idx]
-ad.batch1 <- ad.clr[batch1.idx, ]
-control.idx = which(trt.batch1 == '0-0.5')
-
-ad.batch1.pn = percentileofscore(ad.batch1, control.idx)
 
 
 }

@@ -40,8 +40,9 @@
 
 
 <meta property="og:title" content="Linear Regression — linear_regres" />
-<meta property="og:description" content="This function fits linear regression (linear model or linear mixed model) on each microbial variable
-and includes treatment and batch effects as covariates. It generates p-values, adjusted p-values for
+<meta property="og:description" content="This function fits linear regression (linear model or linear mixed model) on
+each microbial variable and includes treatment and batch effects as
+covariates. It generates p-values, adjusted p-values for
 multiple comparisons, and evaluation metrics of model quality." />
 
 
@@ -74,7 +75,7 @@ multiple comparisons, and evaluation metrics of model quality." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -82,7 +83,7 @@ multiple comparisons, and evaluation metrics of model quality." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,6 +104,9 @@ multiple comparisons, and evaluation metrics of model quality." />
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -126,67 +130,97 @@ multiple comparisons, and evaluation metrics of model quality." />
     </div>
 
     <div class="ref-description">
-    <p>This function fits linear regression (linear model or linear mixed model) on each microbial variable
-and includes treatment and batch effects as covariates. It generates p-values, adjusted p-values for
+    <p>This function fits linear regression (linear model or linear mixed model) on
+each microbial variable and includes treatment and batch effects as
+covariates. It generates p-values, adjusted p-values for
 multiple comparisons, and evaluation metrics of model quality.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>linear_regres</span><span class='op'>(</span><span class='va'>data</span>, <span class='va'>trt</span>, <span class='va'>batch</span>, type <span class='op'>=</span> <span class='st'>"linear model"</span>, p.adjust.method <span class='op'>=</span> <span class='st'>"fdr"</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>linear_regres</span><span class='op'>(</span>
+  <span class='va'>data</span>,
+  <span class='va'>trt</span>,
+  batch.fix <span class='op'>=</span> <span class='cn'>NULL</span>,
+  batch.fix2 <span class='op'>=</span> <span class='cn'>NULL</span>,
+  batch.random <span class='op'>=</span> <span class='cn'>NULL</span>,
+  type <span class='op'>=</span> <span class='st'>"linear model"</span>,
+  p.adjust.method <span class='op'>=</span> <span class='st'>"fdr"</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame that contains the response variables for the linear regression.
-Samples as rows and variables as columns.</p></td>
+      <td><p>A data frame that contains the response variables for
+the linear regression. Samples as rows and variables as columns.</p></td>
     </tr>
     <tr>
       <th>trt</th>
-      <td><p>A factor or a class vector for the treatment grouping information (categorical outcome variable).</p></td>
+      <td><p>A factor or a class vector for the treatment grouping information
+(categorical outcome variable).</p></td>
     </tr>
     <tr>
-      <th>batch</th>
-      <td><p>A factor or a class vector for the batch grouping information (categorical outcome variable).</p></td>
+      <th>batch.fix</th>
+      <td><p>A factor or a class vector for the batch grouping information
+(categorical outcome variable), treated as a fixed effect in the model.</p></td>
+    </tr>
+    <tr>
+      <th>batch.fix2</th>
+      <td><p>A factor or a class vector for a second batch grouping information
+(categorical outcome variable), treated as a fixed effect in the model.</p></td>
+    </tr>
+    <tr>
+      <th>batch.random</th>
+      <td><p>A factor or a class vector for the batch grouping information
+(categorical outcome variable), treated as a random effect in the model.</p></td>
     </tr>
     <tr>
       <th>type</th>
-      <td><p>The type of model to be used for fitting, either 'linear model' or 'linear mixed model'.</p></td>
+      <td><p>The type of model to be used for fitting, either 'linear model'
+or 'linear mixed model'.</p></td>
     </tr>
     <tr>
       <th>p.adjust.method</th>
-      <td><p>The method to be used for p-value adjustment, either "holm", "hochberg", "hommel",
-"bonferroni", "BH", "BY", "fdr" or "none".</p></td>
+      <td><p>The method to be used for p-value adjustment, either
+"holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr" or "none".</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>linear_regres</code> returns a list that contains the following components:</p>
+    <p><code>linear_regres</code> returns a list that contains
+the following components:</p>
 <dt>type</dt><dd><p>The type of model used for fitting.</p></dd>
 <dt>model</dt><dd><p>Each object fitted.</p></dd>
 <dt>raw.p</dt><dd><p>The p-values for each response variable.</p></dd>
 <dt>adj.p</dt><dd><p>The adjusted p-values for each response variable.</p></dd>
 <dt>p.adjust.method</dt><dd><p>The method used for p-value adjustment.</p></dd>
-<dt>R2</dt><dd><p>The proportion of variation in the response variable that is explained by the predictor variables.
-A higher R2 indicates a better model. Results for 'linear model' only.</p></dd>
-<dt>adj.R2</dt><dd><p>Adjusted R2 for many predictor variables in the model. Results for 'linear model' only.</p></dd>
-<dt>cond.R2</dt><dd><p>The proportion of variation in the response variable that is explained by the "complete" model with all covariates.
-Results for 'linear mixed model' only. Similar to <code>R2</code> in linear model.</p></dd>
-<dt>marg.R2</dt><dd><p>The proportion of variation in the response variable that is explained by the fixed effects part only.
-Results for 'linear mixed model' only.</p></dd>
-<dt>RMSE</dt><dd><p>The average error performed by the model in predicting the outcome for an observation.
-A lower RMSE indicates a better model.</p></dd>
-<dt>RSE</dt><dd><p>also known as the model \(sigma\), is a variant of the RMSE adjusted for the number of predictors in the model.
-A lower RSE indicates a better model.</p></dd>
-<dt>AIC</dt><dd><p>A penalisation value for including additional predictor variables to a model.
-A lower AIC indicates a better model.</p></dd>
-<dt>BIC</dt><dd><p>is a variant of AIC with a stronger penalty for including additional variables to the model.</p></dd>
+<dt>R2</dt><dd><p>The proportion of variation in the response variable that is
+explained by the predictor variables. A higher R2 indicates a better model.
+Results for 'linear model' only.</p></dd>
+<dt>adj.R2</dt><dd><p>Adjusted R2 for many predictor variables in the model.
+Results for 'linear model' only.</p></dd>
+<dt>cond.R2</dt><dd><p>The proportion of variation in the response variable that is
+explained by the "complete" model with all covariates. Results for
+'linear mixed model' only. Similar to <code>R2</code> in linear model.</p></dd>
+<dt>marg.R2</dt><dd><p>The proportion of variation in the response variable that is
+explained by the fixed effects part only. Results for 'linear mixed
+model' only.</p></dd>
+<dt>RMSE</dt><dd><p>The average error performed by the model in predicting the
+outcome for an observation. A lower RMSE indicates a better model.</p></dd>
+<dt>RSE</dt><dd><p>also known as the model \(sigma\), is a variant of the RMSE
+adjusted for the number of predictors in the model. A lower RSE indicates
+a better model.</p></dd>
+<dt>AIC</dt><dd><p>A penalisation value for including additional predictor variables
+to a model. A lower AIC indicates a better model.</p></dd>
+<dt>BIC</dt><dd><p>is a variant of AIC with a stronger penalty for including
+additional variables to the model.</p></dd>
 
     <h2 class="hasAnchor" id="note"><a class="anchor" href="#note"></a>Note</h2>
 
-    <p><code>R2, adj.R2, cond.R2, marg.R2, RMSE, RSE, AIC, BIC</code> all include the results of two models:
-(i) the full input model; (ii) a model without batch effects. It can help to decide whether it is better to include
+    <p><code>R2, adj.R2, cond.R2, marg.R2, RMSE, RSE, AIC, BIC</code> all include
+the results of two models: (i) the full input model; (ii) a model without
+batch effects. It can help to decide whether it is better to include
 batch effects.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
@@ -195,23 +229,33 @@ batch effects.</p>
 <em>CRAN</em>.
 doi: <a href='https://doi.org/10.5281/zenodo.3952174'>10.5281/zenodo.3952174</a>
 , R package, <a href='https://easystats.github.io/performance/'>https://easystats.github.io/performance/</a>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='percentile_norm.html'>percentile_norm</a></code> and <code><a href='PLSDA_batch.html'>PLSDA_batch</a></code> as
+the other methods for batch effect management.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span>
-<span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
-<span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
-<span class='va'>ad.lm</span> <span class='op'>&lt;-</span> <span class='fu'>linear_regres</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ad.clr</span>, trt <span class='op'>=</span> <span class='va'>ad.trt</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span>, type <span class='op'>=</span> <span class='st'>'linear model'</span><span class='op'>)</span>
-<span class='va'>ad.p.adj</span> <span class='op'>&lt;-</span> <span class='va'>ad.lm</span><span class='op'>$</span><span class='va'>p_adjusted</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ad.lm</span><span class='op'>$</span><span class='va'>AIC</span><span class='op'>)</span>
-</div><div class='output co'>#&gt;        trt.only trt.batch
-#&gt; OTU12  149.0561  148.4462
-#&gt; OTU29  360.4399  282.9743
-#&gt; OTU77  321.3516  292.6329
-#&gt; OTU86  343.0049  332.9086
-#&gt; OTU97  320.6854  314.7863
-#&gt; OTU106 355.7054  175.1453</div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'># centered log ratio transformed data</span></span>
+<span class='r-in'><span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span> <span class='co'># batch information</span></span>
+<span class='r-in'><span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span> <span class='co'># treatment information</span></span>
+<span class='r-in'><span class='va'>ad.lm</span> <span class='op'>&lt;-</span> <span class='fu'>linear_regres</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ad.clr</span>, trt <span class='op'>=</span> <span class='va'>ad.trt</span>,</span>
+<span class='r-in'>                       batch.fix <span class='op'>=</span> <span class='va'>ad.batch</span>,</span>
+<span class='r-in'>                       type <span class='op'>=</span> <span class='st'>'linear model'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.p.adj</span> <span class='op'>&lt;-</span> <span class='va'>ad.lm</span><span class='op'>$</span><span class='va'>p_adjusted</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/head.html'>head</a></span><span class='op'>(</span><span class='va'>ad.lm</span><span class='op'>$</span><span class='va'>AIC</span><span class='op'>)</span></span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span>        trt.only trt.batch</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> OTU12  208.5626 164.13617</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> OTU29  266.0485 154.99072</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> OTU77  180.7800 134.80638</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> OTU86  212.2987 206.13722</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> OTU97  161.6715 119.90108</span>
+<span class='r-out co'><span class='r-pr'>#&gt;</span> OTU106 205.4135  59.17005</span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

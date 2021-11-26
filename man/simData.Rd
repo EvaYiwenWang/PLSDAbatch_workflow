@@ -20,38 +20,48 @@ simData(
 )
 }
 \arguments{
-\item{bat.mean}{Numeric, the absolute mean of two batches respectively in batch associated components.}
+\item{bat.mean}{Numeric, the absolute mean of two batches respectively
+in batch associated components.}
 
 \item{sd.bat}{Numeric, the variability of batch effects.}
 
-\item{trt.mean}{Numeric, the absolute mean of two treatment groups respectively in treatment associated components.}
+\item{trt.mean}{Numeric, the absolute mean of two treatment groups
+respectively in treatment associated components.}
 
 \item{sd.trt}{Numeric, the variability of treatment effects.}
 
-\item{noise}{Numeric, the variability (standard deviation) of background noise.}
+\item{noise}{Numeric, the variability (standard deviation) of
+background noise.}
 
 \item{N}{Integer, the number of samples.}
 
 \item{p_total}{Integer, the number of variables.}
 
-\item{p_trt_relevant}{Integer, the number of variables affected with treatment effects.}
+\item{p_trt_relevant}{Integer, the number of variables affected with
+treatment effects.}
 
-\item{p_bat_relevant}{Integer, the number of variables affected with batch effects.}
+\item{p_bat_relevant}{Integer, the number of variables affected with
+batch effects.}
 
 \item{percentage_samples}{Numeric, in the range of \eqn{0} to \eqn{1},
 the percentage of samples in the first batch and first treatment group.}
 
-\item{percentage_overlap_variables}{Numeric, in the range of \eqn{0} to \eqn{1},
-the percentage of variables with both batch and treatment effects given fixed number of variables with each effect.}
+\item{percentage_overlap_variables}{Numeric, in the range of
+\eqn{0} to \eqn{1},
+the percentage of variables with both batch and treatment effects given
+fixed number of variables with each effect.}
 
-\item{seeds}{Integer. Default value is randomly selected from \eqn{0} to \eqn{999}.}
+\item{seeds}{Integer. Default value is randomly selected from
+\eqn{0} to \eqn{999}.}
 }
 \value{
 \code{simData} returns a list that contains the following components:
 \item{data}{The simulated data.}
 \item{cleanData}{The ground-truth data without the batch effect.}
-\item{Y.trt}{The simulated outcome variable indicating the treatment grouping information.}
-\item{Y.bat}{The simulated outcome variable indicating the batch grouping information.}
+\item{Y.trt}{The simulated outcome variable indicating the treatment
+grouping information.}
+\item{Y.bat}{The simulated outcome variable indicating the batch
+grouping information.}
 \item{true.trt}{The variables assigned with the treatment effect.}
 \item{true.batch}{The variables assigned with the batch effect.}
 \item{tComp_relevant}{The component simulated with the treatment effect.}
@@ -67,17 +77,24 @@ using component-based and multivariate strategy.
 ## Balanced batch x treatment design
 i = 1
 simulation1 <- simData(bat.mean = 7, sd.bat = 8, trt.mean = 3, sd.trt = 2,
-                       N = 40, p_total = 300, p_trt_relevant = 60, p_bat_relevant = 150,
-                       percentage_samples = 0.5, percentage_overlap_variables = 0.5)
+                       N = 40, p_total = 300, p_trt_relevant = 60,
+                       p_bat_relevant = 150,
+                       percentage_samples = 0.5,
+                       percentage_overlap_variables = 0.5)
 
 ## Second example
 ## Unbalanced batch x treatment design
 i = 1
 simulation2 <- simData(bat.mean = 7, sd.bat = 8, trt.mean = 3, sd.trt = 2,
-                       N = 40, p_total = 300, p_trt_relevant = 60, p_bat_relevant = 150,
-                       percentage_samples = 0.2, percentage_overlap_variables = 0.5)
+                       N = 40, p_total = 300, p_trt_relevant = 60,
+                       p_bat_relevant = 150,
+                       percentage_samples = 0.2,
+                       percentage_overlap_variables = 0.5)
 
 }
 \references{
 \insertRef{wang2020multivariate}{PLSDAbatch}
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

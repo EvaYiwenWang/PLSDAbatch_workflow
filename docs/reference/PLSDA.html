@@ -40,9 +40,9 @@
 
 
 <meta property="og:title" content="Partial Least Squares Discriminant Analysis — PLSDA" />
-<meta property="og:description" content="This function estimates latent dimensions from the explanatory matrix X.
-The latent dimensions are maximally associated with the outcome matrix Y.
-It is a built-in funciton of PLSDA_batch." />
+<meta property="og:description" content="This function estimates latent dimensions from the explanatory matrix
+X. The latent dimensions are maximally associated with the outcome
+matrix Y. It is a built-in function of PLSDA_batch." />
 
 
 
@@ -74,7 +74,7 @@ It is a built-in funciton of PLSDA_batch." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ It is a built-in funciton of PLSDA_batch." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,6 +103,9 @@ It is a built-in funciton of PLSDA_batch." />
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -126,9 +129,9 @@ It is a built-in funciton of PLSDA_batch." />
     </div>
 
     <div class="ref-description">
-    <p>This function estimates latent dimensions from the explanatory matrix <code>X</code>.
-The latent dimensions are maximally associated with the outcome matrix <code>Y</code>.
-It is a built-in funciton of <code>PLSDA_batch</code>.</p>
+    <p>This function estimates latent dimensions from the explanatory matrix
+<code>X</code>. The latent dimensions are maximally associated with the outcome
+matrix <code>Y</code>. It is a built-in function of <code>PLSDA_batch</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>PLSDA</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y</span>, <span class='va'>ncomp</span>, keepX <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/rep.html'>rep</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/nrow.html'>ncol</a></span><span class='op'>(</span><span class='va'>X</span><span class='op'>)</span>, <span class='va'>ncomp</span><span class='op'>)</span>, tol <span class='op'>=</span> <span class='fl'>1e-06</span>, max.iter <span class='op'>=</span> <span class='fl'>500</span><span class='op'>)</span></pre>
@@ -138,7 +141,8 @@ It is a built-in funciton of <code>PLSDA_batch</code>.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>A numeric matrix that is centered and scaled as an explanatory matrix. <code>NA</code>s are not allowed.</p></td>
+      <td><p>A numeric matrix that is centered and scaled as an explanatory
+matrix. <code>NA</code>s are not allowed.</p></td>
     </tr>
     <tr>
       <th>Y</th>
@@ -150,8 +154,9 @@ It is a built-in funciton of <code>PLSDA_batch</code>.</p>
     </tr>
     <tr>
       <th>keepX</th>
-      <td><p>A numeric vector of length <code>ncomp</code>, the number of variables to keep in \(X\)-loadings.
-By default all variables are kept in the model. A valid input of <code>keepX</code> extends <code>PLSDA</code> to a sparse version.</p></td>
+      <td><p>A numeric vector of length <code>ncomp</code>, the number of variables
+to keep in \(X\)-loadings. By default all variables are kept in the model.
+A valid input of <code>keepX</code> extends <code>PLSDA</code> to a sparse version.</p></td>
     </tr>
     <tr>
       <th>tol</th>
@@ -166,26 +171,35 @@ By default all variables are kept in the model. A valid input of <code>keepX</co
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p><code>PLSDA</code> returns a list that contains the following components:</p>
-<dt>original_data</dt><dd><p>The original explanatory matrix <code>X</code> and outcome matrix <code>Y</code>.</p></dd>
-<dt>defl_data</dt><dd><p>The centered and scaled deflated matrices (\(\hat{X}\) and \(\hat{Y}\))
-after removing the variance of latent components calculated with estimated latent dimensions.</p></dd>
-<dt>latent_comp</dt><dd><p>The latent components calculated with estimated latent dimensions.</p></dd>
+<dt>original_data</dt><dd><p>The original explanatory matrix <code>X</code> and outcome
+matrix <code>Y</code>.</p></dd>
+<dt>defl_data</dt><dd><p>The centered and scaled deflated matrices (\(\hat{X}\)
+and \(\hat{Y}\)) after removing the variance of latent components
+calculated with estimated latent dimensions.</p></dd>
+<dt>latent_comp</dt><dd><p>The latent components calculated with estimated
+latent dimensions.</p></dd>
 <dt>loadings</dt><dd><p>The estimated latent dimensions.</p></dd>
 <dt>iters</dt><dd><p>Number of iterations of the algorthm for each component.</p></dd>
-<dt>exp_var</dt><dd><p>The amount of data variance explained per component (note that contrary to <code>PCA</code>,
-this amount may not decrease as the aim of the method is not to maximise the variance,
-but the covariance between <code>X</code> and the dummy matrix <code>Y</code>).</p></dd>
+<dt>exp_var</dt><dd><p>The amount of data variance explained per component (note
+that contrary to <code>PCA</code>, this amount may not decrease as the aim of the
+method is not to maximise the variance, but the covariance between
+<code>X</code> and the dummy matrix <code>Y</code>).</p></dd>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Barker M, Rayens W (2003).
 &#8220;Partial least squares for discrimination.&#8221;
 <em>Journal of Chemometrics: A Journal of the Chemometrics Society</em>, <b>17</b>(3), 166--173.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'># A built-in funciton of PLSDA_batch, not separately used.</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># A built-in function of PLSDA_batch, not separately used.</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

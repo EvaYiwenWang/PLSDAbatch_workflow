@@ -1,16 +1,14 @@
 Package: PLSDAbatch
 Type: Package
 Title: PLSDA-batch
-Version: 0.1.0
-Author: Yiwen (Eva) Wang
-Maintainer: Yiwen Wang <yiwenw5@student.unimelb.edu.au>
-Description: for batch effect correction in microbiome studies
-    1. Multivariate
-    2. Non-parametric
-    3. For non-systematic batch effects
-License: None
+Version: 0.2.0
+Author: Yiwen (Eva) Wang [aut, cre],
+        Kim-Anh Le Cao [aut]
+Maintainer: Yiwen (Eva) Wang <anjiwangyiwen@gmail.com>
+Description: A new batch effect correction method based on Projection to Latent Structures Discriminant Analysis named “PLSDA-batch” to correct data prior to any downstream analysis. PLSDA-batch estimates latent components related to treatment and batch effects to remove batch variation. The method is multivariate, non-parametric and performs dimension reduction. Combined with centered log ratio transformation for addressing uneven library sizes and compositional structure, PLSDA-batch addresses all characteristics of microbiome data that existing correction methods have ignored so far. I also developed two variants for 1/ unbalanced batch x treatment designs that are commonly encountered in studies with small sample size, and for 2/ selection of discriminative variables to avoid overfitting in classification problems. These two variants have widened the scope of applicability of PLSDA-batch to different data settings. The vignette in my package includes a comprehensive standardised framework for batch effect management including the application of existing methods ranging from accounting for batch effects (e.g. with linear models) to correcting for batch effects (e.g removeBatchEffect from the limma package, and ComBat from sva) and my proposed method for microbiome data. 
+License: GPL-3
 Depends: 
-    R (>= 3.6.0)
+    R (>= 4.1.1)
 Imports: 
     mixOmics,
     scales,
@@ -30,9 +28,21 @@ Suggests:
     UpSetR,
     gplots,
     testthat
+biocViews:
+    Software,
+    StatisticalMethod,
+    DimensionReduction,
+    PrincipalComponent,
+    Microbiome,
+    WorkflowStep,
+    BatchEffect,
+    Normalisation, 
+    MultipleComparison,
+    Preprocessing,
+    Visualization,
+    ReproducibleResearch
 VignetteBuilder: knitr
 RdMacros: Rdpack
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2
 Encoding: UTF-8
 LazyData: true
-

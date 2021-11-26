@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Partitioned Variance Plot — partVar_plot" />
-<meta property="og:description" content="This function draws a partitioned variance plot explained by different sources." />
+<meta property="og:description" content="This function draws a partitioned variance plot explained
+by different sources." />
 
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -80,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,6 +102,9 @@
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -124,17 +128,26 @@
     </div>
 
     <div class="ref-description">
-    <p>This function draws a partitioned variance plot explained by different sources.</p>
+    <p>This function draws a partitioned variance plot explained
+by different sources.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>partVar_plot</span><span class='op'>(</span><span class='va'>prop.df</span>, text.cex <span class='op'>=</span> <span class='fl'>3</span>, x.angle <span class='op'>=</span> <span class='fl'>60</span>, x.hjust <span class='op'>=</span> <span class='fl'>1</span>, title <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>partVar_plot</span><span class='op'>(</span>
+  <span class='va'>prop.df</span>,
+  text.cex <span class='op'>=</span> <span class='fl'>3</span>,
+  x.angle <span class='op'>=</span> <span class='fl'>60</span>,
+  x.hjust <span class='op'>=</span> <span class='fl'>1</span>,
+  title <span class='op'>=</span> <span class='cn'>NULL</span>,
+  color.set <span class='op'>=</span> <span class='cn'>NULL</span>
+<span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>prop.df</th>
-      <td><p>A data frame that contains the proportion of variance explained by different sources.</p></td>
+      <td><p>A data frame that contains the proportion of variance
+explained by different sources.</p></td>
     </tr>
     <tr>
       <th>text.cex</th>
@@ -142,65 +155,81 @@
     </tr>
     <tr>
       <th>x.angle</th>
-      <td><p>Numeric, angle of x axis, in the range of \(0\) to \(360\).</p></td>
+      <td><p>Numeric, angle of x axis, in the range of
+\(0\) to \(360\).</p></td>
     </tr>
     <tr>
       <th>x.hjust</th>
-      <td><p>Numeric, horizontal justification of x axis, in the range of \(0\) to \(1\).</p></td>
+      <td><p>Numeric, horizontal justification of x axis,
+in the range of \(0\) to \(1\).</p></td>
     </tr>
     <tr>
       <th>title</th>
       <td><p>Character, the plot title.</p></td>
+    </tr>
+    <tr>
+      <th>color.set</th>
+      <td><p>A vector of characters, indicating the set of colors to use.
+The colors are represented by hexadecimal color code.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>none</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='Scatter_Density.html'>Scatter_Density</a></code>, <code><a href='box_plot.html'>box_plot</a></code>,
+<code><a href='density_plot.html'>density_plot</a></code> and <code><a href='alignment_score.html'>alignment_score</a></code> as the other
+methods for batch effect detection and batch effect removal assessment.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## First example</span>
-<span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://cran.r-project.org'>vegan</a></span><span class='op'>)</span> <span class='co'># for function varpart()</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: permute</span></div><div class='output co'>#&gt; <span class='message'>This is vegan 2.5-6</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span>
-<span class='va'>ad.clr.scale</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span><span class='op'>(</span><span class='va'>ad.clr</span>, center <span class='op'>=</span> <span class='cn'>T</span>, scale <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
-<span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
-<span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
-
-<span class='va'>ad.factors.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>trt <span class='op'>=</span> <span class='va'>ad.trt</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span><span class='op'>)</span>
-<span class='va'>rda.res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/vegan/man/varpart.html'>varpart</a></span><span class='op'>(</span><span class='va'>ad.clr.scale</span>, <span class='op'>~</span> <span class='va'>trt</span>, <span class='op'>~</span> <span class='va'>batch</span>, data <span class='op'>=</span> <span class='va'>ad.factors.df</span><span class='op'>)</span>
-
-<span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Treatment <span class='op'>=</span> <span class='cn'>NA</span>, Intersection <span class='op'>=</span> <span class='cn'>NA</span>, Batch <span class='op'>=</span> <span class='cn'>NA</span>, Residuals <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
-<span class='va'>ad.prop.df</span><span class='op'>[</span><span class='fl'>1</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>rda.res</span><span class='op'>$</span><span class='va'>part</span><span class='op'>$</span><span class='va'>indfract</span><span class='op'>$</span><span class='va'>Adj.R.squared</span>
-
-<span class='va'>ad.prop.df</span><span class='op'>[</span><span class='va'>ad.prop.df</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>0</span>
-<span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='va'>ad.prop.df</span>, <span class='fl'>1</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>{</span><span class='va'>x</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-
-<span class='fu'>partVar_plot</span><span class='op'>(</span>prop.df <span class='op'>=</span> <span class='va'>ad.prop.df</span><span class='op'>)</span>
-</div><div class='img'><img src='partVar_plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
-<span class='co'>## Second example</span>
-<span class='va'>ad.corrected.list</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>CorrectData</span>
-<span class='va'>ad.corr_scale.list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span><span class='op'>(</span><span class='op'>)</span>
-<span class='kw'>for</span><span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ad.corrected.list</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='co'># scale the data on OTUs</span>
-  <span class='va'>scale.res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/scale.html'>scale</a></span><span class='op'>(</span><span class='va'>ad.corrected.list</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span>, center <span class='op'>=</span> <span class='cn'>T</span>, scale <span class='op'>=</span> <span class='cn'>T</span><span class='op'>)</span>
-  <span class='va'>ad.corr_scale.list</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>scale.res</span>
-<span class='op'>}</span>
-<span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>ad.corr_scale.list</span><span class='op'>)</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>ad.corrected.list</span><span class='op'>)</span>
-
-<span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Treatment <span class='op'>=</span> <span class='cn'>NA</span>, Intersection <span class='op'>=</span> <span class='cn'>NA</span>, Batch <span class='op'>=</span> <span class='cn'>NA</span>, Residuals <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span>
-<span class='kw'>for</span><span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fl'>1</span><span class='op'>:</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ad.corr_scale.list</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span>
-  <span class='va'>rda.res</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/vegan/man/varpart.html'>varpart</a></span><span class='op'>(</span><span class='va'>ad.corr_scale.list</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span>, <span class='op'>~</span> <span class='va'>trt</span>, <span class='op'>~</span> <span class='va'>batch</span>,
-                    data <span class='op'>=</span> <span class='va'>ad.factors.df</span><span class='op'>)</span>
-  <span class='va'>ad.prop.df</span><span class='op'>[</span><span class='va'>i</span>, <span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>rda.res</span><span class='op'>$</span><span class='va'>part</span><span class='op'>$</span><span class='va'>indfract</span><span class='op'>$</span><span class='va'>Adj.R.squared</span><span class='op'>}</span>
-
-<span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>ad.prop.df</span><span class='op'>)</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>ad.corr_scale.list</span><span class='op'>)</span>
-<span class='va'>ad.prop.df</span><span class='op'>[</span><span class='va'>ad.prop.df</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>0</span>
-<span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='va'>ad.prop.df</span>, <span class='fl'>1</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>{</span><span class='va'>x</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span>
-<span class='fu'>partVar_plot</span><span class='op'>(</span>prop.df <span class='op'>=</span> <span class='va'>ad.prop.df</span><span class='op'>)</span>
-</div><div class='img'><img src='partVar_plot-2.png' alt='' width='700' height='433' /></div><div class='input'>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>## First example</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='https://cran.r-project.org'>vegan</a></span><span class='op'>)</span> <span class='co'># for function varpart()</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: permute</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> This is vegan 2.5-7</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'># centered log ratio transformed data</span></span>
+<span class='r-in'><span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span> <span class='co'># batch information</span></span>
+<span class='r-in'><span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span> <span class='co'># treatment information</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ad.factors.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>trt <span class='op'>=</span> <span class='va'>ad.trt</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>rda.res</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/vegan/man/varpart.html'>varpart</a></span><span class='op'>(</span><span class='va'>ad.clr</span>, <span class='op'>~</span> <span class='va'>trt</span>, <span class='op'>~</span> <span class='va'>batch</span>,</span>
+<span class='r-in'>                   data <span class='op'>=</span> <span class='va'>ad.factors.df</span>, scale <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Treatment <span class='op'>=</span> <span class='cn'>NA</span>, Intersection <span class='op'>=</span> <span class='cn'>NA</span>,</span>
+<span class='r-in'>                         Batch <span class='op'>=</span> <span class='cn'>NA</span>, Residuals <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.prop.df</span><span class='op'>[</span><span class='fl'>1</span>,<span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>rda.res</span><span class='op'>$</span><span class='va'>part</span><span class='op'>$</span><span class='va'>indfract</span><span class='op'>$</span><span class='va'>Adj.R.squared</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>ad.prop.df</span><span class='op'>[</span><span class='va'>ad.prop.df</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>0</span></span>
+<span class='r-in'><span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='va'>ad.prop.df</span>, <span class='fl'>1</span>, <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>{</span><span class='va'>x</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>partVar_plot</span><span class='op'>(</span>prop.df <span class='op'>=</span> <span class='va'>ad.prop.df</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='partVar_plot-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Second example</span></span>
+<span class='r-in'><span class='co'># a list of data corrected from different methods</span></span>
+<span class='r-in'><span class='va'>ad.corrected.list</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>CorrectData</span></span>
+<span class='r-in'><span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>Treatment <span class='op'>=</span> <span class='cn'>NA</span>, Intersection <span class='op'>=</span> <span class='cn'>NA</span>,</span>
+<span class='r-in'>                         Batch <span class='op'>=</span> <span class='cn'>NA</span>, Residuals <span class='op'>=</span> <span class='cn'>NA</span><span class='op'>)</span></span>
+<span class='r-in'><span class='kw'>for</span><span class='op'>(</span><span class='va'>i</span> <span class='kw'>in</span> <span class='fu'><a href='https://rdrr.io/r/base/seq.html'>seq_len</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>ad.corrected.list</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span><span class='op'>{</span></span>
+<span class='r-in'>  <span class='va'>rda.res</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/pkg/vegan/man/varpart.html'>varpart</a></span><span class='op'>(</span><span class='va'>ad.corrected.list</span><span class='op'>[[</span><span class='va'>i</span><span class='op'>]</span><span class='op'>]</span>, <span class='op'>~</span> <span class='va'>trt</span>, <span class='op'>~</span> <span class='va'>batch</span>,</span>
+<span class='r-in'>                    data <span class='op'>=</span> <span class='va'>ad.factors.df</span>, scale <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'>  <span class='va'>ad.prop.df</span><span class='op'>[</span><span class='va'>i</span>, <span class='op'>]</span> <span class='op'>&lt;-</span> <span class='va'>rda.res</span><span class='op'>$</span><span class='va'>part</span><span class='op'>$</span><span class='va'>indfract</span><span class='op'>$</span><span class='va'>Adj.R.squared</span><span class='op'>}</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/base/colnames.html'>rownames</a></span><span class='op'>(</span><span class='va'>ad.prop.df</span><span class='op'>)</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/names.html'>names</a></span><span class='op'>(</span><span class='va'>ad.corrected.list</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.prop.df</span><span class='op'>[</span><span class='va'>ad.prop.df</span> <span class='op'>&lt;</span> <span class='fl'>0</span><span class='op'>]</span> <span class='op'>=</span> <span class='fl'>0</span></span>
+<span class='r-in'><span class='va'>ad.prop.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/as.data.frame.html'>as.data.frame</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/t.html'>t</a></span><span class='op'>(</span><span class='fu'><a href='https://rdrr.io/r/base/apply.html'>apply</a></span><span class='op'>(</span><span class='va'>ad.prop.df</span>, <span class='fl'>1</span>,</span>
+<span class='r-in'>                                    <span class='kw'>function</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>{</span><span class='va'>x</span><span class='op'>/</span><span class='fu'><a href='https://rdrr.io/r/base/sum.html'>sum</a></span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span><span class='op'>}</span><span class='op'>)</span><span class='op'>)</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='fu'>partVar_plot</span><span class='op'>(</span>prop.df <span class='op'>=</span> <span class='va'>ad.prop.df</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='partVar_plot-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

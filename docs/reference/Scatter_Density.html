@@ -40,7 +40,8 @@
 
 
 <meta property="og:title" content="Principal Component Analysis (PCA) with Density Plots per Component — Scatter_Density" />
-<meta property="og:description" content="This function draws a PCA sample plot with density plots per principal component." />
+<meta property="og:description" content="This function draws a PCA sample plot with density plots per
+principal component." />
 
 
 
@@ -72,7 +73,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -80,7 +81,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,6 +102,9 @@
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -124,7 +128,8 @@
     </div>
 
     <div class="ref-description">
-    <p>This function draws a PCA sample plot with density plots per principal component.</p>
+    <p>This function draws a PCA sample plot with density plots per
+principal component.</p>
     </div>
 
     <pre class="usage"><span class='fu'>Scatter_Density</span><span class='op'>(</span>
@@ -133,6 +138,7 @@
   trt <span class='op'>=</span> <span class='cn'>NULL</span>,
   xlim <span class='op'>=</span> <span class='cn'>NULL</span>,
   ylim <span class='op'>=</span> <span class='cn'>NULL</span>,
+  color.set <span class='op'>=</span> <span class='cn'>NULL</span>,
   batch.legend.title <span class='op'>=</span> <span class='st'>"Batch"</span>,
   trt.legend.title <span class='op'>=</span> <span class='st'>"Treatment"</span>,
   density.lwd <span class='op'>=</span> <span class='fl'>0.2</span>,
@@ -151,11 +157,13 @@
     </tr>
     <tr>
       <th>batch</th>
-      <td><p>A factor or a class vector for the batch grouping information (categorical outcome variable).</p></td>
+      <td><p>A factor or a class vector for the batch grouping information
+(categorical outcome variable).</p></td>
     </tr>
     <tr>
       <th>trt</th>
-      <td><p>A factor or a class vector for the treatment grouping information (categorical outcome variable).</p></td>
+      <td><p>A factor or a class vector for the treatment grouping information
+(categorical outcome variable).</p></td>
     </tr>
     <tr>
       <th>xlim</th>
@@ -164,6 +172,11 @@
     <tr>
       <th>ylim</th>
       <td><p>A numeric vector of length 2, indicating the y coordinate ranges.</p></td>
+    </tr>
+    <tr>
+      <th>color.set</th>
+      <td><p>A vector of character, indicating the set of colors to use.
+The colors are represented by hexadecimal color code.</p></td>
     </tr>
     <tr>
       <th>batch.legend.title</th>
@@ -198,24 +211,43 @@
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>none</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='box_plot.html'>box_plot</a></code>, <code><a href='density_plot.html'>density_plot</a></code>,
+<code><a href='alignment_score.html'>alignment_score</a></code> and <code><a href='partVar_plot.html'>partVar_plot</a></code> as the other
+methods for batch effect detection and batch effect removal assessment.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.mixOmics.org'>mixOmics</a></span><span class='op'>)</span> <span class='co'># pca</span>
-</div><div class='output co'>#&gt; <span class='message'>Loading required package: MASS</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: lattice</span></div><div class='output co'>#&gt; <span class='message'>Loading required package: ggplot2</span></div><div class='output co'>#&gt; <span class='message'></span>
-#&gt; <span class='message'>Loaded mixOmics 6.12.0</span>
-#&gt; <span class='message'>Thank you for using mixOmics!</span>
-#&gt; <span class='message'>Tutorials: http://mixomics.org</span>
-#&gt; <span class='message'>Bookdown vignette: https://mixomicsteam.github.io/Bookdown</span>
-#&gt; <span class='message'>Questions, issues: Follow the prompts at http://mixomics.org/contact-us</span>
-#&gt; <span class='message'>Cite us:  citation('mixOmics')</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span>
-<span class='va'>ad.pca.before</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mixOmics/man/pca.html'>pca</a></span><span class='op'>(</span><span class='va'>ad.clr</span>, ncomp <span class='op'>=</span> <span class='fl'>3</span>, scale <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span>
-<span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
-<span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
-<span class='fu'>Scatter_Density</span><span class='op'>(</span>object <span class='op'>=</span> <span class='va'>ad.pca.before</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span>, trt <span class='op'>=</span> <span class='va'>ad.trt</span><span class='op'>)</span>
-</div><div class='img'><img src='Scatter_Density-1.png' alt='' width='700' height='433' /></div><div class='input'>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># The first example</span></span>
+<span class='r-in'><span class='kw'><a href='https://rdrr.io/r/base/library.html'>library</a></span><span class='op'>(</span><span class='va'><a href='http://www.mixOmics.org'>mixOmics</a></span><span class='op'>)</span> <span class='co'># for function pca()</span></span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: MASS</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: lattice</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loading required package: ggplot2</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> </span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Loaded mixOmics 6.16.3</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Thank you for using mixOmics!</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Tutorials: http://mixomics.org</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Bookdown vignette: https://mixomicsteam.github.io/Bookdown</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Questions, issues: Follow the prompts at http://mixomics.org/contact-us</span>
+<span class='r-msg co'><span class='r-pr'>#&gt;</span> Cite us:  citation('mixOmics')</span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'># centered log ratio transformed data</span></span>
+<span class='r-in'><span class='va'>ad.pca.before</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/pkg/mixOmics/man/pca.html'>pca</a></span><span class='op'>(</span><span class='va'>ad.clr</span>, ncomp <span class='op'>=</span> <span class='fl'>3</span>, scale <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span> <span class='co'># batch information</span></span>
+<span class='r-in'><span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span> <span class='co'># treatment information</span></span>
+<span class='r-in'><span class='fu'>Scatter_Density</span><span class='op'>(</span>object <span class='op'>=</span> <span class='va'>ad.pca.before</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span>, trt <span class='op'>=</span> <span class='va'>ad.trt</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='Scatter_Density-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># The second example</span></span>
+<span class='r-in'><span class='va'>colorlist</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>rainbow</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>Scatter_Density</span><span class='op'>(</span>object <span class='op'>=</span> <span class='va'>ad.pca.before</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span>, trt <span class='op'>=</span> <span class='va'>ad.trt</span>,</span>
+<span class='r-in'>                color.set <span class='op'>=</span> <span class='va'>colorlist</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='Scatter_Density-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

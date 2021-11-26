@@ -4,38 +4,53 @@
 \alias{partVar_plot}
 \title{Partitioned Variance Plot}
 \usage{
-partVar_plot(prop.df, text.cex = 3, x.angle = 60, x.hjust = 1, title = NULL)
+partVar_plot(
+  prop.df,
+  text.cex = 3,
+  x.angle = 60,
+  x.hjust = 1,
+  title = NULL,
+  color.set = NULL
+)
 }
 \arguments{
-\item{prop.df}{A data frame that contains the proportion of variance explained by different sources.}
+\item{prop.df}{A data frame that contains the proportion of variance
+explained by different sources.}
 
 \item{text.cex}{Numeric, the size of text on the plot.}
 
-\item{x.angle}{Numeric, angle of x axis, in the range of \eqn{0} to \eqn{360}.}
+\item{x.angle}{Numeric, angle of x axis, in the range of
+\eqn{0} to \eqn{360}.}
 
-\item{x.hjust}{Numeric, horizontal justification of x axis, in the range of \eqn{0} to \eqn{1}.}
+\item{x.hjust}{Numeric, horizontal justification of x axis,
+in the range of \eqn{0} to \eqn{1}.}
 
 \item{title}{Character, the plot title.}
+
+\item{color.set}{A vector of characters, indicating the set of colors to use.
+The colors are represented by hexadecimal color code.}
 }
 \value{
 none
 }
 \description{
-This function draws a partitioned variance plot explained by different sources.
+This function draws a partitioned variance plot explained
+by different sources.
 }
 \examples{
 ## First example
 library(vegan) # for function varpart()
 data('AD_data')
-ad.clr <- AD_data$EgData$X.clr
-ad.clr.scale <- scale(ad.clr, center = T, scale = T)
-ad.batch = AD_data$EgData$Y.bat
-ad.trt = AD_data$EgData$Y.trt
+ad.clr <- AD_data$EgData$X.clr # centered log ratio transformed data
+ad.batch = AD_data$EgData$Y.bat # batch information
+ad.trt = AD_data$EgData$Y.trt # treatment information
 
 ad.factors.df <- data.frame(trt = ad.trt, batch = ad.batch)
-rda.res <- varpart(ad.clr.scale, ~ trt, ~ batch, data = ad.factors.df)
+rda.res <- varpart(ad.clr, ~ trt, ~ batch,
+                   data = ad.factors.df, scale = TRUE)
 
-ad.prop.df <- data.frame(Treatment = NA, Intersection = NA, Batch = NA, Residuals = NA)
+ad.prop.df <- data.frame(Treatment = NA, Intersection = NA,
+                         Batch = NA, Residuals = NA)
 ad.prop.df[1,] <- rda.res$part$indfract$Adj.R.squared
 
 ad.prop.df[ad.prop.df < 0] = 0
@@ -44,25 +59,29 @@ ad.prop.df <- as.data.frame(t(apply(ad.prop.df, 1, function(x){x/sum(x)})))
 partVar_plot(prop.df = ad.prop.df)
 
 ## Second example
+# a list of data corrected from different methods
 ad.corrected.list <- AD_data$CorrectData
-ad.corr_scale.list <- list()
-for(i in 1:length(ad.corrected.list)){
-  # scale the data on OTUs
-  scale.res <- scale(ad.corrected.list[[i]], center = T, scale = T)
-  ad.corr_scale.list[[i]] <- scale.res
-}
-names(ad.corr_scale.list) <- names(ad.corrected.list)
-
-ad.prop.df <- data.frame(Treatment = NA, Intersection = NA, Batch = NA, Residuals = NA)
-for(i in 1:length(ad.corr_scale.list)){
-  rda.res = varpart(ad.corr_scale.list[[i]], ~ trt, ~ batch,
-                    data = ad.factors.df)
+ad.prop.df <- data.frame(Treatment = NA, Intersection = NA,
+                         Batch = NA, Residuals = NA)
+for(i in seq_len(length(ad.corrected.list))){
+  rda.res = varpart(ad.corrected.list[[i]], ~ trt, ~ batch,
+                    data = ad.factors.df, scale = TRUE)
   ad.prop.df[i, ] <- rda.res$part$indfract$Adj.R.squared}
 
-rownames(ad.prop.df) = names(ad.corr_scale.list)
+rownames(ad.prop.df) = names(ad.corrected.list)
 ad.prop.df[ad.prop.df < 0] = 0
-ad.prop.df <- as.data.frame(t(apply(ad.prop.df, 1, function(x){x/sum(x)})))
+ad.prop.df <- as.data.frame(t(apply(ad.prop.df, 1,
+                                    function(x){x/sum(x)})))
+
 partVar_plot(prop.df = ad.prop.df)
 
 
+}
+\seealso{
+\code{\link{Scatter_Density}}, \code{\link{box_plot}},
+\code{\link{density_plot}} and \code{\link{alignment_score}} as the other
+methods for batch effect detection and batch effect removal assessment.
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

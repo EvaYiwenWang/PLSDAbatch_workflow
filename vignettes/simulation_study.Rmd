@@ -24,8 +24,9 @@ link-citations: true
 ---
 
 ```{r setup, include = FALSE}
-knitr::opts_chunk$set(dpi = 300, echo = T, warning = FALSE, message = FALSE, eval = TRUE,
-                      fig.show = TRUE, fig.width = 6, fig.height = 5, fig.align ='center', 
+knitr::opts_chunk$set(dpi = 300, echo = TRUE, warning = FALSE, message = FALSE, 
+                      eval = TRUE, fig.show = TRUE, fig.width = 6, 
+                      fig.height = 5, fig.align ='center', 
                       out.width = '70%', cache = FALSE)
 ```
 
@@ -107,7 +108,7 @@ precision_splsda <- recall_splsda <- F1_splsda <-
   data.frame(before = NA, clean = NA, rbe = NA, combat = NA, 
              plsda_batch = NA, splsda_batch = NA)
 
-for(i in 1:nitr){
+for(i in seq_len(nitr)){
   ### initial setup ###
   simulation <- simData(bat.mean = 7, sd.bat = 8, trt.mean = 3, sd.trt = 2, 
                         N = 40, p_total = 300, p_trt_relevant = 60, 
@@ -124,13 +125,14 @@ for(i in 1:nitr){
   
   ### Before correction ###
   # global variance (RDA)
-  rda.before = varpart(scale(X), ~ Treatment, ~ Batch, data = Batch_Trt.factors)
+  rda.before = varpart(scale(X), ~ Treatment, ~ Batch, 
+                       data = Batch_Trt.factors)
   gvar.before[i, ] <- rda.before$part$indfract$Adj.R.squared
   
   # individual variance (R2)
   indiv.trt.before <- c()
   indiv.batch.before <- c()
-  for(c in 1:ncol(X)){
+  for(c in seq_len(ncol(X))){
     fit.res1 <- lm(scale(X)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X)[ ,c] ~ batch)
@@ -145,7 +147,8 @@ for(i in 1:nitr){
   fit.before <- lmFit(t(scale(X)), design = model.matrix( ~ 0 + as.factor(trt)))
   fit.before <- contrasts.fit(fit.before, contrasts = c(1,-1))
   fit.result.before <- topTable(eBayes(fit.before), number = p_total)
-  otu.sig.before <- rownames(fit.result.before)[fit.result.before$adj.P.Val <= 0.05]
+  otu.sig.before <- rownames(fit.result.before)[fit.result.before$adj.P.Val <= 
+                                                  0.05]
   
   precision_limma.before <- length(intersect(true.trt, otu.sig.before))/
     length(otu.sig.before)
@@ -163,7 +166,8 @@ for(i in 1:nitr){
   }
   
   # precision & recall & F1 (sPLSDA)
-  fit.before_splsda <- splsda(X = X, Y = trt, ncomp = 1, keepX = length(true.trt))
+  fit.before_splsda <- splsda(X = X, Y = trt, ncomp = 1, 
+                              keepX = length(true.trt))
   otu.dcn.before <- which(fit.before_splsda$loadings$X[ ,1] != 0)
   
   precision_splsda.before <- length(intersect(true.trt, otu.dcn.before))/
@@ -178,17 +182,18 @@ for(i in 1:nitr){
     F1_splsda.before = 0
   }
   
-  ##################################################################################
+  #############################################################################
   ### Ground-truth data ###
   X.clean <- simulation$cleanData
   # global variance (RDA)
-  rda.clean = varpart(scale(X.clean), ~ Treatment, ~ Batch, data = Batch_Trt.factors)
+  rda.clean = varpart(scale(X.clean), ~ Treatment, ~ Batch, 
+                      data = Batch_Trt.factors)
   gvar.clean[i, ] <- rda.clean$part$indfract$Adj.R.squared
   
   # individual variance (R2)
   indiv.trt.clean <- c()
   indiv.batch.clean <- c()
-  for(c in 1:ncol(X.clean)){
+  for(c in seq_len(ncol(X.clean))){
     fit.res1 <- lm(scale(X.clean)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.clean)[ ,c] ~ batch)
@@ -200,10 +205,12 @@ for(i in 1:nitr){
   r2.batch.clean[ ,i] <-  indiv.batch.clean
   
   # precision & recall & F1 (ANOVA)
-  fit.clean <- lmFit(t(scale(X.clean)), design = model.matrix( ~ 0 + as.factor(trt)))
+  fit.clean <- lmFit(t(scale(X.clean)), 
+                     design = model.matrix( ~ 0 + as.factor(trt)))
   fit.clean <- contrasts.fit(fit.clean, contrasts = c(1,-1))
   fit.result.clean <- topTable(eBayes(fit.clean), number = p_total)
-  otu.sig.clean <- rownames(fit.result.clean)[fit.result.clean$adj.P.Val <= 0.05]
+  otu.sig.clean <- rownames(fit.result.clean)[fit.result.clean$adj.P.Val <= 
+                                                0.05]
   
   precision_limma.clean <- length(intersect(true.trt, otu.sig.clean))/
     length(otu.sig.clean)
@@ -237,19 +244,20 @@ for(i in 1:nitr){
     F1_splsda.clean = 0
   }
   
-  ###############################################################################################
+  ############################################################################
   ### removeBatchEffect corrected data ###
   X.rbe <-t(removeBatchEffect(t(X), batch = batch, 
                               design = model.matrix( ~ 0 + as.factor(trt))))
   
   # global variance (RDA)
-  rda.rbe = varpart(scale(X.rbe), ~ Treatment, ~ Batch, data = Batch_Trt.factors)
+  rda.rbe = varpart(scale(X.rbe), ~ Treatment, ~ Batch, 
+                    data = Batch_Trt.factors)
   gvar.rbe[i, ] <- rda.rbe$part$indfract$Adj.R.squared
   
   # individual variance (R2)
   indiv.trt.rbe <- c()
   indiv.batch.rbe <- c()
-  for(c in 1:ncol(X.rbe)){
+  for(c in seq_len(ncol(X.rbe))){
     fit.res1 <- lm(scale(X.rbe)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.rbe)[ ,c] ~ batch)
@@ -261,7 +269,8 @@ for(i in 1:nitr){
   r2.batch.rbe[ ,i] <-  indiv.batch.rbe
   
   # precision & recall & F1 (ANOVA)
-  fit.rbe <- lmFit(t(scale(X.rbe)), design = model.matrix( ~ 0 + as.factor(trt)))
+  fit.rbe <- lmFit(t(scale(X.rbe)), 
+                   design = model.matrix( ~ 0 + as.factor(trt)))
   fit.rbe <- contrasts.fit(fit.rbe, contrasts = c(1,-1))
   fit.result.rbe <- topTable(eBayes(fit.rbe), number = p_total)
   otu.sig.rbe <- rownames(fit.result.rbe)[fit.result.rbe$adj.P.Val <= 0.05]
@@ -282,7 +291,8 @@ for(i in 1:nitr){
   }
   
   # precision & recall & F1 (sPLSDA)
-  fit.rbe_splsda <- splsda(X = X.rbe, Y = trt, ncomp = 1, keepX = length(true.trt))
+  fit.rbe_splsda <- splsda(X = X.rbe, Y = trt, ncomp = 1, 
+                           keepX = length(true.trt))
   otu.dcn.rbe <- which(fit.rbe_splsda$loadings$X[ ,1] != 0)
   
   precision_splsda.rbe <- length(intersect(true.trt, otu.dcn.rbe))/
@@ -297,7 +307,7 @@ for(i in 1:nitr){
     F1_splsda.rbe = 0
   }
   
-  ###############################################################################################
+  ###########################################################################
   ### ComBat corrected data ###
   X.combat <- t(ComBat(dat = t(X), batch = batch, 
                        mod = model.matrix( ~ as.factor(trt))))
@@ -310,7 +320,7 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.combat <- c()
   indiv.batch.combat <- c()
-  for(c in 1:ncol(X.combat)){
+  for(c in seq_len(ncol(X.combat))){
     fit.res1 <- lm(scale(X.combat)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.combat)[ ,c] ~ batch)
@@ -322,10 +332,12 @@ for(i in 1:nitr){
   r2.batch.combat[ ,i] <-  indiv.batch.combat
   
   # precision & recall & F1 (ANOVA)
-  fit.combat <- lmFit(t(scale(X.combat)), design = model.matrix( ~ 0 + as.factor(trt)))
+  fit.combat <- lmFit(t(scale(X.combat)), 
+                      design = model.matrix( ~ 0 + as.factor(trt)))
   fit.combat <- contrasts.fit(fit.combat, contrasts = c(1,-1))
   fit.result.combat <- topTable(eBayes(fit.combat), number = p_total)
-  otu.sig.combat <- rownames(fit.result.combat)[fit.result.combat$adj.P.Val <= 0.05]
+  otu.sig.combat <- rownames(fit.result.combat)[fit.result.combat$adj.P.Val <= 
+                                                  0.05]
   
   precision_limma.combat <- length(intersect(true.trt, otu.sig.combat))/
     length(otu.sig.combat)
@@ -359,13 +371,13 @@ for(i in 1:nitr){
     F1_splsda.combat = 0
   }
   
-  ###############################################################################################
+  ############################################################################
   ### PLSDA-batch corrected data ###
   X.plsda_batch.correct <- PLSDA_batch(X = X, 
                                        Y.trt = trt, Y.bat = batch, 
                                        ncomp.trt = 1, ncomp.bat = 1)
   X.plsda_batch <- X.plsda_batch.correct$X.nobatch
-  colnames(X.plsda_batch) <- 1:p_total
+  colnames(X.plsda_batch) <- seq_len(p_total)
   
   # global variance (RDA)
   rda.plsda_batch = varpart(scale(X.plsda_batch), ~ Treatment, ~ Batch, 
@@ -375,13 +387,15 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.plsda_batch <- c()
   indiv.batch.plsda_batch <- c()
-  for(c in 1:ncol(X.plsda_batch)){
+  for(c in seq_len(ncol(X.plsda_batch))){
     fit.res1 <- lm(scale(X.plsda_batch)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.plsda_batch)[ ,c] ~ batch)
     fit.summary2 <- summary(fit.res2)
-    indiv.trt.plsda_batch <- c(indiv.trt.plsda_batch, fit.summary1$r.squared)
-    indiv.batch.plsda_batch <- c(indiv.batch.plsda_batch, fit.summary2$r.squared)
+    indiv.trt.plsda_batch <- c(indiv.trt.plsda_batch, 
+                               fit.summary1$r.squared)
+    indiv.batch.plsda_batch <- c(indiv.batch.plsda_batch, 
+                                 fit.summary2$r.squared)
   }
   r2.trt.plsdab[ ,i] <-  indiv.trt.plsda_batch
   r2.batch.plsdab[ ,i] <-  indiv.batch.plsda_batch
@@ -429,11 +443,13 @@ for(i in 1:nitr){
   ###############################################################################################
   ### sPLSDA-batch corrected data ###
   X.splsda_batch.correct <- PLSDA_batch(X = X, 
-                                        Y.trt = trt, Y.bat = batch, 
-                                        ncomp.trt = 1, keepX.trt = length(true.trt), 
+                                        Y.trt = trt, 
+                                        Y.bat = batch, 
+                                        ncomp.trt = 1, 
+                                        keepX.trt = length(true.trt), 
                                         ncomp.bat = 1)
   X.splsda_batch <- X.splsda_batch.correct$X.nobatch
-  colnames(X.splsda_batch) <- 1:p_total
+  colnames(X.splsda_batch) <- seq_len(p_total)
   
   # global variance (RDA)
   rda.splsda_batch = varpart(scale(X.splsda_batch), ~ Treatment, ~ Batch, 
@@ -443,13 +459,15 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.splsda_batch <- c()
   indiv.batch.splsda_batch <- c()
-  for(c in 1:ncol(X.splsda_batch)){
+  for(c in seq_len(ncol(X.splsda_batch))){
     fit.res1 <- lm(scale(X.splsda_batch)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.splsda_batch)[ ,c] ~ batch)
     fit.summary2 <- summary(fit.res2)
-    indiv.trt.splsda_batch <- c(indiv.trt.splsda_batch, fit.summary1$r.squared)
-    indiv.batch.splsda_batch <- c(indiv.batch.splsda_batch, fit.summary2$r.squared)
+    indiv.trt.splsda_batch <- c(indiv.trt.splsda_batch, 
+                                fit.summary1$r.squared)
+    indiv.batch.splsda_batch <- c(indiv.batch.splsda_batch, 
+                                  fit.summary2$r.squared)
   }
   r2.trt.splsdab[ ,i] <-  indiv.trt.splsda_batch
   r2.batch.splsdab[ ,i] <-  indiv.batch.splsda_batch
@@ -458,7 +476,8 @@ for(i in 1:nitr){
   fit.splsda_batch <- lmFit(t(scale(X.splsda_batch)), 
                             design = model.matrix( ~ 0 + as.factor(trt)))
   fit.splsda_batch <- contrasts.fit(fit.splsda_batch, contrasts = c(1,-1))
-  fit.result.splsda_batch <- topTable(eBayes(fit.splsda_batch), number = p_total)
+  fit.result.splsda_batch <- topTable(eBayes(fit.splsda_batch), 
+                                      number = p_total)
   otu.sig.splsda_batch <- rownames(fit.result.splsda_batch)[
     fit.result.splsda_batch$adj.P.Val <= 0.05]
   
@@ -574,13 +593,13 @@ partVar_plot(prop.df = prop.gvar.all)
 We first considered the proportion of variance explained by treatment and batch effects before and after batch correction across all variables using pRDA. Efficient batch correction methods should generate data with a smaller proportion of batch associated variance and larger proportion of treatment variance compared to the original data. The figure shows that there was no intersection shared between treatment and batch variation with a balanced batch $\times$ treatment design. All methods successfully removed batch variation, but PLSDA-batch and sPLSDA-batch preserved more proportion of treatment variance than removeBatchEffect and ComBat. In addition, the data corrected by sPLSDA-batch included almost as much proportion of treatment variance as the ground-truth data.
 
 ```{r, fig.width = 7, fig.height = 8, out.width = '100%'}
-################################################################################################
+###############################################################################
 # individual variance (R2)
 # color
 gcolor <- c(rep(pb_color(16), p_trt_relevant), 
             rep(pb_color(17), (p_total - p_trt_relevant)))
 gcolor[intersect(true.trt, true.batch)] = pb_color(18)
-gcolor[setdiff(1:p_total, union(true.trt, true.batch))] = pb_color(15)
+gcolor[setdiff(seq_len(p_total), union(true.trt, true.batch))] = pb_color(15)
 
 xlabs = 'R2(variable, treatment)'
 ylabs = 'R2(variable, batch)'
@@ -591,45 +610,48 @@ edgey = 0.5
 par(mfrow = c(3,2))
 plot(rowMeans(r2.trt.before), rowMeans(r2.batch.before), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
-     xlim = c(0, edgex), ylim = c(0, edgey), main = 'Before correction', cex = 0.7)
+     xlim = c(0, edgex), ylim = c(0, edgey), 
+     main = 'Before correction', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.clean), rowMeans(r2.batch.clean), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
-     xlim = c(0, edgex), ylim = c(0, edgey), main = 'Ground-truth data', cex = 0.7)
+     xlim = c(0, edgex), ylim = c(0, edgey), 
+     main = 'Ground-truth data', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.rbe), rowMeans(r2.batch.rbe), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
-     xlim = c(0, edgex), ylim = c(0, edgey), main = 'removeBatchEffect', cex = 0.7)
+     xlim = c(0, edgex), ylim = c(0, edgey), 
+     main = 'removeBatchEffect', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.combat), rowMeans(r2.batch.combat), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'ComBat', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.plsdab), rowMeans(r2.batch.plsdab), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'PLSDA-batch', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.splsdab), rowMeans(r2.batch.splsdab), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'sPLSDA-batch', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 par(mfrow = c(1,1))
 
 ```
@@ -704,7 +726,7 @@ precision_splsda <- recall_splsda <- F1_splsda <-
   data.frame(before = NA, clean = NA, rbe = NA, combat = NA, 
              wplsda_batch = NA, swplsda_batch = NA)
 
-for(i in 1:nitr){
+for(i in seq_len(nitr)){
   ### initial setup ###
   simulation <- simData(bat.mean = 7, sd.bat = 8, trt.mean = 3, sd.trt = 2, 
                         N = 40, p_total = 300, p_trt_relevant = 60, 
@@ -727,7 +749,7 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.before <- c()
   indiv.batch.before <- c()
-  for(c in 1:ncol(X)){
+  for(c in seq_len(ncol(X))){
     fit.res1 <- lm(scale(X)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X)[ ,c] ~ batch)
@@ -785,7 +807,7 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.clean <- c()
   indiv.batch.clean <- c()
-  for(c in 1:ncol(X.clean)){
+  for(c in seq_len(ncol(X.clean))){
     fit.res1 <- lm(scale(X.clean)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.clean)[ ,c] ~ batch)
@@ -846,7 +868,7 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.rbe <- c()
   indiv.batch.rbe <- c()
-  for(c in 1:ncol(X.rbe)){
+  for(c in seq_len(ncol(X.rbe))){
     fit.res1 <- lm(scale(X.rbe)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.rbe)[ ,c] ~ batch)
@@ -907,7 +929,7 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.combat <- c()
   indiv.batch.combat <- c()
-  for(c in 1:ncol(X.combat)){
+  for(c in seq_len(ncol(X.combat))){
     fit.res1 <- lm(scale(X.combat)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.combat)[ ,c] ~ batch)
@@ -961,9 +983,9 @@ for(i in 1:nitr){
   X.wplsda_batch.correct <- PLSDA_batch(X = X, 
                                         Y.trt = trt, Y.bat = batch, 
                                         ncomp.trt = 1, ncomp.bat = 1,
-                                        balance = F)
+                                        balance = FALSE)
   X.wplsda_batch <- X.wplsda_batch.correct$X.nobatch
-  colnames(X.wplsda_batch) <- 1:p_total
+  colnames(X.wplsda_batch) <- seq_len(p_total)
   
   # global variance (RDA)
   rda.wplsda_batch = varpart(scale(X.wplsda_batch), ~ Treatment, ~ Batch, 
@@ -973,7 +995,7 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.wplsda_batch <- c()
   indiv.batch.wplsda_batch <- c()
-  for(c in 1:ncol(X.wplsda_batch)){
+  for(c in seq_len(ncol(X.wplsda_batch))){
     fit.res1 <- lm(scale(X.wplsda_batch)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.wplsda_batch)[ ,c] ~ batch)
@@ -1029,9 +1051,9 @@ for(i in 1:nitr){
   X.swplsda_batch.correct <- PLSDA_batch(X = X, 
                                          Y.trt = trt, Y.bat = batch, 
                                          ncomp.trt = 1, keepX.trt = length(true.trt), 
-                                         ncomp.bat = 1, balance = F)
+                                         ncomp.bat = 1, balance = FALSE)
   X.swplsda_batch <- X.swplsda_batch.correct$X.nobatch
-  colnames(X.swplsda_batch) <- 1:p_total
+  colnames(X.swplsda_batch) <- seq_len(p_total)
   
   # global variance (RDA)
   rda.swplsda_batch = varpart(scale(X.swplsda_batch), ~ Treatment, ~ Batch, 
@@ -1041,7 +1063,7 @@ for(i in 1:nitr){
   # individual variance (R2)
   indiv.trt.swplsda_batch <- c()
   indiv.batch.swplsda_batch <- c()
-  for(c in 1:ncol(X.swplsda_batch)){
+  for(c in seq_len(ncol(X.swplsda_batch))){
     fit.res1 <- lm(scale(X.swplsda_batch)[ ,c] ~ trt)
     fit.summary1 <- summary(fit.res1)
     fit.res2 <- lm(scale(X.swplsda_batch)[ ,c] ~ batch)
@@ -1098,7 +1120,7 @@ for(i in 1:nitr){
                                        Y.trt = trt, Y.bat = batch, 
                                        ncomp.trt = 1, ncomp.bat = 1)
   X.plsda_batch <- X.plsda_batch.correct$X.nobatch
-  colnames(X.plsda_batch) <- 1:p_total
+  colnames(X.plsda_batch) <- seq_len(p_total)
   
   # global variance (RDA)
   rda.plsda_batch = varpart(scale(X.plsda_batch), ~ Treatment, ~ Batch, 
@@ -1112,7 +1134,7 @@ for(i in 1:nitr){
                                         ncomp.trt = 1, keepX.trt = length(true.trt), 
                                         ncomp.bat = 1)
   X.splsda_batch <- X.splsda_batch.correct$X.nobatch
-  colnames(X.splsda_batch) <- 1:p_total
+  colnames(X.splsda_batch) <- seq_len(p_total)
   
   # global variance (RDA)
   rda.splsda_batch = varpart(scale(X.splsda_batch), ~ Treatment, ~ Batch,
@@ -1208,7 +1230,7 @@ With an unbalanced batch $\times$ treatment design, we observed that certain amo
 gcolor <- c(rep(pb_color(16), p_trt_relevant), 
             rep(pb_color(17), (p_total - p_trt_relevant)))
 gcolor[intersect(true.trt, true.batch)] = pb_color(18)
-gcolor[setdiff(1:p_total, union(true.trt, true.batch))] = pb_color(15)
+gcolor[setdiff(seq_len(p_total), union(true.trt, true.batch))] = pb_color(15)
 
 xlabs = 'R2(variable, treatment)'
 ylabs = 'R2(variable, batch)'
@@ -1222,42 +1244,42 @@ plot(rowMeans(r2.trt.before), rowMeans(r2.batch.before), col = gcolor,
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'Before correction', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.clean), rowMeans(r2.batch.clean), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'Ground-truth data', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.rbe), rowMeans(r2.batch.rbe), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'removeBatchEffect', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.combat), rowMeans(r2.batch.combat), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'ComBat', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.wplsdab), rowMeans(r2.batch.wplsdab), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'wPLSDA-batch', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 
 plot(rowMeans(r2.trt.swplsdab), rowMeans(r2.batch.swplsdab), col = gcolor, 
      xlab = xlabs, ylab = ylabs, pch = as.numeric(as.factor(gcolor)),
      xlim = c(0, edgex), ylim = c(0, edgey), main = 'swPLSDA-batch', cex = 0.7)
 legend('topright', legend = c('No effect', 'Treatment only', 
                               'Batch only', 'Treatment & batch'), 
-       col = pb_color(15:18), pch = 1:4, cex = 0.8)
+       col = pb_color(15:18), pch = seq_len(4), cex = 0.8)
 par(mfrow = c(1,1))
 ```
 

@@ -7,12 +7,14 @@
 percentile_norm(data = data, batch = batch, trt = trt, ctrl.grp)
 }
 \arguments{
-\item{data}{A data frame that contains the microbial variables and required to be corrected for batch effects.
-Samples as rows and variables as columns.}
+\item{data}{A data frame that contains the microbial variables and required
+to be corrected for batch effects. Samples as rows and variables as columns.}
 
-\item{batch}{A factor or a class vector for the batch grouping information (categorical outcome variable).}
+\item{batch}{A factor or a class vector for the batch grouping information
+(categorical outcome variable).}
 
-\item{trt}{A factor or a class vector for the treatment grouping information (categorical outcome variable).}
+\item{trt}{A factor or a class vector for the treatment grouping information
+(categorical outcome variable).}
 
 \item{ctrl.grp}{Character, the name of control samples (i.e. healthy).}
 }
@@ -21,20 +23,29 @@ A data frame that corrected for batch effects.
 }
 \description{
 This function corrects for batch effects in case-control microbiome studies.
-Briefly, the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples are
-converted to percentiles of the equivalent variables in control (i.e. healthy) samples within a batch prior to
-pooling data across batches. Pooled batches must have similar case and control cohort definitions.
+Briefly, the relative abundance of microbial variables (i.e. bacterial taxa)
+in case (i.e. disease) samples are converted to percentiles of the equivalent
+variables in control (i.e. healthy) samples within a batch prior to pooling
+data across batches. Pooled batches must have similar case and control
+cohort definitions.
 }
 \examples{
 
 data('AD_data')
-ad.clr <- AD_data$EgData$X.clr
-ad.batch = AD_data$EgData$Y.bat
-ad.trt = AD_data$EgData$Y.trt
+ad.clr <- AD_data$EgData$X.clr # centered log ratio transformed data
+ad.batch = AD_data$EgData$Y.bat # batch information
+ad.trt = AD_data$EgData$Y.trt # treatment information
 ad.PN <- percentile_norm(data = ad.clr, batch = ad.batch,
                          trt = ad.trt, ctrl.grp = '0-0.5')
 
 }
 \references{
 \insertRef{gibbons2018correcting}{PLSDAbatch}
+}
+\seealso{
+\code{\link{linear_regres}} and \code{\link{PLSDA_batch}} as
+the other methods for batch effect management.
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

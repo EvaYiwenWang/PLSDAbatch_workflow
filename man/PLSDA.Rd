@@ -7,14 +7,16 @@
 PLSDA(X, Y, ncomp, keepX = rep(ncol(X), ncomp), tol = 1e-06, max.iter = 500)
 }
 \arguments{
-\item{X}{A numeric matrix that is centered and scaled as an explanatory matrix. \code{NA}s are not allowed.}
+\item{X}{A numeric matrix that is centered and scaled as an explanatory
+matrix. \code{NA}s are not allowed.}
 
 \item{Y}{A dummy matrix that is centered and scaled as an outcome matrix.}
 
 \item{ncomp}{Integer, the number of dimensions to include in the model.}
 
-\item{keepX}{A numeric vector of length \code{ncomp}, the number of variables to keep in \eqn{X}-loadings.
-By default all variables are kept in the model. A valid input of \code{keepX} extends \code{PLSDA} to a sparse version.}
+\item{keepX}{A numeric vector of length \code{ncomp}, the number of variables
+to keep in \eqn{X}-loadings. By default all variables are kept in the model.
+A valid input of \code{keepX} extends \code{PLSDA} to a sparse version.}
 
 \item{tol}{Numeric, convergence stopping value.}
 
@@ -23,26 +25,34 @@ By default all variables are kept in the model. A valid input of \code{keepX} ex
 \value{
 \code{PLSDA} returns a list that contains the following components:
 
-\item{original_data}{The original explanatory matrix \code{X} and outcome matrix \code{Y}.}
-\item{defl_data}{The centered and scaled deflated matrices (\eqn{\hat{X}} and \eqn{\hat{Y}})
-after removing the variance of latent components calculated with estimated latent dimensions.}
-\item{latent_comp}{The latent components calculated with estimated latent dimensions.}
+\item{original_data}{The original explanatory matrix \code{X} and outcome
+matrix \code{Y}.}
+\item{defl_data}{The centered and scaled deflated matrices (\eqn{\hat{X}}
+and \eqn{\hat{Y}}) after removing the variance of latent components
+calculated with estimated latent dimensions.}
+\item{latent_comp}{The latent components calculated with estimated
+latent dimensions.}
 \item{loadings}{The estimated latent dimensions.}
 \item{iters}{Number of iterations of the algorthm for each component.}
-\item{exp_var}{The amount of data variance explained per component (note that contrary to \code{PCA},
-this amount may not decrease as the aim of the method is not to maximise the variance,
-but the covariance between \code{X} and the dummy matrix \code{Y}).}
+\item{exp_var}{The amount of data variance explained per component (note
+that contrary to \code{PCA}, this amount may not decrease as the aim of the
+method is not to maximise the variance, but the covariance between
+\code{X} and the dummy matrix \code{Y}).}
 }
 \description{
-This function estimates latent dimensions from the explanatory matrix \code{X}.
-The latent dimensions are maximally associated with the outcome matrix \code{Y}.
-It is a built-in funciton of \code{PLSDA_batch}.
+This function estimates latent dimensions from the explanatory matrix
+\code{X}. The latent dimensions are maximally associated with the outcome
+matrix \code{Y}. It is a built-in function of \code{PLSDA_batch}.
 }
 \examples{
-# A built-in funciton of PLSDA_batch, not separately used.
+# A built-in function of PLSDA_batch, not separately used.
+
 
 }
 \references{
 \insertRef{barker2003partial}{PLSDAbatch}
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }
 \keyword{Internal}

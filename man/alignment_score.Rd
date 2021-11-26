@@ -13,36 +13,50 @@ alignment_score(
 )
 }
 \arguments{
-\item{data}{A numeric matrix. Samples are in rows, while variables are in columns. \code{NA}s are not allowed.}
+\item{data}{A numeric matrix. Samples are in rows, while variables are in
+columns. \code{NA}s are not allowed.}
 
-\item{batch}{A factor or a class vector for the batch grouping information (categorical outcome variable).
+\item{batch}{A factor or a class vector for the batch grouping information
+(categorical outcome variable).
 The length should be equal to the number of samples in the data.}
 
-\item{var}{The proportion of data variance explained by the principal components,
+\item{var}{The proportion of data variance explained by
+the principal components,
 ranging from \code{0} to \code{1}. Default value is \code{0.95}.}
 
 \item{k}{Integer, the number of nearest neighbours.
 By default \code{10\%} of the number of samples are used.}
 
-\item{ncomp}{Integer, the number of components for principal component analysis.
+\item{ncomp}{Integer, the number of components for
+principal component analysis.
 Default value is \code{20}.}
 }
 \value{
-A numeric alignment score that ranges from \code{0} to \code{1}, representing poor to perfect
+A numeric alignment score that ranges from \code{0} to \code{1},
+representing poor to perfect
 performance of mixing the samples from different batches.
 }
 \description{
-This function evaluates the degree of mixing samples from different batches in the batch corrected data.
-It is based on the dissimilarity matrix from Principal Component Analysis.
+This function evaluates the degree of mixing samples from different batches
+in the batch corrected data. It is based on the dissimilarity matrix from
+Principal Component Analysis.
 }
 \examples{
 data('sponge_data')
 X = sponge_data$X.clr # centered log ratio transformed data
 batch = sponge_data$Y.bat # batch information
 
-alignment_score(X, batch, 0.95, 3, ncomp = 20)
+alignment_score(data = X, batch = batch, var = 0.95, k = 3, ncomp = 20)
 
 }
 \references{
 \insertRef{butler2018integrating}{PLSDAbatch}
+}
+\seealso{
+\code{\link{Scatter_Density}}, \code{\link{box_plot}},
+\code{\link{density_plot}} and \code{\link{partVar_plot}} as the other
+methods for batch effect detection and batch effect removal assessment.
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

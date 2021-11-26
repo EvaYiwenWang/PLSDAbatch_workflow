@@ -1,5 +1,5 @@
 # PLSDAbatch
-A new multivariate and non-parametric batch effect correction method based on Partial Least Squares Discriminant Analysis for microbial metagenome data.
+A new multivariate and non-parametric batch effect correction method based on Projection to Latent Structures Discriminant Analysis for microbiome data.
 
 ## pkgdown web page
 

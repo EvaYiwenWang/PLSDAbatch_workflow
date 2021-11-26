@@ -40,8 +40,10 @@
 
 
 <meta property="og:title" content="Percentile score — percentileofscore" />
-<meta property="og:description" content="This function converts the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples
-to percentiles of the equivalent variables in control (i.e. healthy) samples." />
+<meta property="og:description" content="This function converts the relative abundance of microbial variables
+(i.e. bacterial taxa) in case (i.e. disease) samples to percentiles of
+the equivalent variables in control (i.e. healthy) samples.
+It is a built-in function of percentile_norm." />
 
 
 
@@ -73,7 +75,7 @@ to percentiles of the equivalent variables in control (i.e. healthy) samples." /
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -81,7 +83,7 @@ to percentiles of the equivalent variables in control (i.e. healthy) samples." /
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -102,6 +104,9 @@ to percentiles of the equivalent variables in control (i.e. healthy) samples." /
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -125,8 +130,10 @@ to percentiles of the equivalent variables in control (i.e. healthy) samples." /
     </div>
 
     <div class="ref-description">
-    <p>This function converts the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples
-to percentiles of the equivalent variables in control (i.e. healthy) samples.</p>
+    <p>This function converts the relative abundance of microbial variables
+(i.e. bacterial taxa) in case (i.e. disease) samples to percentiles of
+the equivalent variables in control (i.e. healthy) samples.
+It is a built-in function of <code>percentile_norm</code>.</p>
     </div>
 
     <pre class="usage"><span class='fu'>percentileofscore</span><span class='op'>(</span><span class='va'>df</span>, <span class='va'>control.index</span><span class='op'>)</span></pre>
@@ -136,40 +143,34 @@ to percentiles of the equivalent variables in control (i.e. healthy) samples.</p
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>df</th>
-      <td><p>A data frame that contains the microbial variables and required to be converted into percentile scores.
-Samples as rows and variables as columns.</p></td>
+      <td><p>A data frame that contains the microbial variables and required to
+be converted into percentile scores. Samples as rows and variables
+as columns.</p></td>
     </tr>
     <tr>
       <th>control.index</th>
-      <td><p>A numeric vector that contains the indexes of control samples.</p></td>
+      <td><p>A numeric vector that contains the indexes
+of control samples.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A data frame of percentile scores for each microbial variable and each sample.</p>
+    <p>A data frame of percentile scores for each microbial variable
+and each sample.</p>
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Gibbons SM, Duvallet C, Alm EJ (2018).
 &#8220;Correcting for batch effects in case-control microbiome studies.&#8221;
-<em>PLoS computational biology</em>, <b>14</b>(4), e1006102.</p>
+<em>PLoS Computational Biology</em>, <b>14</b>(4), e1006102.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span>
-<span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
-<span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
-
-<span class='va'>batch1.idx</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>ad.batch</span> <span class='op'>==</span> <span class='st'>'09/04/2015'</span><span class='op'>)</span>
-<span class='va'>trt.batch1</span> <span class='op'>&lt;-</span> <span class='va'>ad.trt</span><span class='op'>[</span><span class='va'>batch1.idx</span><span class='op'>]</span>
-<span class='va'>ad.batch1</span> <span class='op'>&lt;-</span> <span class='va'>ad.clr</span><span class='op'>[</span><span class='va'>batch1.idx</span>, <span class='op'>]</span>
-<span class='va'>control.idx</span> <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/which.html'>which</a></span><span class='op'>(</span><span class='va'>trt.batch1</span> <span class='op'>==</span> <span class='st'>'0-0.5'</span><span class='op'>)</span>
-
-<span class='va'>ad.batch1.pn</span> <span class='op'>=</span> <span class='fu'>percentileofscore</span><span class='op'>(</span><span class='va'>ad.batch1</span>, <span class='va'>control.idx</span><span class='op'>)</span>
-
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># A built-in function of percentile_norm, not separately used.</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

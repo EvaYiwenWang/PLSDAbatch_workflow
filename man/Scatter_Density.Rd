@@ -10,6 +10,7 @@ Scatter_Density(
   trt = NULL,
   xlim = NULL,
   ylim = NULL,
+  color.set = NULL,
   batch.legend.title = "Batch",
   trt.legend.title = "Treatment",
   density.lwd = 0.2,
@@ -22,13 +23,18 @@ Scatter_Density(
 \arguments{
 \item{object}{The object of class PCA.}
 
-\item{batch}{A factor or a class vector for the batch grouping information (categorical outcome variable).}
+\item{batch}{A factor or a class vector for the batch grouping information
+(categorical outcome variable).}
 
-\item{trt}{A factor or a class vector for the treatment grouping information (categorical outcome variable).}
+\item{trt}{A factor or a class vector for the treatment grouping information
+(categorical outcome variable).}
 
 \item{xlim}{A numeric vector of length 2, indicating the x coordinate ranges.}
 
 \item{ylim}{A numeric vector of length 2, indicating the y coordinate ranges.}
+
+\item{color.set}{A vector of character, indicating the set of colors to use.
+The colors are represented by hexadecimal color code.}
 
 \item{batch.legend.title}{Character, the legend title of batches.}
 
@@ -48,16 +54,30 @@ Scatter_Density(
 none
 }
 \description{
-This function draws a PCA sample plot with density plots per principal component.
+This function draws a PCA sample plot with density plots per
+principal component.
 }
 \examples{
-library(mixOmics) # pca
+# The first example
+library(mixOmics) # for function pca()
 data('AD_data')
-ad.clr <- AD_data$EgData$X.clr
+ad.clr <- AD_data$EgData$X.clr # centered log ratio transformed data
 ad.pca.before <- pca(ad.clr, ncomp = 3, scale = TRUE)
-ad.batch = AD_data$EgData$Y.bat
-ad.trt = AD_data$EgData$Y.trt
+ad.batch = AD_data$EgData$Y.bat # batch information
+ad.trt = AD_data$EgData$Y.trt # treatment information
 Scatter_Density(object = ad.pca.before, batch = ad.batch, trt = ad.trt)
 
+# The second example
+colorlist <- rainbow(10)
+Scatter_Density(object = ad.pca.before, batch = ad.batch, trt = ad.trt,
+                color.set = colorlist)
 
+}
+\seealso{
+\code{\link{box_plot}}, \code{\link{density_plot}},
+\code{\link{alignment_score}} and \code{\link{partVar_plot}} as the other
+methods for batch effect detection and batch effect removal assessment.
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }

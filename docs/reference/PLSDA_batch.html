@@ -40,8 +40,8 @@
 
 
 <meta property="og:title" content="Partial Least Squares Discriminant Analysis for Batch Effect Correction — PLSDA_batch" />
-<meta property="og:description" content="This function removes batch variation from the input data given batch grouping information
-and the number of associated components." />
+<meta property="og:description" content="This function removes batch variation from the input data given batch
+grouping information and the number of associated components." />
 
 
 
@@ -73,7 +73,7 @@ and the number of associated components." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -81,7 +81,7 @@ and the number of associated components." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -102,6 +102,9 @@ and the number of associated components." />
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -125,8 +128,8 @@ and the number of associated components." />
     </div>
 
     <div class="ref-description">
-    <p>This function removes batch variation from the input data given batch grouping information
-and the number of associated components.</p>
+    <p>This function removes batch variation from the input data given batch
+grouping information and the number of associated components.</p>
     </div>
 
     <pre class="usage"><span class='fu'>PLSDA_batch</span><span class='op'>(</span>
@@ -148,34 +151,43 @@ and the number of associated components.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>X</th>
-      <td><p>A numeric matrix as an explanatory matrix. <code>NA</code>s are not allowed.</p></td>
+      <td><p>A numeric matrix as an explanatory matrix.
+<code>NA</code>s are not allowed.</p></td>
     </tr>
     <tr>
       <th>Y.trt</th>
-      <td><p>A factor or a class vector for the treatment grouping information (categorical outcome variable).
-Without the input of <code>Y.trt</code>, treatment variation cannot be preserved before correcting for batch effects.</p></td>
+      <td><p>A factor or a class vector for the treatment grouping
+information (categorical outcome variable). Without the input of
+<code>Y.trt</code>, treatment variation cannot be preserved before correcting for
+batch effects.</p></td>
     </tr>
     <tr>
       <th>Y.bat</th>
-      <td><p>A factor or a class vector for the batch grouping information (categorical outcome variable).</p></td>
+      <td><p>A factor or a class vector for the batch grouping information
+(categorical outcome variable).</p></td>
     </tr>
     <tr>
       <th>ncomp.trt</th>
-      <td><p>Integer, the number of treatment associated dimensions to include in the model.</p></td>
+      <td><p>Integer, the number of treatment associated dimensions to
+include in the model.</p></td>
     </tr>
     <tr>
       <th>ncomp.bat</th>
-      <td><p>Integer, the number of batch associated dimensions to include in the model.</p></td>
+      <td><p>Integer, the number of batch associated dimensions to
+include in the model.</p></td>
     </tr>
     <tr>
       <th>keepX.trt</th>
-      <td><p>A numeric vector of length <code>ncomp.trt</code>, the number of variables to keep in \(X\)-loadings.
-By default all variables are kept in the model. A valid input of <code>keepX.trt</code> extends <code>PLSDA_batch</code> to a sparse version.</p></td>
+      <td><p>A numeric vector of length <code>ncomp.trt</code>, the number
+of variables to keep in \(X\)-loadings. By default all variables are kept
+in the model. A valid input of <code>keepX.trt</code> extends <code>PLSDA_batch</code>
+to a sparse version.</p></td>
     </tr>
     <tr>
       <th>keepX.bat</th>
-      <td><p>A numeric vector of length <code>ncomp.bat</code>, the number of variables to keep in \(X\)-loadings.
-By default all variables are kept in the model. We usually use default setting.</p></td>
+      <td><p>A numeric vector of length <code>ncomp.bat</code>, the number
+of variables to keep in \(X\)-loadings. By default all variables are kept
+in the model. We usually use default setting.</p></td>
     </tr>
     <tr>
       <th>max.iter</th>
@@ -187,73 +199,105 @@ By default all variables are kept in the model. We usually use default setting.<
     </tr>
     <tr>
       <th>near.zero.var</th>
-      <td><p>Logical, should be set to <code>TRUE</code> in particular for data with many zero values.
-Setting this argument to <code>FALSE</code> (when appropriate) will speed up the computations. Default value is <code>TRUE</code>.</p></td>
+      <td><p>Logical, should be set to <code>TRUE</code> in particular for
+data with many zero values. Setting this argument to <code>FALSE</code>
+(when appropriate) will speed up the computations.
+Default value is <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>balance</th>
-      <td><p>Logical, should be set to <code>TRUE</code>, if the <code>batch x treatment design</code> is balanced (or complete).
-Setting this argument to <code>FALSE</code> extends <code>PLSDA_batch</code> to <code>weighted PLSDA_batch</code>. Default value is <code>TRUE</code>.</p></td>
+      <td><p>Logical, should be set to <code>TRUE</code>, if the
+<code>batch x treatment design</code> is balanced (or complete). Setting this
+argument to <code>FALSE</code> extends <code>PLSDA_batch</code> to
+<code>weighted PLSDA_batch</code>. Default value is <code>TRUE</code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p><code>PLSDA_batch</code> returns a list that contains the following components:</p>
+    <p><code>PLSDA_batch</code> returns a list that contains
+the following components:</p>
 <dt>X</dt><dd><p>The original explanatory matrix <code>X</code>.</p></dd>
-<dt>X.nobatch</dt><dd><p>The batch corrected matrix with the same dimension as the input matrix.</p></dd>
+<dt>X.nobatch</dt><dd><p>The batch corrected matrix with the same dimension
+as the input matrix.</p></dd>
 <dt>X.notrt</dt><dd><p>The matrix from which treatment variation is removed.</p></dd>
 <dt>Y</dt><dd><p>The original outcome variables <code>Y.trt</code> and <code>Y.bat</code>.</p></dd>
-<dt>latent_var.trt</dt><dd><p>The treatment associated latent components calculated with corresponding latent dimensions.</p></dd>
-<dt>latent_var.bat</dt><dd><p>The batch associated latent components calculated with corresponding latent dimensions.</p></dd>
+<dt>latent_var.trt</dt><dd><p>The treatment associated latent components
+calculated with corresponding latent dimensions.</p></dd>
+<dt>latent_var.bat</dt><dd><p>The batch associated latent components calculated
+with corresponding latent dimensions.</p></dd>
 <dt>loadings.trt</dt><dd><p>The estimated treatment associated latent dimensions.</p></dd>
 <dt>loadings.bat</dt><dd><p>The estimated batch associated latent dimensions.</p></dd>
-<dt>tol</dt><dd><p>The tolerance used in the iterative algorithm, convergence stopping value.</p></dd>
+<dt>tol</dt><dd><p>The tolerance used in the iterative algorithm, convergence
+stopping value.</p></dd>
 <dt>max.iter</dt><dd><p>The maximum number of iterations.</p></dd>
-<dt>iter.trt</dt><dd><p>Number of iterations of the algorthm for each treatment associated component.</p></dd>
-<dt>iter.bat</dt><dd><p>Number of iterations of the algorthm for each batch associated component.</p></dd>
-<dt>explained_variance.trt</dt><dd><p>The amount of data variance explained per treatment associated component.</p></dd>
-<dt>explained_variance.bat</dt><dd><p>The amount of data variance explained per batch associated component.</p></dd>
-<dt>weight</dt><dd><p>The sample weights, all \(1\) for a balanced <code>batch x treatment design</code>.</p></dd>
+<dt>iter.trt</dt><dd><p>Number of iterations of the algorthm for each treatment
+associated component.</p></dd>
+<dt>iter.bat</dt><dd><p>Number of iterations of the algorthm for each batch
+associated component.</p></dd>
+<dt>explained_variance.trt</dt><dd><p>The amount of data variance explained per
+treatment associated component.</p></dd>
+<dt>explained_variance.bat</dt><dd><p>The amount of data variance explained per
+batch associated component.</p></dd>
+<dt>weight</dt><dd><p>The sample weights, all \(1\) for a balanced
+<code>batch x treatment design</code>.</p></dd>
 
     <h2 class="hasAnchor" id="references"><a class="anchor" href="#references"></a>References</h2>
 
     <p>Wang Y, Lê Cao K (2020).
 &#8220;A multivariate method to correct for batch effects in microbiome data.&#8221;
 <em>bioRxiv</em>.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='linear_regres.html'>linear_regres</a></code> and <code><a href='percentile_norm.html'>percentile_norm</a></code> as
+the other methods for batch effect management.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## First example</span>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>X</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'>#centered log ratio transformed data</span>
-<span class='va'>Y.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
-<span class='va'>Y.bat</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
-<span class='va'>ad_plsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y.trt</span>, <span class='va'>Y.bat</span>, ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>, ncomp.bat <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-<span class='va'>ad_X.corrected</span> <span class='op'>&lt;-</span> <span class='va'>ad_plsda_batch</span><span class='op'>$</span><span class='va'>X.nobatch</span> <span class='co'>#batch corrected data</span>
-
-<span class='co'>## Second example</span>
-<span class='co'>## sparse PLSDA-batch</span>
-<span class='va'>ad_splsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y.trt</span>, <span class='va'>Y.bat</span>, ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>, keepX.trt <span class='op'>=</span> <span class='fl'>30</span>, ncomp.bat <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span>
-
-<span class='co'>## Third example</span>
-<span class='co'>## weighted PLSDA-batch</span>
-<span class='co'>## The simulated data with an unbalanced batch x treatment design</span>
-<span class='va'>i</span> <span class='op'>=</span> <span class='fl'>1</span>
-<span class='va'>simulation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simData.html'>simData</a></span><span class='op'>(</span>bat.mean <span class='op'>=</span> <span class='fl'>7</span>, sd.bat <span class='op'>=</span> <span class='fl'>8</span>, trt.mean <span class='op'>=</span> <span class='fl'>3</span>, sd.trt <span class='op'>=</span> <span class='fl'>2</span>,
-                       N <span class='op'>=</span> <span class='fl'>40</span>, p_total <span class='op'>=</span> <span class='fl'>300</span>, p_trt_relevant <span class='op'>=</span> <span class='fl'>60</span>, p_bat_relevant <span class='op'>=</span> <span class='fl'>150</span>,
-                       percentage_samples <span class='op'>=</span> <span class='fl'>0.2</span>, percentage_overlap_variables <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-
-<span class='va'>sdata_wplsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span><span class='va'>simulation</span><span class='op'>$</span><span class='va'>data</span>, <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.trt</span>, <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.bat</span>,
-                                  ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>, ncomp.bat <span class='op'>=</span> <span class='fl'>1</span>, balance <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
-
-<span class='co'>## Fourth example</span>
-<span class='co'>## sparse weighted PLSDA-batch</span>
-<span class='va'>sdata_swplsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span><span class='va'>simulation</span><span class='op'>$</span><span class='va'>data</span>, <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.trt</span>, <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.bat</span>,
-                                   ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>, keepX.trt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>simulation</span><span class='op'>$</span><span class='va'>true.trt</span><span class='op'>)</span>,
-                                   ncomp.bat <span class='op'>=</span> <span class='fl'>1</span>, balance <span class='op'>=</span> <span class='cn'>F</span><span class='op'>)</span>
-
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>## First example</span></span>
+<span class='r-in'><span class='co'>## PLSDA-batch</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>X</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'># centered log ratio transformed data</span></span>
+<span class='r-in'><span class='va'>Y.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span> <span class='co'># treatment information</span></span>
+<span class='r-in'><span class='va'>Y.bat</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span> <span class='co'># batch information</span></span>
+<span class='r-in'><span class='va'>ad_plsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y.trt</span>, <span class='va'>Y.bat</span>, ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>, ncomp.bat <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad_X.corrected</span> <span class='op'>&lt;-</span> <span class='va'>ad_plsda_batch</span><span class='op'>$</span><span class='va'>X.nobatch</span> <span class='co'># batch corrected data</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Second example</span></span>
+<span class='r-in'><span class='co'>## sparse PLSDA-batch</span></span>
+<span class='r-in'><span class='va'>ad_splsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span><span class='va'>X</span>, <span class='va'>Y.trt</span>, <span class='va'>Y.bat</span>, ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                               keepX.trt <span class='op'>=</span> <span class='fl'>30</span>, ncomp.bat <span class='op'>=</span> <span class='fl'>5</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Third example</span></span>
+<span class='r-in'><span class='co'>## weighted PLSDA-batch</span></span>
+<span class='r-in'><span class='co'>## The simulated data with an unbalanced batch x treatment design</span></span>
+<span class='r-in'><span class='va'>i</span> <span class='op'>=</span> <span class='fl'>1</span></span>
+<span class='r-in'><span class='va'>simulation</span> <span class='op'>&lt;-</span> <span class='fu'><a href='simData.html'>simData</a></span><span class='op'>(</span>bat.mean <span class='op'>=</span> <span class='fl'>7</span>, sd.bat <span class='op'>=</span> <span class='fl'>8</span>, trt.mean <span class='op'>=</span> <span class='fl'>3</span>, sd.trt <span class='op'>=</span> <span class='fl'>2</span>,</span>
+<span class='r-in'>                       N <span class='op'>=</span> <span class='fl'>40</span>, p_total <span class='op'>=</span> <span class='fl'>300</span>, p_trt_relevant <span class='op'>=</span> <span class='fl'>60</span>,</span>
+<span class='r-in'>                       p_bat_relevant <span class='op'>=</span> <span class='fl'>150</span>, percentage_samples <span class='op'>=</span> <span class='fl'>0.2</span>,</span>
+<span class='r-in'>                       percentage_overlap_variables <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='va'>sdata_wplsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>simulation</span><span class='op'>$</span><span class='va'>data</span>,</span>
+<span class='r-in'>                                  Y.trt <span class='op'>=</span> <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.trt</span>,</span>
+<span class='r-in'>                                  Y.bat <span class='op'>=</span> <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.bat</span>,</span>
+<span class='r-in'>                                  ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                  ncomp.bat <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                  balance <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Fourth example</span></span>
+<span class='r-in'><span class='co'>## sparse weighted PLSDA-batch</span></span>
+<span class='r-in'><span class='va'>sdata_swplsda_batch</span> <span class='op'>&lt;-</span> <span class='fu'>PLSDA_batch</span><span class='op'>(</span>X <span class='op'>=</span> <span class='va'>simulation</span><span class='op'>$</span><span class='va'>data</span>,</span>
+<span class='r-in'>                                   Y.trt <span class='op'>=</span> <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.trt</span>,</span>
+<span class='r-in'>                                   Y.bat <span class='op'>=</span> <span class='va'>simulation</span><span class='op'>$</span><span class='va'>Y.bat</span>,</span>
+<span class='r-in'>                                   ncomp.trt <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                   keepX.trt <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/length.html'>length</a></span><span class='op'>(</span><span class='va'>simulation</span><span class='op'>$</span><span class='va'>true.trt</span><span class='op'>)</span>,</span>
+<span class='r-in'>                                   ncomp.bat <span class='op'>=</span> <span class='fl'>1</span>,</span>
+<span class='r-in'>                                   balance <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

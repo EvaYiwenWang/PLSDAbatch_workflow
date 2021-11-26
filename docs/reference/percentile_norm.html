@@ -41,9 +41,11 @@
 
 <meta property="og:title" content="Percentile Normalisation — percentile_norm" />
 <meta property="og:description" content="This function corrects for batch effects in case-control microbiome studies.
-Briefly, the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples are
-converted to percentiles of the equivalent variables in control (i.e. healthy) samples within a batch prior to
-pooling data across batches. Pooled batches must have similar case and control cohort definitions." />
+Briefly, the relative abundance of microbial variables (i.e. bacterial taxa)
+in case (i.e. disease) samples are converted to percentiles of the equivalent
+variables in control (i.e. healthy) samples within a batch prior to pooling
+data across batches. Pooled batches must have similar case and control
+cohort definitions." />
 
 
 
@@ -75,7 +77,7 @@ pooling data across batches. Pooled batches must have similar case and control c
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -83,7 +85,7 @@ pooling data across batches. Pooled batches must have similar case and control c
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -104,6 +106,9 @@ pooling data across batches. Pooled batches must have similar case and control c
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -128,9 +133,11 @@ pooling data across batches. Pooled batches must have similar case and control c
 
     <div class="ref-description">
     <p>This function corrects for batch effects in case-control microbiome studies.
-Briefly, the relative abundance of microbial variables (i.e. bacterial taxa) in case (i.e. disease) samples are
-converted to percentiles of the equivalent variables in control (i.e. healthy) samples within a batch prior to
-pooling data across batches. Pooled batches must have similar case and control cohort definitions.</p>
+Briefly, the relative abundance of microbial variables (i.e. bacterial taxa)
+in case (i.e. disease) samples are converted to percentiles of the equivalent
+variables in control (i.e. healthy) samples within a batch prior to pooling
+data across batches. Pooled batches must have similar case and control
+cohort definitions.</p>
     </div>
 
     <pre class="usage"><span class='fu'>percentile_norm</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>data</span>, batch <span class='op'>=</span> <span class='va'>batch</span>, trt <span class='op'>=</span> <span class='va'>trt</span>, <span class='va'>ctrl.grp</span><span class='op'>)</span></pre>
@@ -140,16 +147,18 @@ pooling data across batches. Pooled batches must have similar case and control c
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>data</th>
-      <td><p>A data frame that contains the microbial variables and required to be corrected for batch effects.
-Samples as rows and variables as columns.</p></td>
+      <td><p>A data frame that contains the microbial variables and required
+to be corrected for batch effects. Samples as rows and variables as columns.</p></td>
     </tr>
     <tr>
       <th>batch</th>
-      <td><p>A factor or a class vector for the batch grouping information (categorical outcome variable).</p></td>
+      <td><p>A factor or a class vector for the batch grouping information
+(categorical outcome variable).</p></td>
     </tr>
     <tr>
       <th>trt</th>
-      <td><p>A factor or a class vector for the treatment grouping information (categorical outcome variable).</p></td>
+      <td><p>A factor or a class vector for the treatment grouping information
+(categorical outcome variable).</p></td>
     </tr>
     <tr>
       <th>ctrl.grp</th>
@@ -164,18 +173,25 @@ Samples as rows and variables as columns.</p></td>
 
     <p>Gibbons SM, Duvallet C, Alm EJ (2018).
 &#8220;Correcting for batch effects in case-control microbiome studies.&#8221;
-<em>PLoS computational biology</em>, <b>14</b>(4), e1006102.</p>
+<em>PLoS Computational Biology</em>, <b>14</b>(4), e1006102.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='linear_regres.html'>linear_regres</a></code> and <code><a href='PLSDA_batch.html'>PLSDA_batch</a></code> as
+the other methods for batch effect management.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'>
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span>
-<span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
-<span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span>
-<span class='va'>ad.PN</span> <span class='op'>&lt;-</span> <span class='fu'>percentile_norm</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ad.clr</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span>,
-                         trt <span class='op'>=</span> <span class='va'>ad.trt</span>, ctrl.grp <span class='op'>=</span> <span class='st'>'0-0.5'</span><span class='op'>)</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'># centered log ratio transformed data</span></span>
+<span class='r-in'><span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span> <span class='co'># batch information</span></span>
+<span class='r-in'><span class='va'>ad.trt</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.trt</span> <span class='co'># treatment information</span></span>
+<span class='r-in'><span class='va'>ad.PN</span> <span class='op'>&lt;-</span> <span class='fu'>percentile_norm</span><span class='op'>(</span>data <span class='op'>=</span> <span class='va'>ad.clr</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span>,</span>
+<span class='r-in'>                         trt <span class='op'>=</span> <span class='va'>ad.trt</span>, ctrl.grp <span class='op'>=</span> <span class='st'>'0-0.5'</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

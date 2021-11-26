@@ -74,7 +74,7 @@ using component-based and multivariate strategy." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -82,7 +82,7 @@ using component-based and multivariate strategy." />
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -103,6 +103,9 @@ using component-based and multivariate strategy." />
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -151,7 +154,8 @@ using component-based and multivariate strategy.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>bat.mean</th>
-      <td><p>Numeric, the absolute mean of two batches respectively in batch associated components.</p></td>
+      <td><p>Numeric, the absolute mean of two batches respectively
+in batch associated components.</p></td>
     </tr>
     <tr>
       <th>sd.bat</th>
@@ -159,7 +163,8 @@ using component-based and multivariate strategy.</p>
     </tr>
     <tr>
       <th>trt.mean</th>
-      <td><p>Numeric, the absolute mean of two treatment groups respectively in treatment associated components.</p></td>
+      <td><p>Numeric, the absolute mean of two treatment groups
+respectively in treatment associated components.</p></td>
     </tr>
     <tr>
       <th>sd.trt</th>
@@ -167,7 +172,8 @@ using component-based and multivariate strategy.</p>
     </tr>
     <tr>
       <th>noise</th>
-      <td><p>Numeric, the variability (standard deviation) of background noise.</p></td>
+      <td><p>Numeric, the variability (standard deviation) of
+background noise.</p></td>
     </tr>
     <tr>
       <th>N</th>
@@ -179,11 +185,13 @@ using component-based and multivariate strategy.</p>
     </tr>
     <tr>
       <th>p_trt_relevant</th>
-      <td><p>Integer, the number of variables affected with treatment effects.</p></td>
+      <td><p>Integer, the number of variables affected with
+treatment effects.</p></td>
     </tr>
     <tr>
       <th>p_bat_relevant</th>
-      <td><p>Integer, the number of variables affected with batch effects.</p></td>
+      <td><p>Integer, the number of variables affected with
+batch effects.</p></td>
     </tr>
     <tr>
       <th>percentage_samples</th>
@@ -192,12 +200,15 @@ the percentage of samples in the first batch and first treatment group.</p></td>
     </tr>
     <tr>
       <th>percentage_overlap_variables</th>
-      <td><p>Numeric, in the range of \(0\) to \(1\),
-the percentage of variables with both batch and treatment effects given fixed number of variables with each effect.</p></td>
+      <td><p>Numeric, in the range of
+\(0\) to \(1\),
+the percentage of variables with both batch and treatment effects given
+fixed number of variables with each effect.</p></td>
     </tr>
     <tr>
       <th>seeds</th>
-      <td><p>Integer. Default value is randomly selected from \(0\) to \(999\).</p></td>
+      <td><p>Integer. Default value is randomly selected from
+\(0\) to \(999\).</p></td>
     </tr>
     </table>
 
@@ -206,8 +217,10 @@ the percentage of variables with both batch and treatment effects given fixed nu
     <p><code>simData</code> returns a list that contains the following components:</p>
 <dt>data</dt><dd><p>The simulated data.</p></dd>
 <dt>cleanData</dt><dd><p>The ground-truth data without the batch effect.</p></dd>
-<dt>Y.trt</dt><dd><p>The simulated outcome variable indicating the treatment grouping information.</p></dd>
-<dt>Y.bat</dt><dd><p>The simulated outcome variable indicating the batch grouping information.</p></dd>
+<dt>Y.trt</dt><dd><p>The simulated outcome variable indicating the treatment
+grouping information.</p></dd>
+<dt>Y.bat</dt><dd><p>The simulated outcome variable indicating the batch
+grouping information.</p></dd>
 <dt>true.trt</dt><dd><p>The variables assigned with the treatment effect.</p></dd>
 <dt>true.batch</dt><dd><p>The variables assigned with the batch effect.</p></dd>
 <dt>tComp_relevant</dt><dd><p>The component simulated with the treatment effect.</p></dd>
@@ -218,23 +231,30 @@ the percentage of variables with both batch and treatment effects given fixed nu
     <p>Wang Y, Lê Cao K (2020).
 &#8220;A multivariate method to correct for batch effects in microbiome data.&#8221;
 <em>bioRxiv</em>.</p>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='co'>## First example</span>
-<span class='co'>## Balanced batch x treatment design</span>
-<span class='va'>i</span> <span class='op'>=</span> <span class='fl'>1</span>
-<span class='va'>simulation1</span> <span class='op'>&lt;-</span> <span class='fu'>simData</span><span class='op'>(</span>bat.mean <span class='op'>=</span> <span class='fl'>7</span>, sd.bat <span class='op'>=</span> <span class='fl'>8</span>, trt.mean <span class='op'>=</span> <span class='fl'>3</span>, sd.trt <span class='op'>=</span> <span class='fl'>2</span>,
-                       N <span class='op'>=</span> <span class='fl'>40</span>, p_total <span class='op'>=</span> <span class='fl'>300</span>, p_trt_relevant <span class='op'>=</span> <span class='fl'>60</span>, p_bat_relevant <span class='op'>=</span> <span class='fl'>150</span>,
-                       percentage_samples <span class='op'>=</span> <span class='fl'>0.5</span>, percentage_overlap_variables <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-
-<span class='co'>## Second example</span>
-<span class='co'>## Unbalanced batch x treatment design</span>
-<span class='va'>i</span> <span class='op'>=</span> <span class='fl'>1</span>
-<span class='va'>simulation2</span> <span class='op'>&lt;-</span> <span class='fu'>simData</span><span class='op'>(</span>bat.mean <span class='op'>=</span> <span class='fl'>7</span>, sd.bat <span class='op'>=</span> <span class='fl'>8</span>, trt.mean <span class='op'>=</span> <span class='fl'>3</span>, sd.trt <span class='op'>=</span> <span class='fl'>2</span>,
-                       N <span class='op'>=</span> <span class='fl'>40</span>, p_total <span class='op'>=</span> <span class='fl'>300</span>, p_trt_relevant <span class='op'>=</span> <span class='fl'>60</span>, p_bat_relevant <span class='op'>=</span> <span class='fl'>150</span>,
-                       percentage_samples <span class='op'>=</span> <span class='fl'>0.2</span>, percentage_overlap_variables <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span>
-
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'>## First example</span></span>
+<span class='r-in'><span class='co'>## Balanced batch x treatment design</span></span>
+<span class='r-in'><span class='va'>i</span> <span class='op'>=</span> <span class='fl'>1</span></span>
+<span class='r-in'><span class='va'>simulation1</span> <span class='op'>&lt;-</span> <span class='fu'>simData</span><span class='op'>(</span>bat.mean <span class='op'>=</span> <span class='fl'>7</span>, sd.bat <span class='op'>=</span> <span class='fl'>8</span>, trt.mean <span class='op'>=</span> <span class='fl'>3</span>, sd.trt <span class='op'>=</span> <span class='fl'>2</span>,</span>
+<span class='r-in'>                       N <span class='op'>=</span> <span class='fl'>40</span>, p_total <span class='op'>=</span> <span class='fl'>300</span>, p_trt_relevant <span class='op'>=</span> <span class='fl'>60</span>,</span>
+<span class='r-in'>                       p_bat_relevant <span class='op'>=</span> <span class='fl'>150</span>,</span>
+<span class='r-in'>                       percentage_samples <span class='op'>=</span> <span class='fl'>0.5</span>,</span>
+<span class='r-in'>                       percentage_overlap_variables <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'>## Second example</span></span>
+<span class='r-in'><span class='co'>## Unbalanced batch x treatment design</span></span>
+<span class='r-in'><span class='va'>i</span> <span class='op'>=</span> <span class='fl'>1</span></span>
+<span class='r-in'><span class='va'>simulation2</span> <span class='op'>&lt;-</span> <span class='fu'>simData</span><span class='op'>(</span>bat.mean <span class='op'>=</span> <span class='fl'>7</span>, sd.bat <span class='op'>=</span> <span class='fl'>8</span>, trt.mean <span class='op'>=</span> <span class='fl'>3</span>, sd.trt <span class='op'>=</span> <span class='fl'>2</span>,</span>
+<span class='r-in'>                       N <span class='op'>=</span> <span class='fl'>40</span>, p_total <span class='op'>=</span> <span class='fl'>300</span>, p_trt_relevant <span class='op'>=</span> <span class='fl'>60</span>,</span>
+<span class='r-in'>                       p_bat_relevant <span class='op'>=</span> <span class='fl'>150</span>,</span>
+<span class='r-in'>                       percentage_samples <span class='op'>=</span> <span class='fl'>0.2</span>,</span>
+<span class='r-in'>                       percentage_overlap_variables <span class='op'>=</span> <span class='fl'>0.5</span><span class='op'>)</span></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

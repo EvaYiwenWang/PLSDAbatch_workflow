@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.2.0</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -101,6 +101,9 @@
       <a href="../articles/simulation_study.html">Simulation Study</a>
     </li>
   </ul>
+</li>
+<li>
+  <a href="../news/index.html">Changelog</a>
 </li>
       </ul>
       <ul class="nav navbar-nav navbar-right">
@@ -132,6 +135,7 @@
   title <span class='op'>=</span> <span class='cn'>NULL</span>,
   batch.legend.title <span class='op'>=</span> <span class='st'>"Batch"</span>,
   ylab <span class='op'>=</span> <span class='st'>"Value"</span>,
+  color.set <span class='op'>=</span> <span class='cn'>NULL</span>,
   x.angle <span class='op'>=</span> <span class='fl'>0</span>,
   x.hjust <span class='op'>=</span> <span class='fl'>0.5</span>,
   x.vjust <span class='op'>=</span> <span class='fl'>0.5</span>
@@ -157,31 +161,54 @@
       <td><p>Character, y-axis title.</p></td>
     </tr>
     <tr>
+      <th>color.set</th>
+      <td><p>A vector of character, indicating the set of colors to use.
+The colors are represented by hexadecimal color code.</p></td>
+    </tr>
+    <tr>
       <th>x.angle</th>
-      <td><p>Numeric, angle of x axis, in the range of \(0\) to \(360\).</p></td>
+      <td><p>Numeric, angle of x axis, in the range of
+\(0\) to \(360\).</p></td>
     </tr>
     <tr>
       <th>x.hjust</th>
-      <td><p>Numeric, horizontal justification of x axis, in the range of \(0\) to \(1\).</p></td>
+      <td><p>Numeric, horizontal justification of x axis, in the range of
+\(0\) to \(1\).</p></td>
     </tr>
     <tr>
       <th>x.vjust</th>
-      <td><p>Numeric, vertical justification of x axis, in the range of \(0\) to \(1\).</p></td>
+      <td><p>Numeric, vertical justification of x axis, in the range of
+\(0\) to \(1\).</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>none</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code><a href='Scatter_Density.html'>Scatter_Density</a></code>, <code><a href='density_plot.html'>density_plot</a></code>,
+<code><a href='alignment_score.html'>alignment_score</a></code> and <code><a href='partVar_plot.html'>partVar_plot</a></code> as the other
+methods for batch effect detection and batch effect removal assessment.</p></div>
+    <h2 class="hasAnchor" id="author"><a class="anchor" href="#author"></a>Author</h2>
+
+    <p>Yiwen Wang, Kim-Anh Lê Cao</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span>
-<span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span>
-<span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span>
-<span class='va'>ad.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>value <span class='op'>=</span> <span class='va'>ad.clr</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span><span class='op'>)</span>
-<span class='fu'>box_plot</span><span class='op'>(</span>df <span class='op'>=</span> <span class='va'>ad.df</span>, title <span class='op'>=</span> <span class='st'>'OTU 12'</span>, x.angle <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span>
-</div><div class='img'><img src='box_plot-1.png' alt='' width='700' height='433' /></div><div class='input'>
-</div></pre>
+    <pre class="examples"><span class='r-in'><span class='co'># The first example</span></span>
+<span class='r-in'><span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span><span class='op'>(</span><span class='st'>'AD_data'</span><span class='op'>)</span></span>
+<span class='r-in'><span class='va'>ad.clr</span> <span class='op'>&lt;-</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>X.clr</span> <span class='co'># centered log ratio transformed data</span></span>
+<span class='r-in'><span class='va'>ad.batch</span> <span class='op'>=</span> <span class='va'>AD_data</span><span class='op'>$</span><span class='va'>EgData</span><span class='op'>$</span><span class='va'>Y.bat</span> <span class='co'># batch information</span></span>
+<span class='r-in'><span class='va'>ad.df</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span><span class='op'>(</span>value <span class='op'>=</span> <span class='va'>ad.clr</span><span class='op'>[</span>,<span class='fl'>1</span><span class='op'>]</span>, batch <span class='op'>=</span> <span class='va'>ad.batch</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>box_plot</span><span class='op'>(</span>df <span class='op'>=</span> <span class='va'>ad.df</span>, title <span class='op'>=</span> <span class='st'>'OTU 12'</span>, x.angle <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='box_plot-1.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+<span class='r-in'><span class='co'># The second example</span></span>
+<span class='r-in'><span class='va'>colorlist</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/grDevices/palettes.html'>rainbow</a></span><span class='op'>(</span><span class='fl'>10</span><span class='op'>)</span></span>
+<span class='r-in'><span class='fu'>box_plot</span><span class='op'>(</span>df <span class='op'>=</span> <span class='va'>ad.df</span>, title <span class='op'>=</span> <span class='st'>'OTU 12'</span>, color.set <span class='op'>=</span> <span class='va'>colorlist</span>, x.angle <span class='op'>=</span> <span class='fl'>30</span><span class='op'>)</span></span>
+<span class='r-plt img'><img src='box_plot-2.png' alt='' width='700' height='433' /></span>
+<span class='r-in'></span>
+</pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

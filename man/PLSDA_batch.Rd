@@ -19,88 +19,129 @@ PLSDA_batch(
 )
 }
 \arguments{
-\item{X}{A numeric matrix as an explanatory matrix. \code{NA}s are not allowed.}
+\item{X}{A numeric matrix as an explanatory matrix.
+\code{NA}s are not allowed.}
 
-\item{Y.trt}{A factor or a class vector for the treatment grouping information (categorical outcome variable).
-Without the input of \code{Y.trt}, treatment variation cannot be preserved before correcting for batch effects.}
+\item{Y.trt}{A factor or a class vector for the treatment grouping
+information (categorical outcome variable). Without the input of
+\code{Y.trt}, treatment variation cannot be preserved before correcting for
+batch effects.}
 
-\item{Y.bat}{A factor or a class vector for the batch grouping information (categorical outcome variable).}
+\item{Y.bat}{A factor or a class vector for the batch grouping information
+(categorical outcome variable).}
 
-\item{ncomp.trt}{Integer, the number of treatment associated dimensions to include in the model.}
+\item{ncomp.trt}{Integer, the number of treatment associated dimensions to
+include in the model.}
 
-\item{ncomp.bat}{Integer, the number of batch associated dimensions to include in the model.}
+\item{ncomp.bat}{Integer, the number of batch associated dimensions to
+include in the model.}
 
-\item{keepX.trt}{A numeric vector of length \code{ncomp.trt}, the number of variables to keep in \eqn{X}-loadings.
-By default all variables are kept in the model. A valid input of \code{keepX.trt} extends \code{PLSDA_batch} to a sparse version.}
+\item{keepX.trt}{A numeric vector of length \code{ncomp.trt}, the number
+of variables to keep in \eqn{X}-loadings. By default all variables are kept
+in the model. A valid input of \code{keepX.trt} extends \code{PLSDA_batch}
+to a sparse version.}
 
-\item{keepX.bat}{A numeric vector of length \code{ncomp.bat}, the number of variables to keep in \eqn{X}-loadings.
-By default all variables are kept in the model. We usually use default setting.}
+\item{keepX.bat}{A numeric vector of length \code{ncomp.bat}, the number
+of variables to keep in \eqn{X}-loadings. By default all variables are kept
+in the model. We usually use default setting.}
 
 \item{max.iter}{Integer, the maximum number of iterations.}
 
 \item{tol}{Numeric, convergence stopping value.}
 
-\item{near.zero.var}{Logical, should be set to \code{TRUE} in particular for data with many zero values.
-Setting this argument to \code{FALSE} (when appropriate) will speed up the computations. Default value is \code{TRUE}.}
+\item{near.zero.var}{Logical, should be set to \code{TRUE} in particular for
+data with many zero values. Setting this argument to \code{FALSE}
+(when appropriate) will speed up the computations.
+Default value is \code{TRUE}.}
 
-\item{balance}{Logical, should be set to \code{TRUE}, if the \code{batch x treatment design} is balanced (or complete).
-Setting this argument to \code{FALSE} extends \code{PLSDA_batch} to \code{weighted PLSDA_batch}. Default value is \code{TRUE}.}
+\item{balance}{Logical, should be set to \code{TRUE}, if the
+\code{batch x treatment design} is balanced (or complete). Setting this
+argument to \code{FALSE} extends \code{PLSDA_batch} to
+\code{weighted PLSDA_batch}. Default value is \code{TRUE}.}
 }
 \value{
-\code{PLSDA_batch} returns a list that contains the following components:
+\code{PLSDA_batch} returns a list that contains
+the following components:
 
 \item{X}{The original explanatory matrix \code{X}.}
-\item{X.nobatch}{The batch corrected matrix with the same dimension as the input matrix.}
+\item{X.nobatch}{The batch corrected matrix with the same dimension
+as the input matrix.}
 \item{X.notrt}{The matrix from which treatment variation is removed.}
 \item{Y}{The original outcome variables \code{Y.trt} and \code{Y.bat}.}
-\item{latent_var.trt}{The treatment associated latent components calculated with corresponding latent dimensions.}
-\item{latent_var.bat}{The batch associated latent components calculated with corresponding latent dimensions.}
+\item{latent_var.trt}{The treatment associated latent components
+calculated with corresponding latent dimensions.}
+\item{latent_var.bat}{The batch associated latent components calculated
+with corresponding latent dimensions.}
 \item{loadings.trt}{The estimated treatment associated latent dimensions.}
 \item{loadings.bat}{The estimated batch associated latent dimensions.}
-\item{tol}{The tolerance used in the iterative algorithm, convergence stopping value.}
+\item{tol}{The tolerance used in the iterative algorithm, convergence
+stopping value.}
 \item{max.iter}{The maximum number of iterations.}
-\item{iter.trt}{Number of iterations of the algorthm for each treatment associated component.}
-\item{iter.bat}{Number of iterations of the algorthm for each batch associated component.}
-\item{explained_variance.trt}{The amount of data variance explained per treatment associated component.}
-\item{explained_variance.bat}{The amount of data variance explained per batch associated component.}
-\item{weight}{The sample weights, all \eqn{1} for a balanced \code{batch x treatment design}.}
+\item{iter.trt}{Number of iterations of the algorthm for each treatment
+associated component.}
+\item{iter.bat}{Number of iterations of the algorthm for each batch
+associated component.}
+\item{explained_variance.trt}{The amount of data variance explained per
+treatment associated component.}
+\item{explained_variance.bat}{The amount of data variance explained per
+batch associated component.}
+\item{weight}{The sample weights, all \eqn{1} for a balanced
+\code{batch x treatment design}.}
 }
 \description{
-This function removes batch variation from the input data given batch grouping information
-and the number of associated components.
+This function removes batch variation from the input data given batch
+grouping information and the number of associated components.
 }
 \examples{
 ## First example
+## PLSDA-batch
 data('AD_data')
-X = AD_data$EgData$X.clr #centered log ratio transformed data
-Y.trt = AD_data$EgData$Y.trt
-Y.bat = AD_data$EgData$Y.bat
+X = AD_data$EgData$X.clr # centered log ratio transformed data
+Y.trt = AD_data$EgData$Y.trt # treatment information
+Y.bat = AD_data$EgData$Y.bat # batch information
 ad_plsda_batch <- PLSDA_batch(X, Y.trt, Y.bat, ncomp.trt = 1, ncomp.bat = 5)
-ad_X.corrected <- ad_plsda_batch$X.nobatch #batch corrected data
+ad_X.corrected <- ad_plsda_batch$X.nobatch # batch corrected data
 
 ## Second example
 ## sparse PLSDA-batch
-ad_splsda_batch <- PLSDA_batch(X, Y.trt, Y.bat, ncomp.trt = 1, keepX.trt = 30, ncomp.bat = 5)
+ad_splsda_batch <- PLSDA_batch(X, Y.trt, Y.bat, ncomp.trt = 1,
+                               keepX.trt = 30, ncomp.bat = 5)
 
 ## Third example
 ## weighted PLSDA-batch
 ## The simulated data with an unbalanced batch x treatment design
 i = 1
 simulation <- simData(bat.mean = 7, sd.bat = 8, trt.mean = 3, sd.trt = 2,
-                       N = 40, p_total = 300, p_trt_relevant = 60, p_bat_relevant = 150,
-                       percentage_samples = 0.2, percentage_overlap_variables = 0.5)
+                       N = 40, p_total = 300, p_trt_relevant = 60,
+                       p_bat_relevant = 150, percentage_samples = 0.2,
+                       percentage_overlap_variables = 0.5)
 
-sdata_wplsda_batch <- PLSDA_batch(simulation$data, simulation$Y.trt, simulation$Y.bat,
-                                  ncomp.trt = 1, ncomp.bat = 1, balance = F)
+sdata_wplsda_batch <- PLSDA_batch(X = simulation$data,
+                                  Y.trt = simulation$Y.trt,
+                                  Y.bat = simulation$Y.bat,
+                                  ncomp.trt = 1,
+                                  ncomp.bat = 1,
+                                  balance = FALSE)
 
 ## Fourth example
 ## sparse weighted PLSDA-batch
-sdata_swplsda_batch <- PLSDA_batch(simulation$data, simulation$Y.trt, simulation$Y.bat,
-                                   ncomp.trt = 1, keepX.trt = length(simulation$true.trt),
-                                   ncomp.bat = 1, balance = F)
+sdata_swplsda_batch <- PLSDA_batch(X = simulation$data,
+                                   Y.trt = simulation$Y.trt,
+                                   Y.bat = simulation$Y.bat,
+                                   ncomp.trt = 1,
+                                   keepX.trt = length(simulation$true.trt),
+                                   ncomp.bat = 1,
+                                   balance = FALSE)
 
 
 }
 \references{
 \insertRef{wang2020multivariate}{PLSDAbatch}
+}
+\seealso{
+\code{\link{linear_regres}} and \code{\link{percentile_norm}} as
+the other methods for batch effect management.
+}
+\author{
+Yiwen Wang, Kim-Anh Lê Cao
 }
