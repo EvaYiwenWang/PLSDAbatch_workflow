@@ -195,6 +195,7 @@ linear_regres <- function(data,
 #' It is a built-in function of \code{percentile_norm}.
 #'
 #' @importFrom Rdpack reprompt
+#'
 #' @param df A data frame that contains the microbial variables and required to
 #' be converted into percentile scores. Samples as rows and variables
 #' as columns.
@@ -243,6 +244,7 @@ percentileofscore = function(df, control.index){
 #' cohort definitions.
 #'
 #' @importFrom Rdpack reprompt
+#'
 #' @param data A data frame that contains the microbial variables and required
 #' to be corrected for batch effects. Samples as rows and variables as columns.
 #' @param batch A factor or a class vector for the batch grouping information

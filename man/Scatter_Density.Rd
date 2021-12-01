@@ -51,7 +51,7 @@ The colors are represented by hexadecimal color code.}
 \item{legend.title.cex}{Numeric, the size of legend title.}
 }
 \value{
-none
+None.
 }
 \description{
 This function draws a PCA sample plot with density plots per

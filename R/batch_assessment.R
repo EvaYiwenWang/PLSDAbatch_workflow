@@ -4,7 +4,8 @@
 #' This function draws a partitioned variance plot explained
 #' by different sources.
 #'
-#' @importFrom ggplot2 ggplot
+#' @import ggplot2
+#'
 #' @param prop.df A data frame that contains the proportion of variance
 #' explained by different sources.
 #' @param text.cex Numeric, the size of text on the plot.
@@ -16,7 +17,7 @@
 #' @param color.set A vector of characters, indicating the set of colors to use.
 #' The colors are represented by hexadecimal color code.
 #'
-#' @return none
+#' @return None.
 #'
 #' @author Yiwen Wang, Kim-Anh Lê Cao
 #'
@@ -73,6 +74,7 @@ partVar_plot <- function(prop.df,
                          title = NULL,
                          color.set = NULL){
 
+  Prop = Methods = Type = ypos = NULL
   rda.ggplot <- data.frame(Prop = c(t(prop.df)),
                            Methods = rep(rownames(prop.df),
                                          each = ncol(prop.df)),

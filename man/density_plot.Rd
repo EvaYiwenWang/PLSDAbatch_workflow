@@ -29,7 +29,7 @@ The colors are represented by hexadecimal color code.}
 in the range of \eqn{0} to \eqn{1}.}
 }
 \value{
-none
+None.
 }
 \description{
 This function draws an overlap of multiple density plots for each batch.

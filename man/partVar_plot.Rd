@@ -31,7 +31,7 @@ in the range of \eqn{0} to \eqn{1}.}
 The colors are represented by hexadecimal color code.}
 }
 \value{
-none
+None.
 }
 \description{
 This function draws a partitioned variance plot explained

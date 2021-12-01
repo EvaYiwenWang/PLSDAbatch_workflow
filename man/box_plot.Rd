@@ -37,7 +37,7 @@ The colors are represented by hexadecimal color code.}
 \eqn{0} to \eqn{1}.}
 }
 \value{
-none
+None.
 }
 \description{
 This function draws side-by-side box plots for each batch.

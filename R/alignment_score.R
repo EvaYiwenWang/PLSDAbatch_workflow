@@ -7,6 +7,7 @@
 #' @importFrom mixOmics pca
 #' @importFrom Rdpack reprompt
 #' @importFrom stats dist
+#'
 #' @param data A numeric matrix. Samples are in rows, while variables are in
 #' columns. \code{NA}s are not allowed.
 #' @param batch A factor or a class vector for the batch grouping information

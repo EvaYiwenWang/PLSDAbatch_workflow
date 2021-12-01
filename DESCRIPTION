@@ -8,7 +8,7 @@ Maintainer: Yiwen (Eva) Wang <anjiwangyiwen@gmail.com>
 Description: A new batch effect correction method based on Projection to Latent Structures Discriminant Analysis named “PLSDA-batch” to correct data prior to any downstream analysis. PLSDA-batch estimates latent components related to treatment and batch effects to remove batch variation. The method is multivariate, non-parametric and performs dimension reduction. Combined with centered log ratio transformation for addressing uneven library sizes and compositional structure, PLSDA-batch addresses all characteristics of microbiome data that existing correction methods have ignored so far. I also developed two variants for 1/ unbalanced batch x treatment designs that are commonly encountered in studies with small sample size, and for 2/ selection of discriminative variables to avoid overfitting in classification problems. These two variants have widened the scope of applicability of PLSDA-batch to different data settings. The vignette in my package includes a comprehensive standardised framework for batch effect management including the application of existing methods ranging from accounting for batch effects (e.g. with linear models) to correcting for batch effects (e.g removeBatchEffect from the limma package, and ComBat from sva) and my proposed method for microbiome data. 
 License: GPL-3
 Depends: 
-    R (>= 4.1.1)
+    R (>= 3.5.0)
 Imports: 
     mixOmics,
     scales,
@@ -17,7 +17,8 @@ Imports:
     gridExtra,
     ggpubr,
     lmerTest,
-    performance
+    performance,
+    grid
 Suggests: 
     knitr,
     rmarkdown,

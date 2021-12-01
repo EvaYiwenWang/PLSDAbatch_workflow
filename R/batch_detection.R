@@ -4,9 +4,10 @@
 #' This function draws a PCA sample plot with density plots per
 #' principal component.
 #'
-#' @importFrom ggplot2 ggplot
+#' @import ggplot2
 #' @importFrom gridExtra grid.arrange
 #' @importFrom ggpubr get_legend
+#' @importFrom grid grid.rect gpar
 #'
 #' @param object The object of class PCA.
 #' @param batch A factor or a class vector for the batch grouping information
@@ -25,7 +26,7 @@
 #' @param legend.cex Numeric, the size of legends.
 #' @param legend.title.cex Numeric, the size of legend title.
 #'
-#' @return none
+#' @return None.
 #'
 #' @author Yiwen Wang, Kim-Anh Lê Cao
 #'
@@ -135,7 +136,8 @@ Scatter_Density <- function(object,
 #'
 #' This function draws side-by-side box plots for each batch.
 #'
-#' @importFrom ggplot2 ggplot
+#' @import ggplot2
+#'
 #' @param df A data frame used to draw the box plots.
 #' @param title Character, the plot title.
 #' @param batch.legend.title Character, the legend title of batches.
@@ -149,7 +151,7 @@ Scatter_Density <- function(object,
 #' @param x.vjust Numeric, vertical justification of x axis, in the range of
 #' \eqn{0} to \eqn{1}.
 #'
-#' @return none
+#' @return None.
 #'
 #' @author Yiwen Wang, Kim-Anh Lê Cao
 #'
@@ -187,9 +189,11 @@ box_plot <- function(df, title = NULL,
   }
 
 
-  ggplot(data = df, aes(x = batch, y = value, fill = batch)) +
+  ggplot(data = df, aes(x = batch,
+                        y = value,
+                        fill = batch)) + geom_boxplot() +
     stat_boxplot(geom = "errorbar", width = 0.4) +
-    geom_boxplot() + scale_fill_manual(values = color.set) +
+    scale_fill_manual(values = color.set) +
     theme_bw() +
     theme(axis.text.x = element_text(angle = x.angle, hjust = x.hjust,
                                      vjust = x.vjust),
@@ -206,7 +210,8 @@ box_plot <- function(df, title = NULL,
 #'
 #' This function draws an overlap of multiple density plots for each batch.
 #'
-#' @importFrom ggplot2 ggplot
+#' @import ggplot2
+#'
 #' @param df A data frame used to draw the density plots.
 #' @param title Character, the plot title.
 #' @param batch.legend.title Character, the legend title of batches.
@@ -216,7 +221,7 @@ box_plot <- function(df, title = NULL,
 #' @param title.hjust Numeric, horizontal justification of the plot title,
 #' in the range of \eqn{0} to \eqn{1}.
 #'
-#' @return none
+#' @return None.
 #'
 #' @author Yiwen Wang, Kim-Anh Lê Cao
 #'

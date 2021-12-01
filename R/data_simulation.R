@@ -6,6 +6,7 @@
 #'
 #' @importFrom Rdpack reprompt
 #' @importFrom stats rnorm runif
+#'
 #' @param bat.mean Numeric, the absolute mean of two batches respectively
 #' in batch associated components.
 #' @param sd.bat Numeric, the variability of batch effects.
