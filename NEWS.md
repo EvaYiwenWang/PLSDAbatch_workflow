@@ -1,6 +1,6 @@
-## version 0.2.0
+# version 0.2.0
 
-### new features / enhancements / changes
+## new features / enhancements / changes
 
 * new argument `color.set` to customise colors in function `Scatter_Density`, `box_plot` and `density_plot`
 
