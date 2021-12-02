@@ -38,7 +38,7 @@ if (!requireNamespace(bioc.pkgs[b], quietly = TRUE))
 }
 ```
 
-Then, we are able to install \emph{PLSDAbatch} with vignettes using the following command line. 
+Then, we are able to install *PLSDAbatch* with vignettes using the following command line. 
 
 
 ```r
