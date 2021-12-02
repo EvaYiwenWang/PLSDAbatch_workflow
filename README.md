@@ -7,7 +7,7 @@ The web page includes all the functions and vignettes within the package.
 
 Link: https://evayiwenwang.github.io/PLSDAbatch/
 
-## Installation
+## Installation with github
 
 ### Installation without vignettes
 
@@ -44,6 +44,10 @@ Then, we are able to install *PLSDAbatch* with vignettes using the following com
 ```r
 devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch", dependencies = T, build_vignettes = T)
 ```
+
+## Installation with source code
+
+https://github.com/EvaYiwenWang/PLSDAbatch-source-code
 
 ## Reference
 
