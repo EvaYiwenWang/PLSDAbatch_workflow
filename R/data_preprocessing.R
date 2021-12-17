@@ -40,10 +40,10 @@ PreFL <- function(data,
                   keep.var = 0.01){
 
   # zero prob
-  zero.prob <- sum(data == 0)/(nrow(data) * ncol(data))
+  zero.prob <- mean(data == 0)
 
   # sample
-  keep.sample = which(apply(data, 1, sum) > keep.spl)
+  keep.sample = which(rowSums(data) > keep.spl)
   data <- data[keep.sample, ]
 
   # variable
