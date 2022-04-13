@@ -1,5 +1,5 @@
 ---
-title: 'Case Studies'
+title: 'PLSDA-batch Vignette'
 author: 
 - 'Yiwen (Eva) Wang'
 - 'Melbourne Integrative Genomics, School of Mathematics and Statistics, The University of Melbourne, Australia'
@@ -292,7 +292,7 @@ sponge.rda.before <- varpart(sponge.clr, ~ trt, ~ batch,
 sponge.rda.before$part$indfract
 ```
 
-The `r colorize("sponge data", "brown")` have a completely balanced batch x treatment design, so there was no intersection variance (indicated in line `[b]`, Adj.R.squared = -0.01). The proportion of treatment and batch variance was nearly equal as indicated in lines `[a]` and `[c]`.
+The `r colorize("sponge data", "brown")` have a completely balanced batch x treatment design, so there was no intersection variance (indicated in line `[b]`, Adj.R.squared = -0.01) detected. The proportion of treatment and batch variance is nearly equal as indicated in lines `[a]` and `[c]`.
 
 ```{r}
 # HD data
@@ -394,7 +394,6 @@ head(ADcoefs)
 **Linear regression** Linear regression is conducted with `linear_regres()` function in `r colorize("PLSDAbatch", "orange")`. We integrated the `r colorize("performance", "orange")` package that assesses performance of regression models into our function `linear_regres()`. Therefore, we can apply `check_model()` from `r colorize("performance", "orange")` to the outputs from `linear_regres()` to diagnose the validity of the model fitted with treatment and batch effects for each variable [@daniel2020performance]. We can extract performance measurements such as adjusted R2, RMSE, RSE, AIC and BIC for the models fitted with and without batch effects, which are also the outputs of `linear_regres()`.
 
 We apply `type = "linear model"` to the `r colorize("AD data", "blue")` because of the balanced batch x treatment design.
-
 
 
 ```{r ADlm, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Diagnostic plots for the model fitted with batch effects of "OTU12" in the AD data.'}

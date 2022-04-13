@@ -61,7 +61,7 @@ Scatter_Density <- function(object,
                             title = NULL, title.cex = 1.5,
                             legend.cex = 0.7, legend.title.cex = 0.75){
   data = as.data.frame(object[['variates']][['X']])
-  expl.var = object[['explained_variance']]
+  expl.var = object[['prop_expl_var']][['X']]
 
   if(is.null(batch)){batch <- batch}else{batch <- as.factor(batch)}
   if(is.null(trt)){trt <- trt}else{trt <- as.factor(trt)}
