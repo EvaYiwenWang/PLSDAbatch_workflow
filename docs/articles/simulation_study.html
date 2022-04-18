@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
       </span>
     </div>
 
@@ -43,17 +43,20 @@
   <a href="../reference/index.html">Reference</a>
 </li>
 <li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
     Articles
      
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/case_studies.html">Case Studies</a>
+      <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
       <a href="../articles/simulation_study.html">Simulation Study</a>
+    </li>
+    <li>
+      <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
     </li>
   </ul>
 </li>
@@ -79,7 +82,7 @@
                         <h4 data-toc-skip class="author">Melbourne Integrative Genomics, School of Mathematics and Statistics, The University of Melbourne, Australia</h4>
                         <h4 data-toc-skip class="author"><a href="mailto:yiwenw5@student.unimelb.edu.au" class="email">yiwenw5@student.unimelb.edu.au</a></h4>
             
-            <h4 data-toc-skip class="date">02 December, 2021</h4>
+            <h4 data-toc-skip class="date">18 April, 2022</h4>
       
       
       <div class="hidden name"><code>simulation_study.Rmd</code></div>
@@ -88,9 +91,9 @@
 
     
     
-<div class="section level1">
-<h1 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
-</h1>
+<div class="section level2">
+<h2 id="introduction">Introduction<a class="anchor" aria-label="anchor" href="#introduction"></a>
+</h2>
 <p>We adapted the simulation strategy that is component-based and multivariate from <span class="citation">(<a href="#ref-singh2019diablo" role="doc-biblioref">Singh et al. 2019</a>)</span>. We assumed the input data are Centered Log Ratio (CLR) transformed with a Gaussian-like distribution (see “Case studies”). Thus, we simulated components from a Gaussian distribution across all samples. The data matrix was generated based on the simulated components and corresponding loading vectors for each variable. Each simulated dataset included 300 variables and 40 samples grouped according to two treatments (trt1 and trt2) and two batches (batch1 and batch2). Different parameters including amount of batch and treatment variability, number of variables with batch and/or treatment effects, balanced and unbalanced batch <span class="math inline">\(\times\)</span> treatment designs were considered and summarised in the table below.</p>
 <p><strong>Table 1: Summary of simulations.</strong> For a given choice of parameters listed, each simulation was repeated 50 times. <span class="math inline">\(\mu_{(trt)}\)</span> and <span class="math inline">\(\mu_{(batch)}\)</span> represent the size of treatment and batch effects, <span class="math inline">\(\sigma_{(trt)}\)</span> and <span class="math inline">\(\sigma_{(batch)}\)</span> refer to the variability of treatment and batch effects, <span class="math inline">\(p^{(trt)}, p^{(batch)}\)</span> and <span class="math inline">\(p^{(trt \ \&amp; \ batch)}\)</span> represent the number of variables with treatment, batch, or both effects respectively. <strong>Simulation 6</strong> includes parameters reflective of real data.</p>
 <table class="table">
@@ -181,9 +184,9 @@
 <p>In addition to the data with batch effects, we also simulated a ground-truth dataset that only included the background noise and treatment but no batch effect to evaluate batch corrected datasets.</p>
 <p>For the PLSDA-batch analyses, we chose <span class="math inline">\(C-1\)</span> (or <span class="math inline">\(B-1\)</span>) components associated with treatment (or batch) effects (where <span class="math inline">\(C\)</span> or <span class="math inline">\(B\)</span> represents the total number of treatment or batch groups) as <span class="math inline">\(C-1\)</span> (or <span class="math inline">\(B-1\)</span>) components are likely to explain 100% variance in <strong>Y</strong>, and the number of variables with a true treatment effect (<span class="math inline">\(p^{(trt)}\)</span>) as the optimal number to select on each treatment component in sPLSDA-batch.</p>
 </div>
-<div class="section level1">
-<h1 id="packages-installation-and-loading">Packages installation and loading<a class="anchor" aria-label="anchor" href="#packages-installation-and-loading"></a>
-</h1>
+<div class="section level2">
+<h2 id="packages-installation-and-loading">Packages installation and loading<a class="anchor" aria-label="anchor" href="#packages-installation-and-loading"></a>
+</h2>
 <p>Install then load the following packages:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va">PLSDAbatch</span><span class="op">)</span>
@@ -192,12 +195,12 @@
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="http://bioinf.wehi.edu.au/limma" class="external-link">limma</a></span><span class="op">)</span> <span class="co">#removeBatchEffect</span>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://cran.r-project.org" class="external-link">vegan</a></span><span class="op">)</span> <span class="co">#RDA</span></code></pre></div>
 </div>
-<div class="section level1">
-<h1 id="simulations">Simulations<a class="anchor" aria-label="anchor" href="#simulations"></a>
-</h1>
 <div class="section level2">
-<h2 id="balanced-batch-times-treatment-design">Balanced batch <span class="math inline">\(\times\)</span> treatment design<a class="anchor" aria-label="anchor" href="#balanced-batch-times-treatment-design"></a>
+<h2 id="simulations">Simulations<a class="anchor" aria-label="anchor" href="#simulations"></a>
 </h2>
+<div class="section level3">
+<h3 id="balanced-batch-times-treatment-design">Balanced batch <span class="math inline">\(\times\)</span> treatment design<a class="anchor" aria-label="anchor" href="#balanced-batch-times-treatment-design"></a>
+</h3>
 <p>The balanced batch <span class="math inline">\(\times\)</span> treatment experimental design included 10 samples from two batches respectively in each treatment group (see Table 2)</p>
 <p><strong>Table 2: Balanced batch <span class="math inline">\(\times\)</span> treatment design</strong> in the simulation study</p>
 <table class="table">
@@ -702,9 +705,9 @@
 <span class="op">}</span></code></pre></div>
 <p>As the simulation step takes time, so we use the saved data into visulisation.</p>
 </div>
-<div class="section level2">
-<h2 id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
-</h2>
+<div class="section level3">
+<h3 id="figures">Figures<a class="anchor" aria-label="anchor" href="#figures"></a>
+</h3>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># global variance (RDA)</span>
 <span class="va">prop.gvar.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>`Before correction` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span><span class="va">gvar.before</span><span class="op">)</span>,
@@ -923,9 +926,9 @@
 </table>
 <p>The standard deviations of the multivariate selection scores were all smaller than the univariate selection scores for the different corrected data, indicating a better stability of the variables selected by multivariate sPLSDA compared to the one-way ANOVA univariate selection.</p>
 </div>
-<div class="section level2">
-<h2 id="unbalanced-batch-times-treatment-design">Unbalanced batch <span class="math inline">\(\times\)</span> treatment design<a class="anchor" aria-label="anchor" href="#unbalanced-batch-times-treatment-design"></a>
-</h2>
+<div class="section level3">
+<h3 id="unbalanced-batch-times-treatment-design">Unbalanced batch <span class="math inline">\(\times\)</span> treatment design<a class="anchor" aria-label="anchor" href="#unbalanced-batch-times-treatment-design"></a>
+</h3>
 <p>The unbalanced design had 4 and 16 samples from batch1 and batch2 respectively in trt1, 16 and 4 samples from batch1 and batch2 in trt2 (see the table below).</p>
 <p><strong>Table 3: Unbalanced batch <span class="math inline">\(\times\)</span> treatment design</strong> in the simulation study</p>
 <table class="table">
@@ -1441,9 +1444,9 @@
   
 <span class="op">}</span></code></pre></div>
 </div>
-<div class="section level2">
-<h2 id="figures-1">Figures<a class="anchor" aria-label="anchor" href="#figures-1"></a>
-</h2>
+<div class="section level3">
+<h3 id="figures-1">Figures<a class="anchor" aria-label="anchor" href="#figures-1"></a>
+</h3>
 <div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># global variance (RDA)</span>
 <span class="va">prop.gvar.all</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">rbind</a></span><span class="op">(</span>`Before correction` <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/colSums.html" class="external-link">colMeans</a></span><span class="op">(</span><span class="va">gvar.before</span><span class="op">)</span>,
@@ -1662,9 +1665,9 @@
 <p>The standard deviations of the multivariate selection scores were all smaller than the univariate selection scores for the different corrected data, indicating a better stability of the variables selected by multivariate sPLSDA compared to the one-way ANOVA univariate selection.</p>
 </div>
 </div>
-<div class="section level1 unnumbered">
-<h1 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
-</h1>
+<div class="section level2">
+<h2 class="unnumbered" id="references">References<a class="anchor" aria-label="anchor" href="#references"></a>
+</h2>
 <div id="refs" class="references csl-bib-body hanging-indent">
 <div id="ref-singh2019diablo" class="csl-entry">
 Singh, Amrit, Casey P Shannon, Benoı̂t Gautier, Florian Rohart, Michaël Vacher, Scott J Tebbutt, and Kim-Anh Lê Cao. 2019. <span>“DIABLO: An Integrative Approach for Identifying Key Molecular Drivers from Multi-Omics Assays.”</span> <em>Bioinformatics</em> 35 (17): 3055–62.
@@ -1690,7 +1693,7 @@ Singh, Amrit, Casey P Shannon, Benoı̂t Gautier, Florian Rohart, Michaël Vache
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.0.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
 </div>
 
       </footer>

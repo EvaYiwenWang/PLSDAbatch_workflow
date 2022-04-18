@@ -408,7 +408,7 @@ ad.p.adj <- p.adjust(p = ad.p, method = 'fdr')
 check_model(ad.lm$model$OTU12)
 ```
 
-To diagnose the validity of the model fitted with both treatment and batch effects, we use different plots to check the assumptions of each microbial variable. For example, the diagnostic plots of "OTU12" are shown in the above figure panel. The linearity (or homoscedasticity) and homogeneity of variance were not satisfied (top panel). The correlation between batch (`batch.fix`) and treatment (`trt`) effects was very low, indicating a good model with low collinearity. Some samples could be classified as outliers with a Cook's distance larger than or equal to 0.5, for example, "57", "39", "47", "44" and "16" (middle panel). The distribution of residuals was very close to normal (bottom panel). For the microbial variables with some assumptions not met, we should be careful about their results.
+To diagnose the validity of the model fitted with both treatment and batch effects, we use different plots to check the assumptions of each microbial variable. For example, the diagnostic plots of "OTU12" are shown in the above figure panel. The simulated data under the fitted model were close to the real data (shown as green line), indicating good model fitness (top panel). The linearity (or homoscedasticity) and homogeneity of variance were not satisfied. The correlation between batch (`batch.fix`) and treatment (`trt`) effects was very low, indicating a good model with low collinearity. Some samples could be classified as outliers with a Cook's distance larger than or equal to 0.5, for example, "57", "39", "47", "44" and "16" (middle panel). The distribution of residuals was very close to normal (bottom panel). For the microbial variables with some assumptions not met, we should be careful about their results.
 
 For performance measurements of models fitted with or without batch effects, We show an example of the results for some variables.
 
@@ -446,7 +446,7 @@ hd.p.adj <- p.adjust(p = hd.p, method = 'fdr')
 check_model(hd.lmm$model$OTU1)
 ```
 
-According to the diagnostic plots of "OTU1" as shown in the above figure panel, the linearity and homogeneity of variance were not satisfied (top panel). The samples classified as outliers based on Cook's distance were "20","6", "21", "11" and "12". The distribution of residuals was not normal. The normality of random effects (batch effects) was met.
+According to the diagnostic plots of "OTU1" as shown in the above figure panel, the simulated data under the fitted model were not very close to the real data (shown as green line), indicating an imperfect fitness (top panel). The linearity (or homoscedasticity) and homogeneity of variance were not satisfied. Some samples could be classified as outliers with a Cook's distance larger than or equal to 0.5, for example, "12", "21", "20", "11" and "6" (middle panel). The distribution of residuals was not normal, while the one of random effects was very close to normal (bottom panel). 
 
 We then look at the AIC of models fitted with or without batch effects.
 
@@ -457,7 +457,7 @@ head(hd.lmm$AIC)
 
 For some OTUs, the model fitted without batch effects was better with a lower AIC, e.g., "OTU1", "OTU2" and "OTU3". "OTU4", "OTU5" and "OTU6" were more appropriate within a model with batch effects. 
 
-Since we apply a `"linear mixed model"` to the `r colorize("HD data", "violet")`, this type of model can only output conditional $R^2$ that includes the variance of both fixed and random effects (treatment, fixed and random batch effects) and marginal $R^2$ that includes only the variance of fixed effects (treatment and fixed batch effects) [@nakagawa2013general]. The marginal $R^2$s of the models with and without the batch effect in the `r colorize("HD data", "violet")` should be the same theoretically, as marginal $R^2$ only includes fixed effects and the treatment effect was the only fixed effect here. In actual calculation, the results of these two models were not the same, because part of the variance was explained by the random effect in the model with the batch effect.
+Since we apply a `"linear mixed model"` to the `r colorize("HD data", "violet")`, this type of model can only output conditional $R^2$ that includes the variance of both fixed and random effects (treatment, fixed and random batch effects) and marginal $R^2$ that includes only the variance of fixed effects (treatment and fixed batch effects) [@nakagawa2013general]. The marginal $R^2$s of the models with and without the batch effect in the `r colorize("HD data", "violet")` should be the same theoretically, as marginal $R^2$ only includes fixed effects and the treatment effect was the only fixed effect here. In the actual calculation, the results of these two models were not the same, because part of the variance was explained by the random effect in the model fitted with the batch effect.
 
 
 ```{r}
@@ -566,7 +566,7 @@ Here in the `r colorize("AD data", "blue")`, we use `plsda()` from `r colorize("
 ```{r}
 # estimate the number of treatment components
 ad.trt.tune <- plsda(X = ad.clr, Y = ad.trt, ncomp = 5)
-ad.trt.tune$explained_variance #1
+ad.trt.tune$prop_expl_var #1
 ```
 
 We choose the number that explains 100% variance in the outcome matrix `Y`, thus from the result, 1 component was enough to preserve the treatment information.
@@ -673,7 +673,7 @@ We apply different visualisation and quantitative methods to assessing batch eff
 
 **PCA**
 
-In the `r colorize("AD data", "blue")`, we compare the PCA sample plots before and after batch effect correction with different methods.
+In the `r colorize("AD data", "blue")`, we compared the PCA sample plots before and after batch effect correction with different methods.
 
 ```{r}
 ad.pca.before <- pca(ad.clr, ncomp = 3, scale = TRUE)
@@ -733,7 +733,7 @@ As shown in the PCA sample plots, the differences between the samples sequenced 
 
 **pRDA**
 
-We calculate the global explained variance across all microbial variables using pRDA. To achieve this, we create a loop for each variable from the original (uncorrected) and batch-corrected data. The final results are then displayed with `partVar_plot()` from `r colorize("PLSDAbatch", "orange")` package.
+We calculate the global explained variance across all microbial variables using pRDA. To achieve this, we create a loop for each variable from the original (uncorrected) and batch effect-corrected data. The final results are then displayed with `partVar_plot()` from `r colorize("PLSDAbatch", "orange")` package.
 
 ```{r ADprda, fig.height = 6, fig.align = 'center', fig.cap = 'Global explained variance before and after batch effect correction for the AD data.'}
 # AD data
@@ -928,7 +928,7 @@ upset(ad.splsda.upsetR, main.bar.color = 'gray36',
 
 ```
 
-In the above UpSet plot, the left bars indicate the number of variables selected from each data corrected with different methods. The right bar plot combined with the scatterplot shows different intersection and their aggregates. We obtained a high overlap of 36 out of 50 selected variables between different corrected and uncorrected data. However, the data from each method still included unique variables that were not selected in the other corrected data, e.g., PLSDA-batch and sPLSDA-batch. As `upset()` can only include five datasets at once, we only displayed the uncorrected data and four corrected data that had been more efficiently corrected for batch effects from our previous assessments compared to the other datasets.
+In the above UpSet plot, the left bars indicate the number of variables selected from each data corrected with different methods. The right bar plot combined with the scatterplot show different intersection and their aggregates. We obtained a high overlap of 36 out of 50 selected variables between different corrected and uncorrected data. However, the data from each method still included unique variables that were not selected in the other corrected data, e.g., PLSDA-batch and sPLSDA-batch. As `upset()` can only include five datasets at once, we only displayed the uncorrected data and four corrected data that had been more efficiently corrected for batch effects from our previous assessments compared to the other datasets.
 
 We then extract each intersection of selected variables between these five corrected data with `venn()` function from `r colorize("gplots", "orange")`. We can also save the taxonomic information of these OTUs into a text file for further interpretation.
 
