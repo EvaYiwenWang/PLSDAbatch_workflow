@@ -14,7 +14,7 @@ output:
     toc_depth: 4
 
 vignette: >
-  %\VignetteIndexEntry{Case Studies}
+  %\VignetteIndexEntry{Supplementary Materials}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
   
