@@ -2,8 +2,8 @@
 title: 'Supplementary Materials for PLSDA-batch Vignette'
 author: 
 - 'Yiwen (Eva) Wang'
-- 'Melbourne Integrative Genomics, School of Mathematics and Statistics, The University of Melbourne, Australia'
-- 'yiwenw5@student.unimelb.edu.au'
+- 'Agricultural Genomics Institute at Shenzhen, Chinese Academy of Agricultural Sciences, Shenzhen, China'
+- 'wangyiwen@caas.cn'
 date: '`r format(Sys.time(), "%d %B, %Y")`'
 
 output: 
@@ -104,6 +104,8 @@ Prior to CLR transformation, we recommend adding 0.01 as the offset for the `r c
 
 ```{r}
 sponge.clr <- logratio.transfo(X = sponge.tss, logratio = 'CLR', offset = 0.01)
+
+class(sponge.clr) <- 'matrix'
 ```
 
 ## Batch effect detection
@@ -112,7 +114,7 @@ sponge.clr <- logratio.transfo(X = sponge.tss, logratio = 'CLR', offset = 0.01)
 
 We apply `pca()` function from `r colorize("mixOmics", "orange")` package to the `r colorize("sponge data", "brown")` and `Scatter_Density()` function from `r colorize("PLSDAbatch", "orange")` to represent the PCA sample plot with densities.
 
-```{r SpongepcaBefore, fig.align = 'center', fig.cap = 'The PCA sample plot with densities in the sponge data.'}
+```{r SpongepcaBefore, fig.align = 'center', fig.cap = 'Figure 1: The PCA sample plot with densities in the sponge data.'}
 sponge.pca.before <- pca(sponge.clr, ncomp = 3, scale = TRUE)
 
 sponge.batch <- sponge_data$Y.bat
@@ -131,7 +133,7 @@ In the above figure, the tissue variation (effects of interest) accounted for 24
 
 We produce a heatmap using `r colorize("pheatmap", "orange")` package. The data first need to be scaled on both OTUs and samples.
 
-```{r Spongeheatmap, out.width = '90%', fig.align = 'center', fig.cap = 'Hierarchical clustering for samples in the sponge data.'}
+```{r Spongeheatmap, out.width = '90%', fig.align = 'center', fig.cap = 'Figure 2: Hierarchical clustering for samples in the sponge data.'}
 # scale the clr data on both OTUs and samples
 sponge.clr.s <- scale(sponge.clr, center = T, scale = T)
 sponge.clr.ss <- scale(t(sponge.clr.s), center = T, scale = T)
@@ -190,7 +192,7 @@ Linear regression is conducted with `linear_regres()` function in `r colorize("P
 We apply `type = "linear model"` to the `r colorize("sponge data", "brown")` because of the balanced batch x treatment design.
 
 
-```{r Spongelm, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Diagnostic plots for the model fitted with batch effects of "OTU2" in the sponge data.'}
+```{r Spongelm, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 3: Diagnostic plots for the model fitted with batch effects of "OTU2" in the sponge data.'}
 sponge.clr <- sponge.clr[1:nrow(sponge.clr), 1:ncol(sponge.clr)]
 sponge.lm <- linear_regres(data = sponge.clr, 
                            trt = sponge.trt, 
@@ -254,10 +256,10 @@ We use a loop to fit a linear regression for each microbial variable and adjust 
 ```{r}
 # empirical negative controls
 sponge.empir.p <- c()
-  for(e in 1:ncol(sponge.clr)){
-    sponge.empir.lm <- lm(sponge.clr[,e] ~ sponge.trt)
-    sponge.empir.p[e] <- summary(sponge.empir.lm)$coefficients[2,4]
-  }
+for(e in 1:ncol(sponge.clr)){
+  sponge.empir.lm <- lm(sponge.clr[,e] ~ sponge.trt)
+  sponge.empir.p[e] <- summary(sponge.empir.lm)$coefficients[2,4]
+}
 sponge.empir.p.adj <- p.adjust(p = sponge.empir.p, method = 'fdr')
 sponge.nc <- sponge.empir.p.adj > 0.05
 ```
@@ -296,7 +298,7 @@ Here we use `removeBatchEffect()` function with batch grouping information (`bat
 
 ```{r}
 sponge.rBE <- t(removeBatchEffect(t(sponge.clr), batch = sponge.batch, 
-                                design = sponge.mod))
+                                  design = sponge.mod))
 ```
 
 
@@ -310,7 +312,7 @@ Here we use a non-parametric correction (`par.prior = FALSE`) with batch groupin
 
 ```{r}
 sponge.ComBat <- t(ComBat(t(sponge.clr), batch = sponge.batch, 
-                      mod = sponge.mod, par.prior = F))
+                          mod = sponge.mod, par.prior = F))
 
 ```
 
@@ -477,8 +479,10 @@ sponge.pca.PN.plot <-
                   trt.legend.title = 'Tissue')
 ```
 
-```{r Spongepca, fig.height = 17, fig.width = 12, out.width = '100%', echo = F, fig.align = 'center', fig.cap = 'The PCA sample plots with densities before and after batch effect correction in the sponge data.'}
-grid.arrange(sponge.pca.before.plot, sponge.pca.rBE.plot, sponge.pca.ComBat.plot, sponge.pca.PLSDA_batch.plot, sponge.pca.sPLSDA_batch.plot, sponge.pca.PN.plot, ncol = 2)
+```{r Spongepca, fig.height = 13, fig.width = 12, out.width = '100%', echo = F, fig.align = 'center', fig.cap = 'Figure 4: The PCA sample plots with densities before and after batch effect correction in the sponge data.'}
+grid.arrange(sponge.pca.before.plot, sponge.pca.rBE.plot, 
+             sponge.pca.ComBat.plot, sponge.pca.PLSDA_batch.plot, 
+             sponge.pca.sPLSDA_batch.plot, sponge.pca.PN.plot, ncol = 2)
 ```
 
 As shown in the PCA sample plots, the difference between the samples from two different batches was removed after batch effect correction with most methods except percentile normalisation. In the data corrected with percentile normalisation, the samples from tissue E still included a distinction between samples from two batches. We can also compare the boxplots and density plots for key variables identified in PCA driving the major variance or heatmaps showing obvious patterns before and after batch effect correction (results not shown).
@@ -488,13 +492,13 @@ As shown in the PCA sample plots, the difference between the samples from two di
 
 We calculate the global explained variance across all microbial variables using pRDA. To achieve this, we create a loop for each variable from the original (uncorrected) and batch effect-corrected data. The final results are then displayed with `partVar_plot()` from `r colorize("PLSDAbatch", "orange")` package.
 
-```{r Spongeprda, fig.height = 6, fig.align = 'center', fig.cap = 'Global explained variance before and after batch effect correction for the sponge data.'}
-sponge.corrected.list <- list(Before = sponge.clr, 
-                          removeBatchEffect = sponge.rBE, 
-                          ComBat = sponge.ComBat, 
-                          `PLSDA-batch` = sponge.PLSDA_batch, 
-                          `sPLSDA-batch` = sponge.sPLSDA_batch, 
-                          `Percentile Normalisation` = sponge.PN)
+```{r Spongeprda, fig.height = 6, fig.align = 'center', fig.cap = 'Figure 5: Global explained variance before and after batch effect correction for the sponge data.'}
+sponge.corrected.list <- list(`Before correction` = sponge.clr, 
+                              removeBatchEffect = sponge.rBE, 
+                              ComBat = sponge.ComBat, 
+                              `PLSDA-batch` = sponge.PLSDA_batch, 
+                              `sPLSDA-batch` = sponge.sPLSDA_batch, 
+                              `Percentile Normalisation` = sponge.PN)
 
 sponge.prop.df <- data.frame(Treatment = NA, Intersection = NA, 
                              Batch = NA, Residuals = NA) 
@@ -520,10 +524,10 @@ As shown in the above figure, the intersection between batch and treatment varia
 
 $\mathbf{R^2}$
 
-The $R^2$ values for each variable are calculated with `lm()` from `r colorize("stats", "orange")` package. To compare the $R^2$ values among variables, we scale the corrected data before $R^2$ calculation. The results are displayed with `plot()` from R `r colorize("base", "orange")` package. We add notes on the top right of the plots to support the interpretation of these particular results.
+The $R^2$ values for each variable are calculated with `lm()` from `r colorize("stats", "orange")` package. To compare the $R^2$ values among variables, we scale the corrected data before $R^2$ calculation. The results are displayed with `ggplot()` from `r colorize("ggplot2", "orange")` R package.
 
 
-```{r Sponger2, fig.height = 8, fig.width = 7, out.width = '100%', fig.align = 'center', fig.cap = '$R^2$ values for each microbial variable before and after batch effect correction in the sponge data.'}
+```{r Sponger2_1, fig.height = 10, fig.width = 14, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 6: Sponge study: $R^2$ values for each microbial variable before and after batch effect correction.'}
 # scale
 sponge.corr_scale.list <- lapply(sponge.corrected.list, 
                                  function(x){apply(x, 2, scale)})
@@ -541,41 +545,97 @@ for(i in 1:length(sponge.corr_scale.list)){
 }
 names(sponge.r_values.list) <- names(sponge.corr_scale.list)
 
-# plot
-xlabs = 'R2(variable, tissue)'
-ylabs = 'R2(variable, batch)'
-edgex = 1
-edgey = 1
-
-symbol_vector <- c(expression('bad'), expression('good'), 
-                   expression('bad'), expression('good'), 
-                   expression('good'), expression('bad'))
-symbol_color <- c('red', 'dark green', 'red', 'dark green', 
-                  'dark green', 'red')
-
-par(mfrow = c(3,2))
-for(i in 1:length(sponge.r_values.list)){
-  plot(sponge.r_values.list[[i]]$trt, sponge.r_values.list[[i]]$batch, 
-     main = names(sponge.r_values.list)[i], xlab = xlabs, ylab = ylabs,
-     xlim = c(0, edgex), ylim = c(0, edgey))
-  legend('topright', legend = symbol_vector[i], 
-         text.col = symbol_color[i], cex = 1.5, bty = 'n')
+sponge.boxp.list <- list()
+for(i in seq_len(length(sponge.r_values.list))){
+  sponge.boxp.list[[i]] <- 
+    data.frame(r2 = c(sponge.r_values.list[[i]][ ,'trt'],
+                      sponge.r_values.list[[i]][ ,'batch']), 
+               Effects = as.factor(rep(c('Treatment','Batch'), 
+                                       each = 24)))
 }
-par(mfrow = c(1,1))
+names(sponge.boxp.list) <- names(sponge.r_values.list)
 
-# the sum of all variables
-lapply(sponge.r_values.list, colSums)[c(2,4,5)]
+sponge.r2.boxp <- rbind(sponge.boxp.list$`Before correction`,
+                        sponge.boxp.list$removeBatchEffect,
+                        sponge.boxp.list$ComBat,
+                        sponge.boxp.list$`PLSDA-batch`,
+                        sponge.boxp.list$`sPLSDA-batch`,
+                        sponge.boxp.list$`Percentile Normalisation`,
+                        sponge.boxp.list$RUVIII)
+
+sponge.r2.boxp$methods <- rep(c('Before correction', ' removeBatchEffect', 
+                                'ComBat','PLSDA-batch', 'sPLSDA-batch',
+                                'Percentile Normalisation'), each = 48)
+
+sponge.r2.boxp$methods <- factor(sponge.r2.boxp$methods, 
+                                 levels = unique(sponge.r2.boxp$methods))
+
+ggplot(sponge.r2.boxp, aes(x = Effects, y = r2, fill = Effects)) +
+  geom_boxplot(alpha = 0.80) +
+  theme_bw() + 
+  theme(text = element_text(size = 18),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 18),
+        axis.text.y = element_text(size = 18),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        legend.position = "right") + facet_grid( ~ methods) + 
+  scale_fill_manual(values=pb_color(c(12,14))) 
 ```
 
-We observed that the data corrected by ComBat, percentile normalisation still included a few variables with a large proportion of batch variance as shown in the above figures. When considering the sum of all variables, the remaining batch variance of corrected data from sPLSDA-batch was greater than PLSDA-batch, which was greater than removeBatchEffect. The preserved treatment variance of corrected data from sPLSDA-batch was greater than PLSDA-batch which itself was greater than removeBatchEffect.
+We observed that the data corrected by ComBat, percentile normalisation still included a few variables with a large proportion of batch variance as shown in the above figures. 
 
+```{r Sponger2_2, fig.height = 10, fig.width = 14, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 7: Sponge study: the sum of $R^2$ values for each microbial variable before and after batch effect correction.'}
+##################################
+sponge.barp.list <- list()
+for(i in seq_len(length(sponge.r_values.list))){
+  sponge.barp.list[[i]] <- 
+    data.frame(r2 = c(sum(sponge.r_values.list[[i]][ ,'trt']),
+                      sum(sponge.r_values.list[[i]][ ,'batch'])), 
+               Effects = c('Treatment','Batch'))
+}
+names(sponge.barp.list) <- names(sponge.r_values.list)
+
+sponge.r2.barp <- rbind(sponge.barp.list$`Before correction`,
+                        sponge.barp.list$removeBatchEffect,
+                        sponge.barp.list$ComBat,
+                        sponge.barp.list$`PLSDA-batch`,
+                        sponge.barp.list$`sPLSDA-batch`,
+                        sponge.barp.list$`Percentile Normalisation`,
+                        sponge.barp.list$RUVIII)
+
+
+sponge.r2.barp$methods <- rep(c('Before correction', ' removeBatchEffect', 
+                                'ComBat','PLSDA-batch', 'sPLSDA-batch',
+                                'Percentile Normalisation'), each = 2)
+
+sponge.r2.barp$methods <- factor(sponge.r2.barp$methods, 
+                                 levels = unique(sponge.r2.barp$methods))
+
+
+ggplot(sponge.r2.barp, aes(x = Effects, y = r2, fill = Effects)) +
+  geom_bar(stat="identity") + 
+  theme_bw() + 
+  theme(text = element_text(size = 18),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 18),
+        axis.text.y = element_text(size = 18),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        legend.position = "right") + facet_grid( ~ methods) + 
+  scale_fill_manual(values=pb_color(c(12,14)))
+
+```
+When considering the sum of all variables, the remaining batch variance of corrected data from sPLSDA-batch was similar as PLSDA-batch, which was greater than removeBatchEffect. The preserved treatment variance of corrected data from sPLSDA-batch was also similar as PLSDA-batch which was greater than removeBatchEffect.
 
 **Alignment scores**
 
 To use the `alignment_score()` function from `r colorize("PLSDAbatch", "orange")`, we need to specify the proportion of data variance to explain (`var`), the number of nearest neighbours (`k`) and the number of principal components to estimate (`ncomp`). We then use `ggplot()` function from `r colorize("ggplot2", "orange")` to visualise the results.
 
 
-```{r Spongealignment, fig.align = 'center', fig.cap = 'Comparison of alignment scores before and after batch effect correction using different methods for the sponge data.'}
+```{r Spongealignment, fig.align = 'center', fig.cap = 'Figure 8: Comparison of alignment scores before and after batch effect correction using different methods for the sponge data.'}
 sponge.var = 0.95
 sponge.k = 3
 
@@ -590,10 +650,10 @@ for(i in 1:length(sponge.corrected.list)){
 }
 
 sponge.scores.df <- data.frame(scores = sponge.scores, 
-                           methods = names(sponge.corrected.list))
+                               methods = names(sponge.corrected.list))
 
 sponge.scores.df$methods <- factor(sponge.scores.df$methods, 
-                               levels = rev(names(sponge.corrected.list)))
+                                   levels = rev(names(sponge.corrected.list)))
 
 
 ggplot() + geom_col(aes(x = sponge.scores.df$methods, 
@@ -606,7 +666,7 @@ ggplot() + geom_col(aes(x = sponge.scores.df$methods,
   xlab('') + ylim(0,0.4)
 ```
 
-The alignment scores complement the PCA results, especially when batch effect removal is difficult to assess on PCA sample plots. For example in previous PCA sample plots, we observed that the samples across different batches were better mixed after batch effect correction with different methods than before, whereas the performance of different methods was difficult to compare. Since a higher alignment score indicates that samples are better mixed, as shown in the above figure, sPLSDA-batch gave a superior performance compared to the other methods.
+The alignment scores complement the PCA results, especially when batch effect removal is difficult to assess on PCA sample plots. Since a higher alignment score indicates that samples are better mixed, as shown in the above figure, sPLSDA-batch gave a superior performance compared to the other methods.
 
 
 **Variable selection**
@@ -616,7 +676,7 @@ We use `splsda()` from `r colorize("mixOmics", "orange")` to select the top 5 mi
 In the code below, we first need to convert the list of variables selected from different method-corrected data into a data frame compatible with `upset()` using `fromList()`. We then assign different colour schemes for each variable selection.
 
 
-```{r SpongeupsetR, out.width = '100%', fig.align = 'center', fig.cap = 'UpSet plot showing overlap between variables selected from different corrected data for the sponge study.'}
+```{r SpongeupsetR, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 9: UpSet plot showing overlap between variables selected from different corrected data for the sponge study.'}
 sponge.splsda.select <- list()
 for(i in 1:length(sponge.corrected.list)){
   splsda.res <- splsda(X = sponge.corrected.list[[i]], 
@@ -635,16 +695,17 @@ sponge.splsda.upsetR <- fromList(sponge.splsda.select)
 upset(sponge.splsda.upsetR, main.bar.color = 'gray36',
       sets.bar.color = pb_color(c(25:22,20)), matrix.color = 'gray36',
       order.by = 'freq', empty.intersections = 'on',
-      queries = list(list(query = intersects, params = list('Before'), 
-                          color = pb_color(20), active = T),
-                     list(query = intersects, params = list('removeBatchEffect'), 
-                          color = pb_color(22), active = T),
-                     list(query = intersects, params = list('ComBat'), 
-                          color = pb_color(23), active = T),
-                     list(query = intersects, params = list('PLSDA-batch'), 
-                          color = pb_color(24), active = T),
-                     list(query = intersects, params = list('sPLSDA-batch'), 
-                          color = pb_color(25), active = T)))
+      queries = 
+        list(list(query = intersects, params = list('Before correction'), 
+                  color = pb_color(20), active = T),
+             list(query = intersects, params = list('removeBatchEffect'), 
+                  color = pb_color(22), active = T),
+             list(query = intersects, params = list('ComBat'), 
+                  color = pb_color(23), active = T),
+             list(query = intersects, params = list('PLSDA-batch'), 
+                  color = pb_color(24), active = T),
+             list(query = intersects, params = list('sPLSDA-batch'), 
+                  color = pb_color(25), active = T)))
 
 ```
 In the above figure, the left bars indicate the number of variables selected from each data corrected with different methods. The right bar plot combined with the scatterplot show different intersection and their aggregates. We obtained an overlap of 4 out of 5 selected variables between different corrected and uncorrected data. However, the data from each method still included unique variables that were not selected in the other corrected data, e.g., ComBat and PLSDA-batch. As `upset()` can only include five datasets at once, we only displayed the uncorrected data and four corrected data that had been more efficiently corrected for batch effects from our previous assessments compared to the other datasets.
@@ -681,6 +742,8 @@ Prior to CLR transformation, we recommend adding 1 as the offset for the `r colo
 
 ```{r}
 hfhs.clr <- logratio.transfo(X = hfhs.filter, logratio = 'CLR', offset = 1)
+
+class(hfhs.clr) <- 'matrix'
 ```
 
 ## Batch effect detection
@@ -690,7 +753,7 @@ hfhs.clr <- logratio.transfo(X = hfhs.filter, logratio = 'CLR', offset = 1)
 We apply `pca()` function from `r colorize("mixOmics", "orange")` package to the `r colorize("HFHS data", "olive")` and use `Scatter_Density()` function from `r colorize("PLSDAbatch", "orange")` to represent the PCA sample plot with densities.
 
 
-```{r HFHSpcaBefore1, fig.align = 'center', fig.cap = 'The PCA sample plot with densities coloured by cages in the HFHS data.'}
+```{r HFHSpcaBefore1, fig.align = 'center', fig.cap = 'Figure 10: The PCA sample plot with densities coloured by cages in the HFHS data.'}
 hfhs.pca.before <- pca(hfhs.clr, ncomp = 3, scale = TRUE)
 
 hfhs.metadata <- HFHS_data$FullData$metadata
@@ -713,7 +776,7 @@ hfhs.pca.before.cage.plot <-
 
 In the above figure, part of the samples with different diets were mixed together, while all the samples from different batches (i.e., cages) were well mixed and not distinct. This result indicates no cage effect for the whole data and no treatment effect for part of samples.
 
-```{r HFHSpcaBefore2, fig.align = 'center', fig.cap = 'The PCA sample plot with densities coloured by days in the HFHS data.'}
+```{r HFHSpcaBefore2, fig.align = 'center', fig.cap = 'Figure 11: The PCA sample plot with densities coloured by days in the HFHS data.'}
 hfhs.pca.before.day.plot <- 
   Scatter_Density(object = hfhs.pca.before, 
                   batch = hfhs.day, 
@@ -725,7 +788,7 @@ hfhs.pca.before.day.plot <-
 
 As shown in the above figure, we did not observe a difference between samples with different diets on arrival day "A" and "Day0". This result was consistent with the experimental design, as mice were not treated with different diets on these two days. We thus removed the samples from these two days.
 
-```{r HFHSpcaBeforeNew1, fig.align = 'center', fig.cap = 'The PCA sample plot with densities coloured by cages in the reduced HFHS data.'}
+```{r HFHSpcaBeforeNew1, fig.align = 'center', fig.cap = 'Figure 12: The PCA sample plot with densities coloured by cages in the reduced HFHS data.'}
 # remove samples from arrival day and day0
 hfhs.dA0.idx <- c(which(hfhs.day == 'A'), which(hfhs.day == 'Day0'))
 hfhs.clr.less <- hfhs.clr[-hfhs.dA0.idx,]
@@ -750,7 +813,7 @@ hfhs.less.pca.before.cage.plot <-
 
 
 
-```{r HFHSpcaBeforeNew2, fig.align = 'center', fig.cap = 'The PCA sample plot with densities coloured by days in the reduced HFHS data.'}
+```{r HFHSpcaBeforeNew2, fig.align = 'center', fig.cap = 'Figure 13: The PCA sample plot with densities coloured by days in the reduced HFHS data.'}
 hfhs.less.pca.before.day.plot <- 
   Scatter_Density(object = hfhs.less.pca.before, 
                   batch = hfhs.day.less, 
@@ -766,7 +829,7 @@ We observed a substantial diet variation on component 1, no cage variation, and 
 
 We produce a heatmap using `r colorize("pheatmap", "orange")` package. The data first need to be scaled on both OTUs and samples.
 
-```{r HFHSheatmapS, out.width = '90%', fig.align = 'center', fig.cap = 'Hierarchical clustering for samples in the HFHS data.'}
+```{r HFHSheatmapS, out.width = '90%', fig.align = 'center', fig.cap = 'Figure 14: Hierarchical clustering for samples in the HFHS data.'}
 # scale the clr data on both OTUs and samples
 hfhs.clr.s <- scale(hfhs.clr.less, center = T, scale = T)
 hfhs.clr.ss <- scale(t(hfhs.clr.s), center = T, scale = T)
@@ -840,12 +903,12 @@ The methods that we use to account for batch effects include the methods designe
 ```{r}
 # Creating a MRexperiment object (make sure no NA in metadata)
 rownames(HFHS_data$FullData$metadata) <- rownames(HFHS_data$FullData$X.count)
-HFHS.phenotypeData = AnnotatedDataFrame(data =
-                                HFHS_data$FullData$metadata[-hfhs.dA0.idx,])
-HFHS.taxaData = AnnotatedDataFrame(data = 
-                                as.data.frame(HFHS_data$FullData$taxa))
+HFHS.phenotypeData = 
+  AnnotatedDataFrame(data = HFHS_data$FullData$metadata[-hfhs.dA0.idx,])
+HFHS.taxaData = 
+  AnnotatedDataFrame(data = as.data.frame(HFHS_data$FullData$taxa))
 HFHS.obj = newMRexperiment(counts = 
-                           t(HFHS_data$FullData$X.count[-hfhs.dA0.idx,]),
+                             t(HFHS_data$FullData$X.count[-hfhs.dA0.idx,]),
                            phenoData = HFHS.phenotypeData, 
                            featureData = HFHS.taxaData)
 HFHS.obj
@@ -916,7 +979,7 @@ head(HFHScoefs)
 To deal with the day effect only, we apply `type = "linear model"` because of the balanced batch x treatment design.
 
 
-```{r HFHSlm, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Diagnostic plots for the model fitted with the day effect of "OTU 541135" in the HFHS data.'}
+```{r HFHSlm, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 15: Diagnostic plots for the model fitted with the day effect of "OTU 541135" in the HFHS data.'}
 hfhs.lm <- linear_regres(data = hfhs.clr.less, 
                          trt = hfhs.trt.less, 
                          batch.fix = hfhs.day.less, 
@@ -957,7 +1020,7 @@ hfhs.lmm <- linear_regres(data = hfhs.clr.less,
                           type = 'linear mixed model')
 ```
 
-```{r HFHSlmm, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Diagnostic plots for the model fitted with the day and cage effects of "OTU541135" in the HFHS data.'}
+```{r HFHSlmm, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 16: Diagnostic plots for the model fitted with the day and cage effects of "OTU541135" in the HFHS data.'}
 hfhs.p <- sapply(hfhs.lmm$lmm.table, function(x){x$coefficients[2,5]})
 hfhs.p.adj <- p.adjust(p = hfhs.p, method = 'fdr')
 
@@ -1019,10 +1082,10 @@ We use a loop to fit a linear regression for each microbial variable and adjust 
 ```{r}
 # empirical negative controls
 hfhs.empir.p <- c()
-  for(e in 1:ncol(hfhs.clr.less)){
-    hfhs.empir.lm <- lm(hfhs.clr.less[,e] ~ hfhs.trt.less)
-    hfhs.empir.p[e] <- summary(hfhs.empir.lm)$coefficients[2,4]
-  }
+for(e in 1:ncol(hfhs.clr.less)){
+  hfhs.empir.lm <- lm(hfhs.clr.less[,e] ~ hfhs.trt.less)
+  hfhs.empir.p[e] <- summary(hfhs.empir.lm)$coefficients[2,4]
+}
 hfhs.empir.p.adj <- p.adjust(p = hfhs.empir.p, method = 'fdr')
 hfhs.nc <- hfhs.empir.p.adj > 0.05
 ```
@@ -1076,7 +1139,7 @@ Here we use a non-parametric correction (`par.prior = F`) with batch grouping in
 
 ```{r}
 hfhs.ComBat <- t(ComBat(t(hfhs.clr.less), batch = hfhs.day.less, 
-                      mod = hfhs.mod, par.prior = F))
+                        mod = hfhs.mod, par.prior = F))
 ```
 
 **PLSDA-batch**
@@ -1260,8 +1323,11 @@ hfhs.pca.RUVIII.plot <-
                   title = 'RUVIII')
 ```
 
-```{r HFHSpca, fig.height = 17, fig.width = 12, out.width = '100%', echo = F, fig.align = 'center', fig.cap = 'The PCA sample plots with densities before and after batch effect correction in the HFHS data.'}
-grid.arrange(hfhs.pca.before.plot, hfhs.pca.rBE.plot, hfhs.pca.ComBat.plot, hfhs.pca.PLSDA_batch.plot, hfhs.pca.sPLSDA_batch.plot, hfhs.pca.PN.plot, hfhs.pca.RUVIII.plot, ncol = 2)
+```{r HFHSpca, fig.height = 17, fig.width = 12, out.width = '100%', echo = F, fig.align = 'center', fig.cap = 'Figure 17: The PCA sample plots with densities before and after batch effect correction in the HFHS data.'}
+grid.arrange(hfhs.pca.before.plot, hfhs.pca.rBE.plot, 
+             hfhs.pca.ComBat.plot, hfhs.pca.PLSDA_batch.plot, 
+             hfhs.pca.sPLSDA_batch.plot, hfhs.pca.PN.plot, 
+             hfhs.pca.RUVIII.plot, ncol = 2)
 ```
 
 In the above figures, the differences between the samples from different days were well removed after batch effect correction with PLSDA-batch and RUVIII. We can also compare the boxplots and density plots for key variables identified in PCA driving the major variance or in heatmaps showing obvious patterns before and after batch effect correction (results not shown).
@@ -1271,9 +1337,9 @@ In the above figures, the differences between the samples from different days we
 
 We calculate the global explained variance across all microbial variables using pRDA. To achieve this, we create a loop for each variable from the original (uncorrected) and batch effect-corrected data. The final results are then displayed with `partVar_plot()` from `r colorize("PLSDAbatch", "orange")` package.
 
-```{r HFHSprda, fig.height = 6, fig.align = 'center', fig.cap = 'Global explained variance before and after batch effect correction for the HFHS data.'}
+```{r HFHSprda, fig.height = 6, fig.align = 'center', fig.cap = 'Figure 18: Global explained variance before and after batch effect correction for the HFHS data.'}
 # HFHS data
-hfhs.corrected.list <- list(Before = hfhs.clr.less, 
+hfhs.corrected.list <- list(`Before correction` = hfhs.clr.less, 
                             removeBatchEffect = hfhs.rBE, 
                             ComBat = hfhs.ComBat, 
                             `PLSDA-batch` = hfhs.PLSDA_batch,
@@ -1306,11 +1372,10 @@ In the `r colorize("HFHS data", "olive")`, a small amount of batch variance was 
 
 **$R^2$**
 
-The $R^2$ values for each variable are calculated with `lm()` from `r colorize("stats", "orange")` package. To compare the $R^2$ values among variables, we scale the corrected data before $R^2$ calculation. The results are displayed with `plot()` from R `r colorize("base", "orange")` package. We add notes on the top right of the plots to support the interpretation of these particular results.
+The $R^2$ values for each variable are calculated with `lm()` from `r colorize("stats", "orange")` package. To compare the $R^2$ values among variables, we scale the corrected data before $R^2$ calculation. The results are displayed with `ggplot()` from `r colorize("ggplot2", "orange")` R package. 
 
 
-
-```{r HFHSr2, fig.height = 8, fig.width = 7, out.width = '100%', fig.align = 'center', fig.cap = '$R^2$ values for each microbial variable before and after batch effect correction in the HFHS data.'}
+```{r HFHSr2_1, fig.height = 10, fig.width = 14, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 19: HFHS study: $R^2$ values for each microbial variable before and after batch effect correction.'}
 # scale
 hfhs.corr_scale.list <- lapply(hfhs.corrected.list, 
                                function(x){apply(x, 2, scale)})
@@ -1329,46 +1394,101 @@ for(i in 1:length(hfhs.corr_scale.list)){
 }
 names(hfhs.r_values.list) <- names(hfhs.corr_scale.list)
 
-# plot
-xlabs = 'R2(variable, treatment)'
-ylabs = 'R2(variable, batch)'
-edgex = 1
-edgey = 0.6
-
-symbol_vector <- c(expression('bad'), expression('good'), 
-                   expression('good'), expression('good'), 
-                   expression('bad'), expression('bad'),
-                   expression('good'))
-symbol_color <- c('red', 'dark green', 
-                  'dark green', 'dark green', 
-                  'red', 'red',
-                  'dark green')
-
-
-par(mfrow = c(4,2))
-for(i in 1:length(hfhs.r_values.list)){
-  plot(hfhs.r_values.list[[i]]$trt, 
-       hfhs.r_values.list[[i]]$batch, 
-       main = names(hfhs.r_values.list)[i], 
-       xlab = xlabs, ylab = ylabs,
-       xlim = c(0, edgex), ylim = c(0, edgey))
-  legend('topright', legend = symbol_vector[i], 
-         text.col = symbol_color[i], cex = 1.5, bty = 'n')
+hfhs.boxp.list <- list()
+for(i in seq_len(length(hfhs.r_values.list))){
+  hfhs.boxp.list[[i]] <- 
+    data.frame(r2 = c(hfhs.r_values.list[[i]][ ,'trt'],
+                      hfhs.r_values.list[[i]][ ,'batch']), 
+               Effects = as.factor(rep(c('Treatment','Batch'), 
+                                       each = 515)))
 }
-par(mfrow = c(1,1))
+names(hfhs.boxp.list) <- names(hfhs.r_values.list)
 
-# the sum of all variables
-lapply(hfhs.r_values.list, colSums)[c(2,3,4,7)]
+hfhs.r2.boxp <- rbind(hfhs.boxp.list$`Before correction`,
+                      hfhs.boxp.list$removeBatchEffect,
+                      hfhs.boxp.list$ComBat,
+                      hfhs.boxp.list$`PLSDA-batch`,
+                      hfhs.boxp.list$`sPLSDA-batch`,
+                      hfhs.boxp.list$`Percentile Normalisation`,
+                      hfhs.boxp.list$RUVIII)
+
+hfhs.r2.boxp$methods <- rep(c('Before correction', ' removeBatchEffect', 
+                              'ComBat','PLSDA-batch', 'sPLSDA-batch',
+                              'Percentile Normalisation', 'RUVIII'), 
+                            each = 1030)
+
+hfhs.r2.boxp$methods <- factor(hfhs.r2.boxp$methods, 
+                               levels = unique(hfhs.r2.boxp$methods))
+
+ggplot(hfhs.r2.boxp, aes(x = Effects, y = r2, fill = Effects)) +
+  geom_boxplot(alpha = 0.80) +
+  theme_bw() + 
+  theme(text = element_text(size = 18),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 18),
+        axis.text.y = element_text(size = 18),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        legend.position = "right") + facet_grid( ~ methods) + 
+  scale_fill_manual(values=pb_color(c(12,14))) 
 ```
 
-We observed from these plots that the data corrected by sPLSDA-batch, percentile normalisation still included many variables with a large proportion of batch variance as shown in the above figure panel. When considering the sum of all variables, the remaining batch variance of corrected data from PLSDA-batch is greater than removeBatchEffect, ComBat and RUVIII. The preserved treatment variance of corrected data from PLSDA-batch is the largest.
+We observed from these plots that the data corrected by sPLSDA-batch, percentile normalisation still included many variables with a large proportion of batch variance. 
+
+
+```{r HFHSr2_2, fig.height = 10, fig.width = 14, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 20: HFHS study: the sum of $R^2$ values for each microbial variable before and after batch effect correction.'}
+##################################
+hfhs.barp.list <- list()
+for(i in seq_len(length(hfhs.r_values.list))){
+  hfhs.barp.list[[i]] <- 
+    data.frame(r2 = c(sum(hfhs.r_values.list[[i]][ ,'trt']),
+                      sum(hfhs.r_values.list[[i]][ ,'batch'])), 
+               Effects = c('Treatment','Batch'))
+}
+names(hfhs.barp.list) <- names(hfhs.r_values.list)
+
+hfhs.r2.barp <- rbind(hfhs.barp.list$`Before correction`,
+                      hfhs.barp.list$removeBatchEffect,
+                      hfhs.barp.list$ComBat,
+                      hfhs.barp.list$`PLSDA-batch`,
+                      hfhs.barp.list$`sPLSDA-batch`,
+                      hfhs.barp.list$`Percentile Normalisation`,
+                      hfhs.barp.list$RUVIII)
+
+
+hfhs.r2.barp$methods <- rep(c('Before correction', ' removeBatchEffect', 
+                              'ComBat','PLSDA-batch', 'sPLSDA-batch',
+                              'Percentile Normalisation', 'RUVIII'), each = 2)
+
+hfhs.r2.barp$methods <- factor(hfhs.r2.barp$methods, 
+                               levels = unique(hfhs.r2.barp$methods))
+
+
+ggplot(hfhs.r2.barp, aes(x = Effects, y = r2, fill = Effects)) +
+  geom_bar(stat="identity") + 
+  theme_bw() + 
+  theme(text = element_text(size = 18),
+        axis.title.x = element_blank(),
+        axis.title.y = element_blank(),
+        axis.text.x = element_text(angle = 60, hjust = 1, size = 18),
+        axis.text.y = element_text(size = 18),
+        panel.grid.minor.x = element_blank(),
+        panel.grid.major.x = element_blank(),
+        legend.position = "right") + facet_grid( ~ methods) + 
+  scale_fill_manual(values=pb_color(c(12,14)))
+
+```
+
+
+When considering the sum of all variables, the remaining batch variance of corrected data from PLSDA-batch is greater than removeBatchEffect, ComBat and RUVIII. The preserved treatment variance of corrected data from PLSDA-batch is the largest.
 
 **Alignment scores**
 
 We use the `alignment_score()` function from `r colorize("PLSDAbatch", "orange")`. We need to specify the proportion of data variance to explain (`var`), the number of nearest neighbours (`k`) and the number of principal components to estimate (`ncomp`). We then use `ggplot()` function from `r colorize("ggplot2", "orange")` to visualise the results.
 
 
-```{r HFHSalignment, fig.align = 'center', fig.cap = 'Comparison of alignment scores before and after batch effect correction using different methods for the HFHS data.'}
+```{r HFHSalignment, fig.align = 'center', fig.cap = 'Figure 21: Comparison of alignment scores before and after batch effect correction using different methods for the HFHS data.'}
 # HFHS data
 hfhs.var = 0.95
 hfhs.k = 15
@@ -1379,7 +1499,7 @@ for(i in 1:length(hfhs.corrected.list)){
                          batch = hfhs.day.less, 
                          var = hfhs.var, 
                          k = hfhs.k, 
-                         ncomp = 50)
+                         ncomp = 130)
   hfhs.scores <- c(hfhs.scores, res)
 }
 
@@ -1387,7 +1507,7 @@ hfhs.scores.df <- data.frame(scores = hfhs.scores,
                              methods = names(hfhs.corrected.list))
 
 hfhs.scores.df$methods <- factor(hfhs.scores.df$methods, 
-                               levels = rev(names(hfhs.corrected.list)))
+                                 levels = rev(names(hfhs.corrected.list)))
 
 
 ggplot() + geom_col(aes(x = hfhs.scores.df$methods, 
@@ -1412,7 +1532,7 @@ We use `splsda()` from `r colorize("mixOmics", "orange")` to select the top 50 m
 In the code below, we first need to convert the list of variables selected from different method-corrected data into a data frame compatible with `upset()` using `fromList()`. We then assign different colour schemes for each variable selection.
 
 
-```{r, HFHSupsetR, out.width = '100%', fig.align = 'center', fig.cap = 'UpSet plot showing overlap between variables selected from different corrected data for the HFHS study.'}
+```{r, HFHSupsetR, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 22: UpSet plot showing overlap between variables selected from different corrected data for the HFHS study.'}
 hfhs.splsda.select <- list()
 for(i in 1:length(hfhs.corrected.list)){
   splsda.res <- splsda(X = hfhs.corrected.list[[i]],
@@ -1431,16 +1551,17 @@ hfhs.splsda.upsetR <- fromList(hfhs.splsda.select)
 upset(hfhs.splsda.upsetR, main.bar.color = 'gray36',
       sets.bar.color = pb_color(c(25:22,20)), matrix.color = 'gray36',
       order.by = 'freq', empty.intersections = 'on',
-      queries = list(list(query = intersects, params = list('Before'), 
-                          color = pb_color(20), active = T),
-                     list(query = intersects, params = list('removeBatchEffect'), 
-                          color = pb_color(22), active = T),
-                     list(query = intersects, params = list('ComBat'), 
-                          color = pb_color(23), active = T),
-                     list(query = intersects, params = list('PLSDA-batch'), 
-                          color = pb_color(24), active = T),
-                     list(query = intersects, params = list('RUVIII'), 
-                          color = pb_color(25), active = T)))
+      queries = 
+        list(list(query = intersects, params = list('Before correction'), 
+                  color = pb_color(20), active = T),
+             list(query = intersects, params = list('removeBatchEffect'), 
+                  color = pb_color(22), active = T),
+             list(query = intersects, params = list('ComBat'), 
+                  color = pb_color(23), active = T),
+             list(query = intersects, params = list('PLSDA-batch'), 
+                  color = pb_color(24), active = T),
+             list(query = intersects, params = list('RUVIII'), 
+                  color = pb_color(25), active = T)))
 
 ```
 
@@ -1449,8 +1570,9 @@ In the above UpSet plot, the left bars indicate the number of variables selected
 ```{r}
 hfhs.splsda.select.overlap <- venn(hfhs.splsda.select, show.plot = F)
 hfhs.inters.splsda <- attr(hfhs.splsda.select.overlap, 'intersections')
-hfhs.inters.splsda.taxa <- lapply(hfhs.inters.splsda, 
-          FUN = function(x){as.data.frame(HFHS_data$FullData$taxa[x, ])})
+hfhs.inters.splsda.taxa <- 
+  lapply(hfhs.inters.splsda, 
+         FUN = function(x){as.data.frame(HFHS_data$FullData$taxa[x, ])})
 capture.output(hfhs.inters.splsda.taxa, 
                file = "GeneratedData/HFHSselected_50_splsda.txt")
 ```
@@ -1487,6 +1609,8 @@ Prior to CLR transformation, we add 1 as the offset for the `r colorize("HD data
 
 ```{r}
 hd.clr <- logratio.transfo(X = hd.filter, logratio = 'CLR', offset = 1)
+
+class(hd.clr) <- 'matrix'
 ```
 
 
@@ -1496,7 +1620,7 @@ hd.clr <- logratio.transfo(X = hd.filter, logratio = 'CLR', offset = 1)
 
 We apply `pca()` function from `r colorize("mixOmics", "orange")` package to the `r colorize("HD data", "violet")` and use `Scatter_Density()` function from `r colorize("PLSDAbatch", "orange")` to represent the PCA sample plot with densities.
 
-```{r HDpcaBefore, fig.align = 'center', fig.cap = 'The PCA sample plot with densities in the HD data.'}
+```{r HDpcaBefore, fig.align = 'center', fig.cap = 'Figure 23: The PCA sample plot with densities in the HD data.'}
 # HD data
 hd.pca.before <- pca(hd.clr, ncomp = 3, scale = TRUE)
 
@@ -1522,14 +1646,14 @@ In the above figure, we observed a clear difference between genotypes but vague 
 
 We produce a heatmap using `r colorize("pheatmap", "orange")` package. The data first need to be scaled on both OTUs and samples.
 
-```{r, HDheatmap, out.width = '90%', fig.align = 'center', fig.cap = 'Hierarchical clustering for samples in the HD data.'}
+```{r, HDheatmap, out.width = '90%', fig.align = 'center', fig.cap = 'Figure 24: Hierarchical clustering for samples in the HD data.'}
 # scale the clr data on both OTUs and samples
 hd.clr.s <- scale(hd.clr, center = T, scale = T)
 hd.clr.ss <- scale(t(hd.clr.s), center = T, scale = T)
 
 hd.anno_col <- data.frame(Cage = hd.batch, Genotype = hd.trt)
 hd.anno_colors <- list(Cage = color.mixo(1:10), 
-                      Genotype = pb_color(1:2))
+                       Genotype = pb_color(1:2))
 names(hd.anno_colors$Cage) = levels(hd.batch)
 names(hd.anno_colors$Genotype) = levels(hd.trt)
 
@@ -1587,7 +1711,7 @@ hd.lmm <- linear_regres(data = hd.clr, trt = hd.trt,
                         type = 'linear mixed model')
 ```
 
-```{r HDlmmS, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Diagnostic plots for the model fitted with the cage effect of "OTU1" in the HD data.'}
+```{r HDlmmS, fig.height = 13, fig.width = 12, out.width = '100%', fig.align = 'center', fig.cap = 'Figure 25: Diagnostic plots for the model fitted with the cage effect of "OTU1" in the HD data.'}
 hd.p <- sapply(hd.lmm$lmm.table, function(x){x$coefficients[2,5]})
 hd.p.adj <- p.adjust(p = hd.p, method = 'fdr')
 
@@ -1615,3 +1739,5 @@ head(hd.lmm$marg.R2)
 ```
 
 We observed that some variables resulted in singular fits (`error message: Can't compute random effect variances. Some variance components equal zero. Your model may suffer from singulariy.`), which are expected to happen in linear mixed models when covariates are nested. We recommend noting the variables for which this error occurs, as it may lead to unreliable results.
+
+# References

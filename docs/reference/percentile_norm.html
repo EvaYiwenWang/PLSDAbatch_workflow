@@ -22,7 +22,7 @@ cohort definitions."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/a
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -40,7 +40,10 @@ cohort definitions."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/a
       <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="../articles/simulation_study.html">Simulation Study</a>
+      <a href="../articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="../articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -73,7 +76,7 @@ cohort definitions.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">percentile_norm</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, batch <span class="op">=</span> <span class="va">batch</span>, trt <span class="op">=</span> <span class="va">trt</span>, <span class="va">ctrl.grp</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">percentile_norm</span><span class="op">(</span>data <span class="op">=</span> <span class="va">data</span>, batch <span class="op">=</span> <span class="va">batch</span>, trt <span class="op">=</span> <span class="va">trt</span>, <span class="va">ctrl.grp</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,18 +84,27 @@ cohort definitions.</p>
     <dl><dt>data</dt>
 <dd><p>A data frame that contains the microbial variables and required
 to be corrected for batch effects. Samples as rows and variables as columns.</p></dd>
+
+
 <dt>batch</dt>
 <dd><p>A factor or a class vector for the batch grouping information
 (categorical outcome variable).</p></dd>
+
+
 <dt>trt</dt>
 <dd><p>A factor or a class vector for the treatment grouping information
 (categorical outcome variable).</p></dd>
+
+
 <dt>ctrl.grp</dt>
 <dd><p>Character, the name of control samples (i.e. healthy).</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame that corrected for batch effects.</p>
+    
+
+<p>A data frame that corrected for batch effects.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -112,14 +124,14 @@ the other methods for batch effect management.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'AD_data'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ad.clr</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">X.clr</span> <span class="co"># centered log ratio transformed data</span></span>
-<span class="r-in"><span class="va">ad.batch</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.bat</span> <span class="co"># batch information</span></span>
-<span class="r-in"><span class="va">ad.trt</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.trt</span> <span class="co"># treatment information</span></span>
-<span class="r-in"><span class="va">ad.PN</span> <span class="op">&lt;-</span> <span class="fu">percentile_norm</span><span class="op">(</span>data <span class="op">=</span> <span class="va">ad.clr</span>, batch <span class="op">=</span> <span class="va">ad.batch</span>,</span>
-<span class="r-in">                         trt <span class="op">=</span> <span class="va">ad.trt</span>, ctrl.grp <span class="op">=</span> <span class="st">'0-0.5'</span><span class="op">)</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'AD_data'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ad.clr</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">X.clr</span> <span class="co"># centered log ratio transformed data</span></span></span>
+<span class="r-in"><span><span class="va">ad.batch</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.bat</span> <span class="co"># batch information</span></span></span>
+<span class="r-in"><span><span class="va">ad.trt</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.trt</span> <span class="co"># treatment information</span></span></span>
+<span class="r-in"><span><span class="va">ad.PN</span> <span class="op">&lt;-</span> <span class="fu">percentile_norm</span><span class="op">(</span>data <span class="op">=</span> <span class="va">ad.clr</span>, batch <span class="op">=</span> <span class="va">ad.batch</span>,</span></span>
+<span class="r-in"><span>                         trt <span class="op">=</span> <span class="va">ad.trt</span>, ctrl.grp <span class="op">=</span> <span class="st">'0-0.5'</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -134,7 +146,7 @@ the other methods for batch effect management.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

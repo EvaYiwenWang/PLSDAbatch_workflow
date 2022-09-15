@@ -15,3 +15,10 @@
 * a new vignette including the whole analyses of sponge, HFHS and HD data has been added
 
 
+# version 0.2.2
+
+## new simulation strategy / new vignette add
+
+* a new simulation strategy for microbiome count data based on multivariate negative binomial distribution has been added
+
+* a new vignette including the comparison of batch effect correction methods applied to the representative simulation data with multivariate negative binomial distribution has been added

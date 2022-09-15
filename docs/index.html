@@ -33,7 +33,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -53,7 +53,10 @@
       <a href="articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="articles/simulation_study.html">Simulation Study</a>
+      <a href="articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -93,32 +96,32 @@
 <h3 id="installation-without-vignettes">Installation without vignettes<a class="anchor" aria-label="anchor" href="#installation-without-vignettes"></a>
 </h3>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/EvaYiwenWang/PLSDAbatch"</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/EvaYiwenWang/PLSDAbatch"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="section level3">
 <h3 id="installation-with-vignettes">Installation with vignettes<a class="anchor" aria-label="anchor" href="#installation-with-vignettes"></a>
 </h3>
 <p>First, we need to install the packages necessary for vignettes.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="co"># CRAN</span>
-<span class="va">cran.pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'pheatmap'</span>, <span class="st">'vegan'</span>, <span class="st">'ruv'</span>, <span class="st">'UpSetR'</span>, <span class="st">'gplots'</span>, 
-               <span class="st">'ggplot2'</span>, <span class="st">'gridExtra'</span>, <span class="st">'performance'</span>, <span class="st">'BiocManager'</span><span class="op">)</span>
-               
-<span class="kw">for</span><span class="op">(</span><span class="va">c</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cran.pkgs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="va">cran.pkgs</span><span class="op">[</span><span class="va">c</span><span class="op">]</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">cran.pkgs</span><span class="op">[</span><span class="va">c</span><span class="op">]</span><span class="op">)</span>
-<span class="op">}</span>
-    
-<span class="co"># Bioconductor</span>
-<span class="va">bioc.pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'mixOmics'</span>, <span class="st">'sva'</span>, <span class="st">'limma'</span>, <span class="st">'Biobase'</span>, <span class="st">'metagenomeSeq'</span><span class="op">)</span>
-
-<span class="kw">for</span><span class="op">(</span><span class="va">b</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">bioc.pkgs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span>
-<span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="va">bioc.pkgs</span><span class="op">[</span><span class="va">b</span><span class="op">]</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span>
-    <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="va">bioc.pkgs</span><span class="op">[</span><span class="va">b</span><span class="op">]</span><span class="op">)</span>
-<span class="op">}</span></code></pre></div>
+<code class="sourceCode R"><span><span class="co"># CRAN</span></span>
+<span><span class="va">cran.pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'pheatmap'</span>, <span class="st">'vegan'</span>, <span class="st">'ruv'</span>, <span class="st">'UpSetR'</span>, <span class="st">'gplots'</span>, </span>
+<span>               <span class="st">'ggplot2'</span>, <span class="st">'gridExtra'</span>, <span class="st">'performance'</span><span class="op">)</span></span>
+<span>               </span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">c</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cran.pkgs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="va">cran.pkgs</span><span class="op">[</span><span class="va">c</span><span class="op">]</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html" class="external-link">install.packages</a></span><span class="op">(</span><span class="va">cran.pkgs</span><span class="op">[</span><span class="va">c</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span>    </span>
+<span><span class="co"># Bioconductor</span></span>
+<span><span class="va">bioc.pkgs</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">'mixOmics'</span>, <span class="st">'sva'</span>, <span class="st">'limma'</span>, <span class="st">'Biobase'</span>, <span class="st">'metagenomeSeq'</span><span class="op">)</span></span>
+<span></span>
+<span><span class="kw">for</span><span class="op">(</span><span class="va">b</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/seq.html" class="external-link">seq_len</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">bioc.pkgs</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">{</span></span>
+<span><span class="kw">if</span> <span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/ns-load.html" class="external-link">requireNamespace</a></span><span class="op">(</span><span class="va">bioc.pkgs</span><span class="op">[</span><span class="va">b</span><span class="op">]</span>, quietly <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span>    <span class="fu">BiocManager</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/BiocManager/man/install.html" class="external-link">install</a></span><span class="op">(</span><span class="va">bioc.pkgs</span><span class="op">[</span><span class="va">b</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="op">}</span></span></code></pre></div>
 <p>Then, we are able to install <em>PLSDAbatch</em> with vignettes using the following command line.</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/remote-reexports.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/EvaYiwenWang/PLSDAbatch"</span>, dependencies <span class="op">=</span> <span class="cn">T</span>, build_vignettes <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></code></pre></div>
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"https://github.com/EvaYiwenWang/PLSDAbatch"</span>, dependencies <span class="op">=</span> <span class="cn">T</span>, build_vignettes <span class="op">=</span> <span class="cn">T</span><span class="op">)</span></span></code></pre></div>
 </div>
 </div>
 <div class="section level2">
@@ -171,7 +174,7 @@
 
 <div class="pkgdown">
   <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer>

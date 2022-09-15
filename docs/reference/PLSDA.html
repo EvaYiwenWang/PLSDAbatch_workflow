@@ -19,7 +19,7 @@ matrix Y. It is a built-in function of PLSDA_batch."><!-- mathjax --><script src
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -37,7 +37,10 @@ matrix Y. It is a built-in function of PLSDA_batch."><!-- mathjax --><script src
       <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="../articles/simulation_study.html">Simulation Study</a>
+      <a href="../articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="../articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -67,7 +70,7 @@ matrix <code>Y</code>. It is a built-in function of <code>PLSDA_batch</code>.</p
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">PLSDA</span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span>, <span class="va">ncomp</span>, keepX <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="va">ncomp</span><span class="op">)</span>, tol <span class="op">=</span> <span class="fl">1e-06</span>, max.iter <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PLSDA</span><span class="op">(</span><span class="va">X</span>, <span class="va">Y</span>, <span class="va">ncomp</span>, keepX <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/rep.html" class="external-link">rep</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">ncol</a></span><span class="op">(</span><span class="va">X</span><span class="op">)</span>, <span class="va">ncomp</span><span class="op">)</span>, tol <span class="op">=</span> <span class="fl">1e-06</span>, max.iter <span class="op">=</span> <span class="fl">500</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -75,41 +78,60 @@ matrix <code>Y</code>. It is a built-in function of <code>PLSDA_batch</code>.</p
     <dl><dt>X</dt>
 <dd><p>A numeric matrix that is centered and scaled as an explanatory
 matrix. <code>NA</code>s are not allowed.</p></dd>
+
+
 <dt>Y</dt>
 <dd><p>A dummy matrix that is centered and scaled as an outcome matrix.</p></dd>
+
+
 <dt>ncomp</dt>
 <dd><p>Integer, the number of dimensions to include in the model.</p></dd>
+
+
 <dt>keepX</dt>
 <dd><p>A numeric vector of length <code>ncomp</code>, the number of variables
 to keep in \(X\)-loadings. By default all variables are kept in the model.
 A valid input of <code>keepX</code> extends <code>PLSDA</code> to a sparse version.</p></dd>
+
+
 <dt>tol</dt>
 <dd><p>Numeric, convergence stopping value.</p></dd>
+
+
 <dt>max.iter</dt>
 <dd><p>Integer, the maximum number of iterations.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>PLSDA</code> returns a list that contains the following components:</p>
+    
+
+<p><code>PLSDA</code> returns a list that contains the following components:</p>
 <dl><dt>original_data</dt>
 <dd><p>The original explanatory matrix <code>X</code> and outcome
 matrix <code>Y</code>.</p></dd>
+
 <dt>defl_data</dt>
 <dd><p>The centered and scaled deflated matrices (\(\hat{X}\)
 and \(\hat{Y}\)) after removing the variance of latent components
 calculated with estimated latent dimensions.</p></dd>
+
 <dt>latent_comp</dt>
 <dd><p>The latent components calculated with estimated
 latent dimensions.</p></dd>
+
 <dt>loadings</dt>
 <dd><p>The estimated latent dimensions.</p></dd>
+
 <dt>iters</dt>
 <dd><p>Number of iterations of the algorthm for each component.</p></dd>
+
 <dt>exp_var</dt>
 <dd><p>The amount of data variance explained per component (note
 that contrary to <code>PCA</code>, this amount may not decrease as the aim of the
 method is not to maximise the variance, but the covariance between
 <code>X</code> and the dummy matrix <code>Y</code>).</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -124,9 +146,9 @@ method is not to maximise the variance, but the covariance between
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># A built-in function of PLSDA_batch, not separately used.</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># A built-in function of PLSDA_batch, not separately used.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
@@ -142,7 +164,7 @@ method is not to maximise the variance, but the covariance between
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

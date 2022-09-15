@@ -20,7 +20,7 @@ It is a built-in function of percentile_norm."><!-- mathjax --><script src="http
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -38,7 +38,10 @@ It is a built-in function of percentile_norm."><!-- mathjax --><script src="http
       <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="../articles/simulation_study.html">Simulation Study</a>
+      <a href="../articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="../articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -69,7 +72,7 @@ It is a built-in function of <code>percentile_norm</code>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">percentileofscore</span><span class="op">(</span><span class="va">df</span>, <span class="va">control.index</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">percentileofscore</span><span class="op">(</span><span class="va">df</span>, <span class="va">control.index</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -78,13 +81,18 @@ It is a built-in function of <code>percentile_norm</code>.</p>
 <dd><p>A data frame that contains the microbial variables and required to
 be converted into percentile scores. Samples as rows and variables
 as columns.</p></dd>
+
+
 <dt>control.index</dt>
 <dd><p>A numeric vector that contains the indexes
 of control samples.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A data frame of percentile scores for each microbial variable
+    
+
+<p>A data frame of percentile scores for each microbial variable
 and each sample.</p>
     </div>
     <div id="references">
@@ -96,10 +104,10 @@ and each sample.</p>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># A built-in function of percentile_norm, not separately used.</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># A built-in function of percentile_norm, not separately used.</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
@@ -115,7 +123,7 @@ and each sample.</p>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

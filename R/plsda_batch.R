@@ -91,11 +91,14 @@
 #' ## Third example
 #' ## weighted PLSDA-batch
 #' ## The simulated data with an unbalanced batch x treatment design
-#' i = 1
-#' simulation <- simData(bat.mean = 7, sd.bat = 8, trt.mean = 3, sd.trt = 2,
-#'                        N = 40, p_total = 300, p_trt_relevant = 60,
-#'                        p_bat_relevant = 150, percentage_samples = 0.2,
-#'                        percentage_overlap_variables = 0.5)
+#'
+#'simulation <- simData_Gaussian(mean.batch = 7, sd.batch = 8,
+#'                               mean.trt = 3, sd.trt = 2,
+#'                               N = 40, p_total = 300,
+#'                               p_trt_relevant = 60,
+#'                               p_bat_relevant = 150,
+#'                               percentage_overlap_samples = 0.2,
+#'                               percentage_overlap_variables = 0.5)
 #'
 #' sdata_wplsda_batch <- PLSDA_batch(X = simulation$data,
 #'                                   Y.trt = simulation$Y.trt,

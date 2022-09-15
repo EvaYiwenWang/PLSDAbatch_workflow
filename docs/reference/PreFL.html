@@ -18,7 +18,7 @@ with excess zeroes."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/a
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -36,7 +36,10 @@ with excess zeroes."><!-- mathjax --><script src="https://cdnjs.cloudflare.com/a
       <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="../articles/simulation_study.html">Simulation Study</a>
+      <a href="../articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="../articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -65,7 +68,7 @@ with excess zeroes.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">PreFL</span><span class="op">(</span><span class="va">data</span>, keep.spl <span class="op">=</span> <span class="fl">10</span>, keep.var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">PreFL</span><span class="op">(</span><span class="va">data</span>, keep.spl <span class="op">=</span> <span class="fl">10</span>, keep.var <span class="op">=</span> <span class="fl">0.01</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -73,22 +76,33 @@ with excess zeroes.</p>
     <dl><dt>data</dt>
 <dd><p>The data to be prefiltered. The samples in rows and variables
 in columns.</p></dd>
+
+
 <dt>keep.spl</dt>
 <dd><p>The minimum counts of a sample to be kept.</p></dd>
+
+
 <dt>keep.var</dt>
 <dd><p>The minimum proportion of counts of a variable to be kept.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>PreFL</code> returns a list that contains the following components:</p>
+    
+
+<p><code>PreFL</code> returns a list that contains the following components:</p>
 <dl><dt>data.filter</dt>
 <dd><p>The filtered data matrix.</p></dd>
+
 <dt>sample.idx</dt>
 <dd><p>The indexs of samples kept.</p></dd>
+
 <dt>var.idx</dt>
 <dd><p>The indexs of variables kept.</p></dd>
+
 <dt>zero.prob</dt>
 <dd><p>The proportion of zeros of the input data.</p></dd>
+
 </dl></div>
     <div id="references">
     <h2>References</h2>
@@ -103,17 +117,17 @@ in columns.</p></dd>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'AD_data'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ad.count</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">FullData</span><span class="op">$</span><span class="va">X.count</span> <span class="co"># microbial count data</span></span>
-<span class="r-in"><span class="va">ad.filter.res</span> <span class="op">&lt;-</span> <span class="fu">PreFL</span><span class="op">(</span>data <span class="op">=</span> <span class="va">ad.count</span><span class="op">)</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The proportion of zeroes of the AD count data</span></span>
-<span class="r-in"><span class="va">ad.zero.prob</span> <span class="op">&lt;-</span> <span class="va">ad.filter.res</span><span class="op">$</span><span class="va">zero.prob</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="co"># The filtered AD count data</span></span>
-<span class="r-in"><span class="va">ad.filter</span> <span class="op">&lt;-</span> <span class="va">ad.filter.res</span><span class="op">$</span><span class="va">data.filter</span></span>
-<span class="r-in"></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'AD_data'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ad.count</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">FullData</span><span class="op">$</span><span class="va">X.count</span> <span class="co"># microbial count data</span></span></span>
+<span class="r-in"><span><span class="va">ad.filter.res</span> <span class="op">&lt;-</span> <span class="fu">PreFL</span><span class="op">(</span>data <span class="op">=</span> <span class="va">ad.count</span><span class="op">)</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The proportion of zeroes of the AD count data</span></span></span>
+<span class="r-in"><span><span class="va">ad.zero.prob</span> <span class="op">&lt;-</span> <span class="va">ad.filter.res</span><span class="op">$</span><span class="va">zero.prob</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># The filtered AD count data</span></span></span>
+<span class="r-in"><span><span class="va">ad.filter</span> <span class="op">&lt;-</span> <span class="va">ad.filter.res</span><span class="op">$</span><span class="va">data.filter</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -128,7 +142,7 @@ in columns.</p></dd>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

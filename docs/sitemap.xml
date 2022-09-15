@@ -10,7 +10,10 @@
     <loc>/articles/index.html</loc>
   </url>
   <url>
-    <loc>/articles/simulation_study.html</loc>
+    <loc>/articles/simulation_study_Gaussian.html</loc>
+  </url>
+  <url>
+    <loc>/articles/simulation_study_negative_binomial.html</loc>
   </url>
   <url>
     <loc>/articles/supp_case_studies.html</loc>
@@ -52,6 +55,9 @@
     <loc>/reference/box_plot.html</loc>
   </url>
   <url>
+    <loc>/reference/corStruct.html</loc>
+  </url>
+  <url>
     <loc>/reference/deflate_mtx.html</loc>
   </url>
   <url>
@@ -76,7 +82,10 @@
     <loc>/reference/percentileofscore.html</loc>
   </url>
   <url>
-    <loc>/reference/simData.html</loc>
+    <loc>/reference/simData_Gaussian.html</loc>
+  </url>
+  <url>
+    <loc>/reference/simData_mnegbinom.html</loc>
   </url>
   <url>
     <loc>/reference/sponge_data.html</loc>

@@ -22,7 +22,7 @@ First, we need to install the packages necessary for vignettes.
 ```r
 # CRAN
 cran.pkgs <- c('pheatmap', 'vegan', 'ruv', 'UpSetR', 'gplots', 
-               'ggplot2', 'gridExtra', 'performance', 'BiocManager')
+               'ggplot2', 'gridExtra', 'performance')
                
 for(c in seq_len(length(cran.pkgs))){
 if (!requireNamespace(cran.pkgs[c], quietly = TRUE))

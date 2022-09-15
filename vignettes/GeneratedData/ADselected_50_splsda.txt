@@ -27,25 +27,23 @@ OTU209                Peptococcaceae Sporotomaculum Sporotomaculum syntrophicum
 OTU216                    Family XIV  unknown genus             unknown species
 OTU87                 Peptococcaceae  Pelotomaculum             unknown species
 
-$`Before:ComBat`
+$`Before correction`
+        Kingdom        Phylum           Class              Order
+OTU110 Bacteria    Firmicutes      Clostridia      Clostridiales
+OTU141 Bacteria    Firmicutes      Clostridia      Clostridiales
+OTU31  Bacteria    Firmicutes         Bacilli         Bacillales
+OTU86   Archaea Euryarchaeota Methanomicrobia Methanomicrobiales
+                    Family             Genus           Species
+OTU110     Lachnospiraceae Anaerosporobacter Multi-affiliation
+OTU141     Ruminococcaceae     unknown genus   unknown species
+OTU31     Paenibacillaceae  Aneurinibacillus   unknown species
+OTU86  Methanomicrobiaceae    Methanoculleus   unknown species
+
+$`Before correction:ComBat`
         Kingdom     Phylum      Class         Order              Family
 OTU218 Bacteria Firmicutes Clostridia Clostridiales Christensenellaceae
                                Genus         Species
 OTU218 Christensenellaceae R-7 group unknown species
-
-$`Before:PLSDA-batch`
-        Kingdom      Phylum        Class          Order          Family
-OTU223 Bacteria Chloroflexi Anaerolineae Anaerolineales Anaerolineaceae
-               Genus                       Species
-OTU223 unknown genus anaerobic digester metagenome
-
-$`Before:removeBatchEffect`
-        Kingdom        Phylum        Class          Order          Family
-OTU143 Bacteria  Spirochaetae Spirochaetes Spirochaetales Spirochaetaceae
-OTU211 Bacteria Synergistetes  Synergistia  Synergistales  Synergistaceae
-                Genus                    Species
-OTU143  Sphaerochaeta            unknown species
-OTU211 Aminobacterium Aminobacterium colombiense
 
 $`PLSDA-batch:sPLSDA-batch`
         Kingdom        Phylum       Class         Order          Family
@@ -67,33 +65,31 @@ OTU16 unknown genus   unknown species
 OTU85 unknown genus Multi-affiliation
 OTU18 unknown genus   unknown species
 
-$`Before:ComBat:PLSDA-batch`
+$`Before correction:PLSDA-batch`
+        Kingdom      Phylum        Class          Order          Family
+OTU223 Bacteria Chloroflexi Anaerolineae Anaerolineales Anaerolineaceae
+               Genus                       Species
+OTU223 unknown genus anaerobic digester metagenome
+
+$`Before correction:removeBatchEffect`
+        Kingdom        Phylum        Class          Order          Family
+OTU143 Bacteria  Spirochaetae Spirochaetes Spirochaetales Spirochaetaceae
+OTU211 Bacteria Synergistetes  Synergistia  Synergistales  Synergistaceae
+                Genus                    Species
+OTU143  Sphaerochaeta            unknown species
+OTU211 Aminobacterium Aminobacterium colombiense
+
+$`Before correction:ComBat:PLSDA-batch`
         Kingdom      Phylum        Class          Order          Family
 OTU159 Bacteria Chloroflexi Anaerolineae Anaerolineales Anaerolineaceae
                Genus         Species
 OTU159 unknown genus unknown species
 
-$`Before:PLSDA-batch:sPLSDA-batch`
+$`Before correction:PLSDA-batch:sPLSDA-batch`
         Kingdom     Phylum      Class         Order              Family
 OTU105 Bacteria Firmicutes Clostridia Clostridiales Syntrophomonadaceae
                 Genus                       Species
 OTU105 Syntrophomonas anaerobic digester metagenome
-
-$`Before:removeBatchEffect:ComBat:PLSDA-batch`
-        Kingdom     Phylum      Class       Order         Family         Genus
-OTU117 Bacteria Firmicutes Clostridia B55-F-B-G02 unknown family unknown genus
-               Species
-OTU117 unknown species
-
-$`Before:removeBatchEffect:ComBat:sPLSDA-batch`
-        Kingdom         Phylum               Class             Order
-OTU130 Bacteria     Firmicutes             Bacilli      TSCOR001-H18
-OTU145 Bacteria Proteobacteria Deltaproteobacteria Bdellovibrionales
-OTU44  Bacteria Planctomycetes       Phycisphaerae     KCLunmb-38-53
-                   Family         Genus         Species
-OTU130     unknown family unknown genus unknown species
-OTU145 Bacteriovoracaceae unknown genus unknown species
-OTU44      unknown family unknown genus unknown species
 
 $`removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
        Kingdom     Phylum      Class         Order              Family
@@ -107,7 +103,23 @@ OTU41                 unknown genus unknown species
 OTU9  Christensenellaceae R-7 group unknown species
 OTU27                 unknown genus unknown species
 
-$`Before:removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch`
+        Kingdom     Phylum      Class       Order         Family         Genus
+OTU117 Bacteria Firmicutes Clostridia B55-F-B-G02 unknown family unknown genus
+               Species
+OTU117 unknown species
+
+$`Before correction:removeBatchEffect:ComBat:sPLSDA-batch`
+        Kingdom         Phylum               Class             Order
+OTU130 Bacteria     Firmicutes             Bacilli      TSCOR001-H18
+OTU145 Bacteria Proteobacteria Deltaproteobacteria Bdellovibrionales
+OTU44  Bacteria Planctomycetes       Phycisphaerae     KCLunmb-38-53
+                   Family         Genus         Species
+OTU130     unknown family unknown genus unknown species
+OTU145 Bacteriovoracaceae unknown genus unknown species
+OTU44      unknown family unknown genus unknown species
+
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch:sPLSDA-batch`
         Kingdom          Phylum               Class                  Order
 OTU46  Bacteria      Firmicutes          Clostridia          Clostridiales
 OTU24  Bacteria      Firmicutes          Clostridia          Clostridiales
@@ -219,16 +231,4 @@ OTU64                            Multi-affiliation
 OTU94  bacterium enrichment culture clone KWE55-24
 OTU76                              unknown species
 OTU248                           Multi-affiliation
-
-$Before
-        Kingdom        Phylum           Class              Order
-OTU110 Bacteria    Firmicutes      Clostridia      Clostridiales
-OTU141 Bacteria    Firmicutes      Clostridia      Clostridiales
-OTU31  Bacteria    Firmicutes         Bacilli         Bacillales
-OTU86   Archaea Euryarchaeota Methanomicrobia Methanomicrobiales
-                    Family             Genus           Species
-OTU110     Lachnospiraceae Anaerosporobacter Multi-affiliation
-OTU141     Ruminococcaceae     unknown genus   unknown species
-OTU31     Paenibacillaceae  Aneurinibacillus   unknown species
-OTU86  Methanomicrobiaceae    Methanoculleus   unknown species
 

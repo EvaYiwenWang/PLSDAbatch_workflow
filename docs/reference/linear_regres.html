@@ -20,7 +20,7 @@ multiple comparisons, and evaluation metrics of model quality."><!-- mathjax -->
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -38,7 +38,10 @@ multiple comparisons, and evaluation metrics of model quality."><!-- mathjax -->
       <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="../articles/simulation_study.html">Simulation Study</a>
+      <a href="../articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="../articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -69,15 +72,15 @@ multiple comparisons, and evaluation metrics of model quality.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">linear_regres</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">trt</span>,
-  batch.fix <span class="op">=</span> <span class="cn">NULL</span>,
-  batch.fix2 <span class="op">=</span> <span class="cn">NULL</span>,
-  batch.random <span class="op">=</span> <span class="cn">NULL</span>,
-  type <span class="op">=</span> <span class="st">"linear model"</span>,
-  p.adjust.method <span class="op">=</span> <span class="st">"fdr"</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">linear_regres</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">trt</span>,</span>
+<span>  batch.fix <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  batch.fix2 <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  batch.random <span class="op">=</span> <span class="cn">NULL</span>,</span>
+<span>  type <span class="op">=</span> <span class="st">"linear model"</span>,</span>
+<span>  p.adjust.method <span class="op">=</span> <span class="st">"fdr"</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -85,67 +88,95 @@ multiple comparisons, and evaluation metrics of model quality.</p>
     <dl><dt>data</dt>
 <dd><p>A data frame that contains the response variables for
 the linear regression. Samples as rows and variables as columns.</p></dd>
+
+
 <dt>trt</dt>
 <dd><p>A factor or a class vector for the treatment grouping information
 (categorical outcome variable).</p></dd>
+
+
 <dt>batch.fix</dt>
 <dd><p>A factor or a class vector for the batch grouping information
 (categorical outcome variable), treated as a fixed effect in the model.</p></dd>
+
+
 <dt>batch.fix2</dt>
 <dd><p>A factor or a class vector for a second batch grouping information
 (categorical outcome variable), treated as a fixed effect in the model.</p></dd>
+
+
 <dt>batch.random</dt>
 <dd><p>A factor or a class vector for the batch grouping information
 (categorical outcome variable), treated as a random effect in the model.</p></dd>
+
+
 <dt>type</dt>
 <dd><p>The type of model to be used for fitting, either 'linear model'
 or 'linear mixed model'.</p></dd>
+
+
 <dt>p.adjust.method</dt>
 <dd><p>The method to be used for p-value adjustment, either
 "holm", "hochberg", "hommel", "bonferroni", "BH", "BY", "fdr" or "none".</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p><code>linear_regres</code> returns a list that contains
+    
+
+<p><code>linear_regres</code> returns a list that contains
 the following components:</p>
 <dl><dt>type</dt>
 <dd><p>The type of model used for fitting.</p></dd>
+
 <dt>model</dt>
 <dd><p>Each object fitted.</p></dd>
+
 <dt>raw.p</dt>
 <dd><p>The p-values for each response variable.</p></dd>
+
 <dt>adj.p</dt>
 <dd><p>The adjusted p-values for each response variable.</p></dd>
+
 <dt>p.adjust.method</dt>
 <dd><p>The method used for p-value adjustment.</p></dd>
+
 <dt>R2</dt>
 <dd><p>The proportion of variation in the response variable that is
 explained by the predictor variables. A higher R2 indicates a better model.
 Results for 'linear model' only.</p></dd>
+
 <dt>adj.R2</dt>
 <dd><p>Adjusted R2 for many predictor variables in the model.
 Results for 'linear model' only.</p></dd>
+
 <dt>cond.R2</dt>
 <dd><p>The proportion of variation in the response variable that is
 explained by the "complete" model with all covariates. Results for
 'linear mixed model' only. Similar to <code>R2</code> in linear model.</p></dd>
+
 <dt>marg.R2</dt>
 <dd><p>The proportion of variation in the response variable that is
 explained by the fixed effects part only. Results for 'linear mixed
 model' only.</p></dd>
+
 <dt>RMSE</dt>
 <dd><p>The average error performed by the model in predicting the
 outcome for an observation. A lower RMSE indicates a better model.</p></dd>
+
 <dt>RSE</dt>
 <dd><p>also known as the model \(sigma\), is a variant of the RMSE
 adjusted for the number of predictors in the model. A lower RSE indicates
 a better model.</p></dd>
+
 <dt>AIC</dt>
 <dd><p>A penalisation value for including additional predictor variables
 to a model. A lower AIC indicates a better model.</p></dd>
+
 <dt>BIC</dt>
 <dd><p>is a variant of AIC with a stronger penalty for including
 additional variables to the model.</p></dd>
+
 </dl></div>
     <div id="note">
     <h2>Note</h2>
@@ -159,7 +190,7 @@ batch effects.</p>
     <p>Lüdecke D, Makowski D, Waggoner P, Patil I (2020).
 “performance: Assessment of Regression Models Performance.”
 <em>CRAN</em>.
-doi: <a href="https://doi.org/10.5281/zenodo.3952174" class="external-link">10.5281/zenodo.3952174</a>
+<a href="https://doi.org/10.5281/zenodo.3952174" class="external-link">doi:10.5281/zenodo.3952174</a>
 , R package, <a href="https://easystats.github.io/performance/" class="external-link">https://easystats.github.io/performance/</a>.</p>
     </div>
     <div id="see-also">
@@ -174,15 +205,15 @@ the other methods for batch effect management.</p></div>
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'AD_data'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ad.clr</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">X.clr</span> <span class="co"># centered log ratio transformed data</span></span>
-<span class="r-in"><span class="va">ad.batch</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.bat</span> <span class="co"># batch information</span></span>
-<span class="r-in"><span class="va">ad.trt</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.trt</span> <span class="co"># treatment information</span></span>
-<span class="r-in"><span class="va">ad.lm</span> <span class="op">&lt;-</span> <span class="fu">linear_regres</span><span class="op">(</span>data <span class="op">=</span> <span class="va">ad.clr</span>, trt <span class="op">=</span> <span class="va">ad.trt</span>,</span>
-<span class="r-in">                       batch.fix <span class="op">=</span> <span class="va">ad.batch</span>,</span>
-<span class="r-in">                       type <span class="op">=</span> <span class="st">'linear model'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">ad.p.adj</span> <span class="op">&lt;-</span> <span class="va">ad.lm</span><span class="op">$</span><span class="va">p_adjusted</span></span>
-<span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ad.lm</span><span class="op">$</span><span class="va">AIC</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'AD_data'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ad.clr</span> <span class="op">&lt;-</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">X.clr</span> <span class="co"># centered log ratio transformed data</span></span></span>
+<span class="r-in"><span><span class="va">ad.batch</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.bat</span> <span class="co"># batch information</span></span></span>
+<span class="r-in"><span><span class="va">ad.trt</span> <span class="op">=</span> <span class="va">AD_data</span><span class="op">$</span><span class="va">EgData</span><span class="op">$</span><span class="va">Y.trt</span> <span class="co"># treatment information</span></span></span>
+<span class="r-in"><span><span class="va">ad.lm</span> <span class="op">&lt;-</span> <span class="fu">linear_regres</span><span class="op">(</span>data <span class="op">=</span> <span class="va">ad.clr</span>, trt <span class="op">=</span> <span class="va">ad.trt</span>,</span></span>
+<span class="r-in"><span>                       batch.fix <span class="op">=</span> <span class="va">ad.batch</span>,</span></span>
+<span class="r-in"><span>                       type <span class="op">=</span> <span class="st">'linear model'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">ad.p.adj</span> <span class="op">&lt;-</span> <span class="va">ad.lm</span><span class="op">$</span><span class="va">p_adjusted</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">ad.lm</span><span class="op">$</span><span class="va">AIC</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span>        trt.only trt.batch</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU12  208.5626 164.13617</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU29  266.0485 154.99072</span>
@@ -190,7 +221,7 @@ the other methods for batch effect management.</p></div>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU86  212.2987 206.13722</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU97  161.6715 119.90108</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> OTU106 205.4135  59.17005</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -205,7 +236,7 @@ the other methods for batch effect management.</p></div>
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

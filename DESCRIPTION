@@ -1,7 +1,7 @@
 Package: PLSDAbatch
 Type: Package
 Title: PLSDA-batch
-Version: 0.2.1
+Version: 0.2.2
 Author: Yiwen (Eva) Wang [aut, cre],
         Kim-Anh Le Cao [aut]
 Maintainer: Yiwen (Eva) Wang <anjiwangyiwen@gmail.com>
@@ -18,7 +18,8 @@ Imports:
     ggpubr,
     lmerTest,
     performance,
-    grid
+    grid,
+    mvtnorm
 Suggests: 
     knitr,
     rmarkdown,
@@ -26,9 +27,14 @@ Suggests:
     sva,
     limma,
     vegan,
+    pROC,
     UpSetR,
     gplots,
-    testthat
+    testthat,
+    pheatmap,
+    ruv,
+    Biobase,
+    metagenomeSeq
 biocViews:
     Software,
     StatisticalMethod,
@@ -44,6 +50,6 @@ biocViews:
     ReproducibleResearch
 VignetteBuilder: knitr
 RdMacros: Rdpack
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.1
 Encoding: UTF-8
 LazyData: true

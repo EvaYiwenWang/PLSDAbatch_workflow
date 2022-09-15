@@ -19,7 +19,7 @@ It is a built-in function of PLSDA_batch."><!-- mathjax --><script src="https://
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -37,7 +37,10 @@ It is a built-in function of PLSDA_batch."><!-- mathjax --><script src="https://
       <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="../articles/simulation_study.html">Simulation Study</a>
+      <a href="../articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="../articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -67,7 +70,7 @@ It is a built-in function of <code>PLSDA_batch</code>.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">deflate_mtx</span><span class="op">(</span><span class="va">X</span>, <span class="va">t</span><span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">deflate_mtx</span><span class="op">(</span><span class="va">X</span>, <span class="va">t</span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -75,12 +78,17 @@ It is a built-in function of <code>PLSDA_batch</code>.</p>
     <dl><dt>X</dt>
 <dd><p>A numeric matrix to be deflated. It assumes that samples are
 on the row, while variables are on the column. <code>NA</code>s are not allowed.</p></dd>
+
+
 <dt>t</dt>
 <dd><p>A component to be deflated out from the matrix.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A deflated matrix with the same dimension as the input matrix.</p>
+    
+
+<p>A deflated matrix with the same dimension as the input matrix.</p>
     </div>
     <div id="references">
     <h2>References</h2>
@@ -95,8 +103,8 @@ on the row, while variables are on the column. <code>NA</code>s are not allowed.
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="co"># A built-in funciton of PLSDA_batch, not separately used.</span></span>
-<span class="r-in"></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="co"># A built-in funciton of PLSDA_batch, not separately used.</span></span></span>
+<span class="r-in"><span></span></span>
 <span class="r-in"></span>
 </code></pre></div>
     </div>
@@ -112,7 +120,7 @@ on the row, while variables are on the column. <code>NA</code>s are not allowed.
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

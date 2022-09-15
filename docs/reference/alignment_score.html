@@ -19,7 +19,7 @@ Principal Component Analysis."><!-- mathjax --><script src="https://cdnjs.cloudf
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">PLSDAbatch</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.1</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.2.2</span>
       </span>
     </div>
 
@@ -37,7 +37,10 @@ Principal Component Analysis."><!-- mathjax --><script src="https://cdnjs.cloudf
       <a href="../articles/case_studies.html">PLSDA-batch Vignette</a>
     </li>
     <li>
-      <a href="../articles/simulation_study.html">Simulation Study</a>
+      <a href="../articles/simulation_study_Gaussian.html">Simulation Study (Gaussian distribution)</a>
+    </li>
+    <li>
+      <a href="../articles/simulation_study_negative_binomial.html">Simulation Study (Negative Binomial)</a>
     </li>
     <li>
       <a href="../articles/supp_case_studies.html">Supplementary Materials for PLSDA-batch Vignette</a>
@@ -67,13 +70,13 @@ Principal Component Analysis.</p>
     </div>
 
     <div id="ref-usage">
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="fu">alignment_score</span><span class="op">(</span>
-  <span class="va">data</span>,
-  <span class="va">batch</span>,
-  var <span class="op">=</span> <span class="fl">0.95</span>,
-  k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">0.1</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>,
-  ncomp <span class="op">=</span> <span class="fl">20</span>
-<span class="op">)</span></code></pre></div>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span><span class="fu">alignment_score</span><span class="op">(</span></span>
+<span>  <span class="va">data</span>,</span>
+<span>  <span class="va">batch</span>,</span>
+<span>  var <span class="op">=</span> <span class="fl">0.95</span>,</span>
+<span>  k <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">0.1</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">data</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  ncomp <span class="op">=</span> <span class="fl">20</span></span>
+<span><span class="op">)</span></span></code></pre></div>
     </div>
 
     <div id="arguments">
@@ -81,25 +84,36 @@ Principal Component Analysis.</p>
     <dl><dt>data</dt>
 <dd><p>A numeric matrix. Samples are in rows, while variables are in
 columns. <code>NA</code>s are not allowed.</p></dd>
+
+
 <dt>batch</dt>
 <dd><p>A factor or a class vector for the batch grouping information
 (categorical outcome variable).
 The length should be equal to the number of samples in the data.</p></dd>
+
+
 <dt>var</dt>
 <dd><p>The proportion of data variance explained by
 the principal components,
 ranging from <code>0</code> to <code>1</code>. Default value is <code>0.95</code>.</p></dd>
+
+
 <dt>k</dt>
 <dd><p>Integer, the number of nearest neighbours.
 By default <code>10%</code> of the number of samples are used.</p></dd>
+
+
 <dt>ncomp</dt>
 <dd><p>Integer, the number of components for
 principal component analysis.
 Default value is <code>20</code>.</p></dd>
+
 </dl></div>
     <div id="value">
     <h2>Value</h2>
-    <p>A numeric alignment score that ranges from <code>0</code> to <code>1</code>,
+    
+
+<p>A numeric alignment score that ranges from <code>0</code> to <code>1</code>,
 representing poor to perfect
 performance of mixing the samples from different batches.</p>
     </div>
@@ -122,13 +136,13 @@ methods for batch effect detection and batch effect removal assessment.</p></div
 
     <div id="ref-examples">
     <h2>Examples</h2>
-    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sponge_data'</span><span class="op">)</span></span>
-<span class="r-in"><span class="va">X</span> <span class="op">=</span> <span class="va">sponge_data</span><span class="op">$</span><span class="va">X.clr</span> <span class="co"># centered log ratio transformed data</span></span>
-<span class="r-in"><span class="va">batch</span> <span class="op">=</span> <span class="va">sponge_data</span><span class="op">$</span><span class="va">Y.bat</span> <span class="co"># batch information</span></span>
-<span class="r-in"></span>
-<span class="r-in"><span class="fu">alignment_score</span><span class="op">(</span>data <span class="op">=</span> <span class="va">X</span>, batch <span class="op">=</span> <span class="va">batch</span>, var <span class="op">=</span> <span class="fl">0.95</span>, k <span class="op">=</span> <span class="fl">3</span>, ncomp <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span>
+    <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'sponge_data'</span><span class="op">)</span></span></span>
+<span class="r-in"><span><span class="va">X</span> <span class="op">=</span> <span class="va">sponge_data</span><span class="op">$</span><span class="va">X.clr</span> <span class="co"># centered log ratio transformed data</span></span></span>
+<span class="r-in"><span><span class="va">batch</span> <span class="op">=</span> <span class="va">sponge_data</span><span class="op">$</span><span class="va">Y.bat</span> <span class="co"># batch information</span></span></span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="fu">alignment_score</span><span class="op">(</span>data <span class="op">=</span> <span class="va">X</span>, batch <span class="op">=</span> <span class="va">batch</span>, var <span class="op">=</span> <span class="fl">0.95</span>, k <span class="op">=</span> <span class="fl">3</span>, ncomp <span class="op">=</span> <span class="fl">20</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] 0.05376344</span>
-<span class="r-in"></span>
+<span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
   </div>
@@ -143,7 +157,7 @@ methods for batch effect detection and batch effect removal assessment.</p></div
 </div>
 
 <div class="pkgdown">
-  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.2.</p>
+  <p></p><p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.0.6.</p>
 </div>
 
       </footer></div>

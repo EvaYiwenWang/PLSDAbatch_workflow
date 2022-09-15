@@ -8,6 +8,14 @@ Family
 Genus                               
 Species                             
 
+$`Before correction`
+        Kingdom     Phylum      Class         Order          Family
+327808 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+338796 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+              Genus Species
+327808 Oscillospira        
+338796 Oscillospira        
+
 $`PLSDA-batch:RUVIII`
         HFHS_data$FullData$taxa[x, ]
 Kingdom                     Bacteria
@@ -18,36 +26,23 @@ Family
 Genus                               
 Species                             
 
-$`Before:removeBatchEffect`
-        Kingdom        Phylum       Class         Order          Family        Genus Species
-581933 Bacteria    Firmicutes  Clostridia Clostridiales Ruminococcaceae Oscillospira        
-206817 Bacteria Bacteroidetes Bacteroidia Bacteroidales           S24-7                     
-
 $`ComBat:PLSDA-batch:RUVIII`
-        Kingdom     Phylum           Class              Order              Family          Genus Species
-186332 Bacteria Firmicutes      Clostridia      Clostridiales     Lachnospiraceae [Ruminococcus]  gnavus
-262095 Bacteria Firmicutes Erysipelotrichi Erysipelotrichales Erysipelotrichaceae                       
-276597 Bacteria Firmicutes      Clostridia      Clostridiales                                           
+        Kingdom     Phylum           Class              Order
+186332 Bacteria Firmicutes      Clostridia      Clostridiales
+262095 Bacteria Firmicutes Erysipelotrichi Erysipelotrichales
+276597 Bacteria Firmicutes      Clostridia      Clostridiales
+                    Family          Genus Species
+186332     Lachnospiraceae [Ruminococcus]  gnavus
+262095 Erysipelotrichaceae                       
+276597                                           
 
-$`Before:removeBatchEffect:ComBat`
-        HFHS_data$FullData$taxa[x, ]
-Kingdom                     Bacteria
-Phylum                    Firmicutes
-Class                     Clostridia
-Order                  Clostridiales
-Family               Ruminococcaceae
-Genus                   Oscillospira
-Species                             
-
-$`Before:removeBatchEffect:RUVIII`
-        HFHS_data$FullData$taxa[x, ]
-Kingdom                     Bacteria
-Phylum                 Bacteroidetes
-Class                    Bacteroidia
-Order                  Bacteroidales
-Family                         S24-7
-Genus                               
-Species                             
+$`Before correction:removeBatchEffect`
+        Kingdom        Phylum       Class         Order          Family
+581933 Bacteria    Firmicutes  Clostridia Clostridiales Ruminococcaceae
+206817 Bacteria Bacteroidetes Bacteroidia Bacteroidales           S24-7
+              Genus Species
+581933 Oscillospira        
+206817                     
 
 $`removeBatchEffect:ComBat:PLSDA-batch`
         HFHS_data$FullData$taxa[x, ]
@@ -59,7 +54,17 @@ Family               Ruminococcaceae
 Genus                   Oscillospira
 Species                             
 
-$`Before:removeBatchEffect:ComBat:RUVIII`
+$`Before correction:removeBatchEffect:ComBat`
+        HFHS_data$FullData$taxa[x, ]
+Kingdom                     Bacteria
+Phylum                    Firmicutes
+Class                     Clostridia
+Order                  Clostridiales
+Family               Ruminococcaceae
+Genus                   Oscillospira
+Species                             
+
+$`Before correction:removeBatchEffect:RUVIII`
         HFHS_data$FullData$taxa[x, ]
 Kingdom                     Bacteria
 Phylum                 Bacteroidetes
@@ -68,13 +73,6 @@ Order                  Bacteroidales
 Family                         S24-7
 Genus                               
 Species                             
-
-$`Before:removeBatchEffect:ComBat:PLSDA-batch`
-        Kingdom     Phylum      Class         Order          Family        Genus Species
-434089 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae                     
-272953 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae Oscillospira        
-353982 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae                     
-326940 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae                     
 
 $`removeBatchEffect:ComBat:PLSDA-batch:RUVIII`
         HFHS_data$FullData$taxa[x, ]
@@ -86,57 +84,119 @@ Family
 Genus                               
 Species                             
 
-$`Before:removeBatchEffect:ComBat:PLSDA-batch:RUVIII`
-         Kingdom         Phylum               Class              Order              Family          Genus Species
-192222  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales      Prevotellaceae                       
-400599  Bacteria     Firmicutes          Clostridia      Clostridiales                                           
-315147  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-348038  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-442846  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-263479  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-175272  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-265322  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-331043  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-339905  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-401384  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae   Oscillospira        
-197644  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-348821  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-198339  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-275218  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae                       
-315430  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-174590  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-184381  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-4378740 Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales      Prevotellaceae     Prevotella        
-462764  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae   Ruminococcus        
-275476  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae   Oscillospira        
-295564  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-349798  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae   Oscillospira        
-177917  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-177512  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-199118  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-4481506 Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-2897325 Bacteria Proteobacteria Deltaproteobacteria Desulfovibrionales Desulfovibrionaceae      Bilophila        
-312440  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-355746  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-196733  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-196672  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-267335  Bacteria     Firmicutes          Clostridia      Clostridiales     Lachnospiraceae [Ruminococcus]  gnavus
-212201  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales               S24-7                       
-272213  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae                       
-1108745 Bacteria     Firmicutes          Clostridia      Clostridiales  [Mogibacteriaceae]                       
-198753  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae                       
-351309  Bacteria     Firmicutes          Clostridia      Clostridiales                                           
-321484  Bacteria     Firmicutes          Clostridia      Clostridiales     Ruminococcaceae   Oscillospira        
+$`Before correction:removeBatchEffect:ComBat:RUVIII`
+        HFHS_data$FullData$taxa[x, ]
+Kingdom                     Bacteria
+Phylum                 Bacteroidetes
+Class                    Bacteroidia
+Order                  Bacteroidales
+Family                         S24-7
+Genus                               
+Species                             
 
-$Before
-        Kingdom     Phylum      Class         Order          Family        Genus Species
-327808 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae Oscillospira        
-338796 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae Oscillospira        
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch`
+        Kingdom     Phylum      Class         Order          Family
+434089 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+272953 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+353982 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+326940 Bacteria Firmicutes Clostridia Clostridiales Ruminococcaceae
+              Genus Species
+434089                     
+272953 Oscillospira        
+353982                     
+326940                     
 
 $RUVIII
-         Kingdom        Phylum       Class         Order        Family Genus Species
-398255  Bacteria Bacteroidetes Bacteroidia Bacteroidales         S24-7              
-205160  Bacteria Bacteroidetes Bacteroidia Bacteroidales         S24-7              
-384555  Bacteria Bacteroidetes Bacteroidia Bacteroidales         S24-7              
-1107652 Bacteria Bacteroidetes Bacteroidia Bacteroidales Rikenellaceae              
+         Kingdom        Phylum       Class         Order        Family Genus
+398255  Bacteria Bacteroidetes Bacteroidia Bacteroidales         S24-7      
+205160  Bacteria Bacteroidetes Bacteroidia Bacteroidales         S24-7      
+384555  Bacteria Bacteroidetes Bacteroidia Bacteroidales         S24-7      
+1107652 Bacteria Bacteroidetes Bacteroidia Bacteroidales Rikenellaceae      
+        Species
+398255         
+205160         
+384555         
+1107652        
+
+$`Before correction:removeBatchEffect:ComBat:PLSDA-batch:RUVIII`
+         Kingdom         Phylum               Class              Order
+192222  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+400599  Bacteria     Firmicutes          Clostridia      Clostridiales
+315147  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+348038  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+442846  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+263479  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+175272  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+265322  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+331043  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+339905  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+401384  Bacteria     Firmicutes          Clostridia      Clostridiales
+197644  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+348821  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+198339  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+275218  Bacteria     Firmicutes          Clostridia      Clostridiales
+315430  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+174590  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+184381  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+4378740 Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+462764  Bacteria     Firmicutes          Clostridia      Clostridiales
+275476  Bacteria     Firmicutes          Clostridia      Clostridiales
+295564  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+349798  Bacteria     Firmicutes          Clostridia      Clostridiales
+177917  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+177512  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+199118  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+4481506 Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+2897325 Bacteria Proteobacteria Deltaproteobacteria Desulfovibrionales
+312440  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+355746  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+196733  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+196672  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+267335  Bacteria     Firmicutes          Clostridia      Clostridiales
+212201  Bacteria  Bacteroidetes         Bacteroidia      Bacteroidales
+272213  Bacteria     Firmicutes          Clostridia      Clostridiales
+1108745 Bacteria     Firmicutes          Clostridia      Clostridiales
+198753  Bacteria     Firmicutes          Clostridia      Clostridiales
+351309  Bacteria     Firmicutes          Clostridia      Clostridiales
+321484  Bacteria     Firmicutes          Clostridia      Clostridiales
+                     Family          Genus Species
+192222       Prevotellaceae                       
+400599                                            
+315147                S24-7                       
+348038                S24-7                       
+442846                S24-7                       
+263479                S24-7                       
+175272                S24-7                       
+265322                S24-7                       
+331043                S24-7                       
+339905                S24-7                       
+401384      Ruminococcaceae   Oscillospira        
+197644                S24-7                       
+348821                S24-7                       
+198339                S24-7                       
+275218      Ruminococcaceae                       
+315430                S24-7                       
+174590                S24-7                       
+184381                S24-7                       
+4378740      Prevotellaceae     Prevotella        
+462764      Ruminococcaceae   Ruminococcus        
+275476      Ruminococcaceae   Oscillospira        
+295564                S24-7                       
+349798      Ruminococcaceae   Oscillospira        
+177917                S24-7                       
+177512                S24-7                       
+199118                S24-7                       
+4481506               S24-7                       
+2897325 Desulfovibrionaceae      Bilophila        
+312440                S24-7                       
+355746                S24-7                       
+196733                S24-7                       
+196672                S24-7                       
+267335      Lachnospiraceae [Ruminococcus]  gnavus
+212201                S24-7                       
+272213      Ruminococcaceae                       
+1108745  [Mogibacteriaceae]                       
+198753      Ruminococcaceae                       
+351309                                            
+321484      Ruminococcaceae   Oscillospira        
 

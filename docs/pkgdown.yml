@@ -1,9 +1,10 @@
-pandoc: 2.14.0.3
-pkgdown: 2.0.2
+pandoc: '2.18'
+pkgdown: 2.0.6
 pkgdown_sha: ~
 articles:
   case_studies: case_studies.html
-  simulation_study: simulation_study.html
+  simulation_study_Gaussian: simulation_study_Gaussian.html
+  simulation_study_negative_binomial: simulation_study_negative_binomial.html
   supp_case_studies: supp_case_studies.html
-last_built: 2022-04-18T03:16Z
+last_built: 2022-09-15T16:57Z
 
