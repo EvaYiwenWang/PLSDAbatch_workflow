@@ -22,3 +22,12 @@
 * a new simulation strategy for microbiome count data based on multivariate negative binomial distribution has been added
 
 * a new vignette including the comparison of batch effect correction methods applied to the representative simulation data with multivariate negative binomial distribution has been added
+
+
+# version 0.2.3
+
+## new vignette add / vignette names update
+
+* a new vignette that only includes the necessary pre-processing steps (pre-filtering and transformation) for microbiome data and the usage of PLSDA-batch series methods has been added
+
+* the names of the other vignettes have been updated

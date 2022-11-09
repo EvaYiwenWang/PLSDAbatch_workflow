@@ -49,9 +49,12 @@ ad.factors.df <- data.frame(trt = ad.trt, batch = ad.batch)
 rda.res <- varpart(ad.clr, ~ trt, ~ batch,
                    data = ad.factors.df, scale = TRUE)
 
-ad.prop.df <- data.frame(Treatment = NA, Intersection = NA,
-                         Batch = NA, Residuals = NA)
+ad.prop.df <- data.frame(Treatment = NA, Batch = NA,
+                         Intersection = NA,
+                         Residuals = NA)
 ad.prop.df[1,] <- rda.res$part$indfract$Adj.R.squared
+
+ad.prop.df <- ad.prop.df[, c(1,3,2,4)]
 
 ad.prop.df[ad.prop.df < 0] = 0
 ad.prop.df <- as.data.frame(t(apply(ad.prop.df, 1, function(x){x/sum(x)})))
@@ -61,14 +64,18 @@ partVar_plot(prop.df = ad.prop.df)
 ## Second example
 # a list of data corrected from different methods
 ad.corrected.list <- AD_data$CorrectData
-ad.prop.df <- data.frame(Treatment = NA, Intersection = NA,
-                         Batch = NA, Residuals = NA)
+ad.prop.df <- data.frame(Treatment = NA, Batch = NA,
+                         Intersection = NA,
+                         Residuals = NA)
 for(i in seq_len(length(ad.corrected.list))){
   rda.res = varpart(ad.corrected.list[[i]], ~ trt, ~ batch,
                     data = ad.factors.df, scale = TRUE)
   ad.prop.df[i, ] <- rda.res$part$indfract$Adj.R.squared}
 
 rownames(ad.prop.df) = names(ad.corrected.list)
+
+ad.prop.df <- ad.prop.df[, c(1,3,2,4)]
+
 ad.prop.df[ad.prop.df < 0] = 0
 ad.prop.df <- as.data.frame(t(apply(ad.prop.df, 1,
                                     function(x){x/sum(x)})))

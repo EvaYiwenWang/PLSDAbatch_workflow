@@ -1,5 +1,5 @@
 ---
-title: 'Simulation Study (Negative Binomial)'
+title: 'Batch Effects Management in Simulation Studies (Negative Binomial Distribution)'
 author: 
 - 'Yiwen (Eva) Wang'
 - 'Agricultural Genomics Institute at Shenzhen, Chinese Academy of Agricultural Sciences, Shenzhen, China'
@@ -136,8 +136,9 @@ p_bat_relevant = 200
 # global variance (RDA)
 gvar.before <- gvar.clean <- 
   gvar.rbe <- gvar.combat <- 
-  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, intersection = NA, 
-                                            batch = NA,  residual = NA)
+  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, batch = NA,  
+                                            intersection = NA, 
+                                            residual = NA)
 
 # individual variance (R2)
 r2.trt.before <- r2.trt.clean <- 
@@ -858,8 +859,9 @@ p_bat_relevant = 200
 gvar.before <- gvar.clean <- 
   gvar.rbe <- gvar.combat <- 
   gvar.wplsdab <- gvar.swplsdab <- 
-  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, intersection = NA, 
-                                            batch = NA,  residual = NA)
+  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, batch = NA,  
+                                            intersection = NA, 
+                                            residual = NA)
 
 # individual variance (R2)
 r2.trt.before <- r2.trt.clean <- 
@@ -1712,8 +1714,9 @@ p_bat_relevant = 200
 # global variance (RDA)
 gvar.before <- gvar.clean <- 
   gvar.rbe <- gvar.combat <- 
-  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, intersection = NA, 
-                                            batch = NA,  residual = NA)
+  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, batch = NA,  
+                                            intersection = NA, 
+                                            residual = NA)
 
 # individual variance (R2)
 r2.trt.before <- r2.trt.clean <- 
@@ -2427,8 +2430,9 @@ p_bat_relevant = 200
 gvar.before <- gvar.clean <- 
   gvar.rbe <- gvar.combat <- 
   gvar.wplsdab <- gvar.swplsdab <- 
-  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, intersection = NA, 
-                                            batch = NA,  residual = NA)
+  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, batch = NA,  
+                                            intersection = NA, 
+                                            residual = NA)
 
 # individual variance (R2)
 r2.trt.before <- r2.trt.clean <- 

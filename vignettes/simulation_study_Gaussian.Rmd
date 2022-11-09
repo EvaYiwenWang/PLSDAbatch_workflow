@@ -1,5 +1,5 @@
 ---
-title: 'Simulation Study (Gaussian distribution)'
+title: 'Batch Effects Management in Simulation Studies (Gaussian Distribution)'
 author: 
 - 'Yiwen (Eva) Wang'
 - 'Agricultural Genomics Institute at Shenzhen, Chinese Academy of Agricultural Sciences, Shenzhen, China'
@@ -95,8 +95,9 @@ p_bat_relevant <- 150
 
 # global variance (RDA)
 gvar.before <- gvar.clean <- gvar.rbe <- gvar.combat <- 
-  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, intersection = NA, 
-                                            batch = NA,  residual = NA)
+  gvar.plsdab <- gvar.splsdab <- data.frame(treatment = NA, batch = NA,  
+                                            intersection = NA, 
+                                            residual = NA)
 
 # individual variance (R2)
 r2.trt.before <- r2.trt.clean <- r2.trt.rbe  <- r2.trt.combat <- 
@@ -726,8 +727,9 @@ p_bat_relevant <- 150
 # global variance (RDA)
 gvar.before <- gvar.clean <- gvar.rbe <- gvar.combat <- 
   gvar.wplsdab <- gvar.swplsdab <- gvar.plsdab <- 
-  gvar.splsdab <- data.frame(treatment = NA, intersection = NA, 
-                             batch = NA,  residual = NA)
+  gvar.splsdab <- data.frame(treatment = NA, batch = NA,  
+                             intersection = NA, 
+                             residual = NA)
 
 # individual variance (R2)
 r2.trt.before <- r2.trt.clean <- r2.trt.rbe  <- r2.trt.combat <- 

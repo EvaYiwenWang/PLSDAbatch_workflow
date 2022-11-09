@@ -1,5 +1,5 @@
 ---
-title: 'Supplementary Materials for PLSDA-batch Vignette'
+title: 'Supplementary Materials for Batch Effects Management in Case Studies'
 author: 
 - 'Yiwen (Eva) Wang'
 - 'Agricultural Genomics Institute at Shenzhen, Chinese Academy of Agricultural Sciences, Shenzhen, China'
@@ -500,14 +500,17 @@ sponge.corrected.list <- list(`Before correction` = sponge.clr,
                               `sPLSDA-batch` = sponge.sPLSDA_batch, 
                               `Percentile Normalisation` = sponge.PN)
 
-sponge.prop.df <- data.frame(Treatment = NA, Intersection = NA, 
-                             Batch = NA, Residuals = NA) 
+sponge.prop.df <- data.frame(Treatment = NA, Batch = NA, 
+                             Intersection = NA, 
+                             Residuals = NA) 
 for(i in 1:length(sponge.corrected.list)){
   rda.res = varpart(sponge.corrected.list[[i]], ~ trt, ~ batch,
                     data = sponge.factors.df, scale = T)
   sponge.prop.df[i, ] <- rda.res$part$indfract$Adj.R.squared}
 
 rownames(sponge.prop.df) = names(sponge.corrected.list)
+
+sponge.prop.df <- sponge.prop.df[, c(1,3,2,4)]
 
 sponge.prop.df[sponge.prop.df < 0] = 0
 sponge.prop.df <- as.data.frame(t(apply(sponge.prop.df, 1, 
@@ -1347,14 +1350,17 @@ hfhs.corrected.list <- list(`Before correction` = hfhs.clr.less,
                             `Percentile Normalisation` = hfhs.PN,
                             RUVIII = hfhs.RUVIII)
 
-hfhs.prop.df <- data.frame(Treatment = NA, Intersection = NA, 
-                           Batch = NA, Residuals = NA) 
+hfhs.prop.df <- data.frame(Treatment = NA, Batch = NA, 
+                           Intersection = NA, 
+                           Residuals = NA) 
 for(i in 1:length(hfhs.corrected.list)){
   rda.res = varpart(hfhs.corrected.list[[i]], ~ trt, ~ day,
                     data = hfhs.factors.df, scale = T)
   hfhs.prop.df[i, ] <- rda.res$part$indfract$Adj.R.squared}
 
 rownames(hfhs.prop.df) = names(hfhs.corrected.list)
+
+hfhs.prop.df <- hfhs.prop.df[, c(1,3,2,4)]
 
 hfhs.prop.df[hfhs.prop.df < 0] = 0
 hfhs.prop.df <- as.data.frame(t(apply(hfhs.prop.df, 1, 

@@ -1,0 +1,248 @@
+---
+title: 'PLSDA-batch Vignette'
+author: 
+- 'Yiwen (Eva) Wang'
+- 'Agricultural Genomics Institute at Shenzhen, Chinese Academy of Agricultural Sciences, Shenzhen, China'
+- 'wangyiwen@caas.cn'
+date: '`r format(Sys.time(), "%d %B, %Y")`'
+
+output: 
+  prettydoc::html_pretty:
+    theme: architect
+    highlight: github
+    toc: true
+    toc_depth: 4
+
+vignette: >
+  %\VignetteIndexEntry{PLSDA-batch Vignette}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  
+bibliography: [reference.bib]
+biblio-style: apalike
+link-citations: true
+
+---
+```{r setup, include = FALSE}
+knitr::opts_chunk$set(dpi = 300, echo = TRUE, warning = FALSE, message = FALSE, 
+                      eval = TRUE, fig.show = TRUE, fig.width = 6, 
+                      fig.height = 4, fig.align ='center', 
+                      out.width = '60%', cache = FALSE)
+```
+
+# Brief Introduction
+
+**PLSDA-batch** is a new batch effect correction method based on Projection to Latent Structures Discriminant Analysis to correct data prior to any downstream analysis. It estimates latent components related to treatment and batch effects to remove batch variation. The method is multivariate, non-parametric and performs dimension reduction. Combined with centered log ratio transformation for addressing uneven library sizes and compositional structure, PLSDA-batch addresses all characteristics of microbiome data that existing correction methods have ignored so far. 
+
+Apart from the main method, the R package also includes two variants called 1/ *weighted PLSDA-batch* for unbalanced batch x treatment designs that are commonly encountered in studies with small sample size, and 2/ *sparse PLSDA-batch* for selection of discriminative variables to avoid overfitting in classification problems. These two variants have widened the scope of applicability of PLSDA-batch to different data settings [@wang2020multivariate]. 
+
+This vignette only includes the necessary pre-processing steps (pre-filtering and transformation) for microbiome data and the usage of PLSDA-batch series methods. See "*Batch Effects Management in Case Studies*" for the complete process including data pre-processing, batch effect detection and visualisation, choices of methods to account for or correct for batch effects, assessment of batch effect removal and variable selection after batch effect correction.
+
+# Case study description
+
+```{r, include = FALSE}
+colorize <- function(x, color) {
+  if (knitr::is_latex_output()) {
+    sprintf("\\textcolor{%s}{%s}", color, x)
+  } else if (knitr::is_html_output()) {
+    htmlcolor = "black"
+    if(color == "blue"){
+      htmlcolor = "#0000FF"
+    }
+    if(color == "brown"){
+      htmlcolor = "#964B00"
+    }
+    if(color == "olive"){
+      htmlcolor = "#808000"
+    }
+    if(color == "violet"){
+      htmlcolor = "#8601AF"
+    }
+    if(color == "orange"){
+      htmlcolor = "#FF7F00"
+    }
+    sprintf("<span style='color: %s;'>%s</span>", htmlcolor, x)
+  } else x
+}
+```
+
+We considered a case study to illustrate the application of PLSDA-batch. This study is described as follows:
+
+**`r colorize("Anaerobic digestion", "blue")`.** This study explored the microbial indicators that could improve the efficacy of anaerobic digestion (AD) bioprocess and prevent its failure [@chapleur2016increasing]. This data include 75 samples and 567 microbial variables. The samples were treated with two different ranges of phenol concentration  (effect of interest) and processed at five different dates (batch effect). This study includes a clear and strong batch effect with an approx. balanced batch x treatment design. 
+
+
+# Packages installation and loading
+
+First, we load the packages necessary for analysis, and check the version of each package.
+
+```{r}
+# Bioconductor
+bioc.pkgs <- c('mixOmics', 'Biobase')
+# GitHub
+github.pkg <- 'PLSDAbatch' 
+# devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch")
+
+# load packages 
+sapply(c(bioc.pkgs, github.pkg), require, character.only = TRUE)
+
+# print package versions
+sapply(c(bioc.pkgs, github.pkg), package.version)
+```
+
+
+# Data pre-processing
+
+## Pre-filtering
+
+We load the `r colorize("AD data", "blue")` stored internally with function `data()`, and then extract the batch and treatment information out. 
+
+
+```{r}
+# AD data
+data('AD_data') 
+ad.count <- AD_data$FullData$X.count
+dim(ad.count)
+
+ad.metadata <- AD_data$FullData$metadata
+ad.batch = factor(ad.metadata$sequencing_run_date, 
+                  levels = unique(ad.metadata$sequencing_run_date))
+ad.trt = as.factor(ad.metadata$initial_phenol_concentration.regroup)
+names(ad.batch) <- names(ad.trt) <- rownames(ad.metadata)
+```
+
+The raw `r colorize("AD data", "blue")` include 567 OTUs and 75 samples. We then use the function `PreFL()` from our `r colorize("PLSDAbatch", "orange")` R package to filter the data.
+
+
+```{r}
+ad.filter.res <- PreFL(data = ad.count)
+ad.filter <- ad.filter.res$data.filter
+dim(ad.filter)
+
+# zero proportion before filtering
+ad.filter.res$zero.prob
+# zero proportion after filtering
+sum(ad.filter == 0)/(nrow(ad.filter) * ncol(ad.filter))
+```
+
+After filtering, 231 OTUs remained, and the proportion of zeroes decreased from 63% to 38%.
+
+Note: The `PreFL()` function is only dedicated to raw counts, rather than relative abundance data.  We also recommend to start the pre-filtering on raw counts, rather than relative abundance data to mitigate the compositionality issue.  
+
+
+## Transformation
+
+Prior to CLR transformation, we recommend adding 1 as the offset for the data (e.g., `r colorize("AD data", "blue")`) that are raw count data, and 0.01 as the offset for the data that are relative abundance data. We use `logratio.transfo()` function in `r colorize("mixOmics", "orange")` package to CLR transform the data.
+
+```{r}
+ad.clr <- logratio.transfo(X = ad.filter, logratio = 'CLR', offset = 1) 
+class(ad.clr) = 'matrix'
+```
+
+
+# Batch effect correction
+
+## PLSDA-batch
+
+The `PLSDA_batch()` function is implemented in `r colorize("PLSDAbatch", "orange")` package. To use this function, we need to specify the optimal number of components related to treatment (`ncomp.trt`) or batch effects (`ncomp.bat`).
+
+Here in the `r colorize("AD data", "blue")`, we use `plsda()` from `r colorize("mixOmics", "orange")` with only treatment grouping information to estimate the optimal number of treatment components to preserve.
+
+
+```{r}
+# estimate the number of treatment components
+ad.trt.tune <- plsda(X = ad.clr, Y = ad.trt, ncomp = 5)
+ad.trt.tune$prop_expl_var #1
+```
+
+We choose the number that explains 100% variance in the outcome matrix `Y`, thus from the result, 1 component was enough to preserve the treatment information.
+
+We then use `PLSDA_batch()` function with both treatment and batch grouping information to estimate the optimal number of batch components to remove.
+
+```{r}
+# estimate the number of batch components
+ad.batch.tune <- PLSDA_batch(X = ad.clr, 
+                             Y.trt = ad.trt, Y.bat = ad.batch,
+                             ncomp.trt = 1, ncomp.bat = 10)
+ad.batch.tune$explained_variance.bat #4
+sum(ad.batch.tune$explained_variance.bat$Y[seq_len(4)])
+
+```
+
+Using the same criterion as choosing treatment components, we choose the number of batch components that explains 100% variance in the outcome matrix of batch. According to the result, 4 components were required to remove batch effects.
+
+We then can correct for batch effects applying `PLSDA_batch()` with treatment, batch grouping information and corresponding optimal number of related components.
+
+
+```{r}
+ad.PLSDA_batch.res <- PLSDA_batch(X = ad.clr, 
+                                  Y.trt = ad.trt, Y.bat = ad.batch,
+                                  ncomp.trt = 1, ncomp.bat = 4)
+ad.PLSDA_batch <- ad.PLSDA_batch.res$X.nobatch
+```
+
+
+## sPLSDA-batch
+
+We apply sPLSDA-batch using the same function `PLSDA_batch()`, but we specify the number of variables to select on each component (usually only treatment-related components `keepX.trt`). To determine the optimal number of variables to select, we use `tune.splsda()` function from `r colorize("mixOmics", "orange")` package [@rohart2017mixomics] with all possible numbers of variables to select for each component (`test.keepX`).
+
+
+```{r, eval = F}
+# estimate the number of variables to select per treatment component
+set.seed(777)
+ad.test.keepX = c(seq(1, 10, 1), seq(20, 100, 10), 
+                  seq(150, 231, 50), 231)
+ad.trt.tune.v <- tune.splsda(X = ad.clr, Y = ad.trt, 
+                             ncomp = 1, test.keepX = ad.test.keepX, 
+                             validation = 'Mfold', folds = 4, 
+                             nrepeat = 50)
+ad.trt.tune.v$choice.keepX #100
+
+```
+
+Here the optimal number of variables to select for the treatment component was 100. Since we have adjusted the amount of treatment variation to preserve, we need to re-choose the optimal number of components related to batch effects using the same criterion mentioned in section *PLSDA-batch*.
+
+```{r}
+# estimate the number of batch components
+ad.batch.tune <- PLSDA_batch(X = ad.clr, 
+                             Y.trt = ad.trt, Y.bat = ad.batch,
+                             ncomp.trt = 1, keepX.trt = 100,
+                             ncomp.bat = 10)
+ad.batch.tune$explained_variance.bat #4
+sum(ad.batch.tune$explained_variance.bat$Y[seq_len(4)])
+```
+
+According to the result, we needed 4 batch related components to remove batch variance from the data with function `PLSDA_batch()`.
+
+```{r}
+ad.sPLSDA_batch.res <- PLSDA_batch(X = ad.clr, 
+                                   Y.trt = ad.trt, Y.bat = ad.batch,
+                                   ncomp.trt = 1, keepX.trt = 100,
+                                   ncomp.bat = 4)
+ad.sPLSDA_batch <- ad.sPLSDA_batch.res$X.nobatch
+```
+
+Note: for unbalanced batch x treatment design (with the exception of the nested design), we can specify `balance = FALSE` in `PLSDA_batch()` function to apply weighted PLSDA-batch.
+
+
+
+# Variable selection
+
+After batch effect correction, we can select discriminative variables against different treatments. Here, we use `splsda()` from `r colorize("mixOmics", "orange")` to select the top 50 microbial variables that, in combination, discriminate the different treatment groups in the `r colorize("AD data", "blue")`. For the details to apply sPLS-DA, see [mixOmics](http://mixomics.org/methods/spls-da/).
+
+```{r}
+splsda.plsda_batch <- splsda(X = ad.PLSDA_batch, Y = ad.trt, 
+                       ncomp = 3, keepX = rep(50,3))
+select.plsda_batch <- selectVar(splsda.plsda_batch, comp = 1)
+head(select.plsda_batch$value)
+
+splsda.splsda_batch <- splsda(X = ad.sPLSDA_batch, Y = ad.trt, 
+                       ncomp = 3, keepX = rep(50,3))
+select.splsda_batch <- selectVar(splsda.splsda_batch, comp = 1)
+head(select.splsda_batch$value)
+
+length(intersect(select.plsda_batch$name, select.splsda_batch$name))
+```
+
+The discriminative variables were selected and listed according to their contributions against sample groups treated with different ranges of phenol concentration (0-0.5 vs. 1-2 g/L). The overlap between selections from the data corrected with PLSDA-batch and sPLSDA-batch is high (43 out of 50), but there still exist different variables between different selections. 
+
+# References
