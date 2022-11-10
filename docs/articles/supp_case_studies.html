@@ -92,7 +92,7 @@ Genomics Institute at Shenzhen, Chinese Academy of Agricultural
 Sciences, Shenzhen, China</h4>
                         <h4 data-toc-skip class="author"><a href="mailto:wangyiwen@caas.cn" class="email">wangyiwen@caas.cn</a></h4>
             
-            <h4 data-toc-skip class="date">09 November, 2022</h4>
+            <h4 data-toc-skip class="date">10 November, 2022</h4>
       
       
       <div class="hidden name"><code>supp_case_studies.Rmd</code></div>
@@ -257,14 +257,14 @@ indicating a batch effect.</p>
 <span><span class="co">## [d] = Residuals NA        NA    0.68094977    FALSE</span></span></code></pre>
 <p>In the result, <code>X1</code> and <code>X2</code> represent the
 first and second covariates fitted in the model. <code>[a]</code>,
-<code>[c]</code> represent the independent proportion of variance
+<code>[b]</code> represent the independent proportion of variance
 explained by <code>X1</code> and <code>X2</code> respectively, and
-<code>[b]</code> represents the intersection variance shared between
+<code>[c]</code> represents the intersection variance shared between
 <code>X1</code> and <code>X2</code>. The <span style="color: #964B00;">sponge data</span> have a completely balanced
 batch x treatment design, so there was no intersection variance
-(indicated in line <code>[b]</code>, Adj.R.squared = -0.01) detected.
+(indicated in line <code>[c]</code>, Adj.R.squared = -0.01) detected.
 The proportion of treatment and batch variance was nearly equal as
-indicated in lines <code>[a]</code> and <code>[c]</code>.</p>
+indicated in lines <code>[a]</code> and <code>[b]</code>.</p>
 </div>
 </div>
 <div class="section level3">
@@ -1158,14 +1158,14 @@ day effect but very weak.</p>
 <span><span class="co">## [d] = Residuals NA        NA  7.159126e-01    FALSE</span></span></code></pre>
 <p>In the result, <code>X1</code> and <code>X2</code> represent the
 first and second covariates fitted in the model. <code>[a]</code>,
-<code>[c]</code> represent the independent proportion of variance
+<code>[b]</code> represent the independent proportion of variance
 explained by <code>X1</code> and <code>X2</code> respectively, and
-<code>[b]</code> represents the intersection variance shared between
+<code>[c]</code> represents the intersection variance shared between
 <code>X1</code> and <code>X2</code>. In the <span style="color: #808000;">HFHS data</span>, the cage and diet effects have
 a nested batch x treatment design that is extremely unbalanced. We
 didn’t detect any treatment variance (indicated in line
 <code>[a]</code>, Adj.R.squared = 0) but considerable intersection
-variance (indicated in line <code>[b]</code>, Adj.R.squared = 0.271).
+variance (indicated in line <code>[c]</code>, Adj.R.squared = 0.271).
 Thus, all the treatment variance was explained by the intersection
 variance shared with batch variance. It means batch and treatment
 effects are collinear. Therefore, the cage effect in the <span style="color: #808000;">HFHS data</span> can only be accounted for with
@@ -1182,9 +1182,9 @@ batch effects</strong> method “Linear regression”.</p>
 <span><span class="co">## [d] = Residuals NA        NA  0.6925121361    FALSE</span></span></code></pre>
 <p>For the day and diet effects, the batch x treatment design is
 balanced. There was no intersection variance (indicated in line
-<code>[b]</code>, Adj.R.squared = 0). The proportion of treatment
+<code>[c]</code>, Adj.R.squared = 0). The proportion of treatment
 variance was much higher than batch variance as indicated in lines
-<code>[a]</code> (Adj.R.squared = 0.272) and <code>[c]</code>
+<code>[a]</code> (Adj.R.squared = 0.272) and <code>[b]</code>
 (Adj.R.squared = 0.036).</p>
 </div>
 </div>
@@ -2253,14 +2253,14 @@ indicating a weak cage effect.</p>
 <span><span class="co">## [d] = Residuals NA        NA  7.418737e-01    FALSE</span></span></code></pre>
 <p>In the result, <code>X1</code> and <code>X2</code> represent the
 first and second covariates fitted in the model. <code>[a]</code>,
-<code>[c]</code> represent the independent proportion of variance
+<code>[b]</code> represent the independent proportion of variance
 explained by <code>X1</code> and <code>X2</code> respectively, and
-<code>[b]</code> represents the intersection variance shared between
+<code>[c]</code> represents the intersection variance shared between
 <code>X1</code> and <code>X2</code>. Collinearity was detected in the
 <span style="color: #8601AF;">HD data</span> between treatment and batch
-as indicated by lines <code>[a]</code> and <code>[b]</code> that all
+as indicated by lines <code>[a]</code> and <code>[c]</code> that all
 treatment variance (<code>[a]</code>: Adj.R.squared = 0,
-<code>[b]</code>: Adj.R.squared = 0.0973) was explained as intersection
+<code>[c]</code>: Adj.R.squared = 0.0973) was explained as intersection
 variance. The batch x treatment design in the <span style="color: #8601AF;">HD data</span> is nested, in such a design the
 intersection variance is usually considerable. As the intersection is
 shared between batch and treatment effects, the batch variance in the

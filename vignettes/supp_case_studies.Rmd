@@ -174,7 +174,7 @@ sponge.rda.before <- varpart(sponge.clr, ~ trt, ~ batch,
 sponge.rda.before$part$indfract
 ```
 
-In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[c]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[b]` represents the intersection variance shared between `X1` and `X2`. The `r colorize("sponge data", "brown")` have a completely balanced batch x treatment design, so there was no intersection variance (indicated in line `[b]`, Adj.R.squared = -0.01) detected. The proportion of treatment and batch variance was nearly equal as indicated in lines `[a]` and `[c]`.
+In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[b]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[c]` represents the intersection variance shared between `X1` and `X2`. The `r colorize("sponge data", "brown")` have a completely balanced batch x treatment design, so there was no intersection variance (indicated in line `[c]`, Adj.R.squared = -0.01) detected. The proportion of treatment and batch variance was nearly equal as indicated in lines `[a]` and `[b]`.
 
 
 ## Managing batch effects
@@ -881,7 +881,7 @@ hfhs.rda.cage.before$part$indfract
 ```
 
 
-In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[c]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[b]` represents the intersection variance shared between `X1` and `X2`. In the `r colorize("HFHS data", "olive")`, the cage and diet effects have a nested batch x treatment design that is extremely unbalanced. We didn't detect any treatment variance (indicated in line `[a]`, Adj.R.squared = 0) but considerable intersection variance (indicated in line `[b]`, Adj.R.squared = 0.271). Thus, all the treatment variance was explained by the intersection variance shared with batch variance. It means batch and treatment effects are collinear. Therefore, the cage effect in the `r colorize("HFHS data", "olive")` can only be accounted for with a linear mixed model, as detailed in section **accounting for batch effects** method "Linear regression".
+In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[b]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[c]` represents the intersection variance shared between `X1` and `X2`. In the `r colorize("HFHS data", "olive")`, the cage and diet effects have a nested batch x treatment design that is extremely unbalanced. We didn't detect any treatment variance (indicated in line `[a]`, Adj.R.squared = 0) but considerable intersection variance (indicated in line `[c]`, Adj.R.squared = 0.271). Thus, all the treatment variance was explained by the intersection variance shared with batch variance. It means batch and treatment effects are collinear. Therefore, the cage effect in the `r colorize("HFHS data", "olive")` can only be accounted for with a linear mixed model, as detailed in section **accounting for batch effects** method "Linear regression".
 
 
 ```{r}
@@ -890,7 +890,7 @@ hfhs.rda.day.before <- varpart(hfhs.clr.less, ~ trt, ~ day,
 hfhs.rda.day.before$part$indfract
 ```
 
-For the day and diet effects, the batch x treatment design is balanced. There was no intersection variance (indicated in line `[b]`, Adj.R.squared = 0). The proportion of treatment variance was much higher than batch variance as indicated in lines `[a]` (Adj.R.squared = 0.272) and `[c]` (Adj.R.squared = 0.036).
+For the day and diet effects, the batch x treatment design is balanced. There was no intersection variance (indicated in line `[c]`, Adj.R.squared = 0). The proportion of treatment variance was much higher than batch variance as indicated in lines `[a]` (Adj.R.squared = 0.272) and `[b]` (Adj.R.squared = 0.036).
 
 
 ## Managing batch effects
@@ -1691,7 +1691,7 @@ hd.rda.before <- varpart(hd.clr, ~ trt, ~ batch,
 hd.rda.before$part$indfract
 ```
 
-In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[c]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[b]` represents the intersection variance shared between `X1` and `X2`. Collinearity was detected in the `r colorize("HD data", "violet")` between treatment and batch as indicated by lines `[a]` and `[b]` that all treatment variance (`[a]`: Adj.R.squared = 0, `[b]`: Adj.R.squared = 0.0973) was explained as intersection variance. The batch x treatment design in the `r colorize("HD data", "violet")` is nested, in such a design the intersection variance is usually considerable. As the intersection is shared between batch and treatment effects, the batch variance in the `r colorize("HD data", "violet")` is larger than the treatment variance.
+In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[b]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[c]` represents the intersection variance shared between `X1` and `X2`. Collinearity was detected in the `r colorize("HD data", "violet")` between treatment and batch as indicated by lines `[a]` and `[c]` that all treatment variance (`[a]`: Adj.R.squared = 0, `[c]`: Adj.R.squared = 0.0973) was explained as intersection variance. The batch x treatment design in the `r colorize("HD data", "violet")` is nested, in such a design the intersection variance is usually considerable. As the intersection is shared between batch and treatment effects, the batch variance in the `r colorize("HD data", "violet")` is larger than the treatment variance.
 
 ## Managing batch effects
 

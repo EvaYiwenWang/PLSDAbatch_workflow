@@ -281,7 +281,7 @@ ad.rda.before <- varpart(ad.clr, ~ trt, ~ batch,
 ad.rda.before$part$indfract
 ```
 
-In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[c]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[b]` represents the intersection variance shared between `X1` and `X2`. In the `r colorize("AD data", "blue")`, batch variance (`X2`) was larger than treatment variance (`X1`) with some interaction proportion (indicated in line `[b]`, Adj.R.squared = 0.013). The greater the intersection variance, the more unbalanced batch x treatment design is. In this study, we considered the design as approx. balanced.
+In the result, `X1` and `X2` represent the first and second covariates fitted in the model. `[a]`, `[b]` represent the independent proportion of variance explained by `X1` and `X2` respectively, and `[c]` represents the intersection variance shared between `X1` and `X2`. In the `r colorize("AD data", "blue")`, batch variance (`X2`) was larger than treatment variance (`X1`) with some interaction proportion (indicated in line `[c]`, Adj.R.squared = 0.013). The greater the intersection variance, the more unbalanced batch x treatment design is. In this study, we considered the design as approx. balanced.
 
 
 ```{r}
@@ -296,7 +296,7 @@ sponge.rda.before <- varpart(sponge.clr, ~ trt, ~ batch,
 sponge.rda.before$part$indfract
 ```
 
-The `r colorize("sponge data", "brown")` have a completely balanced batch x treatment design, so there was no intersection variance (indicated in line `[b]`, Adj.R.squared = -0.01) detected. The proportion of treatment and batch variance is nearly equal as indicated in lines `[a]` and `[c]`.
+The `r colorize("sponge data", "brown")` have a completely balanced batch x treatment design, so there was no intersection variance (indicated in line `[c]`, Adj.R.squared = -0.01) detected. The proportion of treatment and batch variance is nearly equal as indicated in lines `[a]` and `[b]`.
 
 ```{r}
 # HD data
@@ -312,7 +312,7 @@ hd.rda.before <- varpart(hd.clr, ~ trt, ~ batch,
 hd.rda.before$part$indfract
 ```
 
-Collinearity was detected in the `r colorize("HD data", "violet")` between treatment and batch as indicated by lines `[a]` (Adj.R.squared = 0) and `[b]` (Adj.R.squared = 0.097) that all treatment variance was explained as intersection variance, because the batch x treatment design is nested. The intersection variance in such a design is usually considerable. As the intersection is shared between batch and treatment effects, the batch variance in the `r colorize("HD data", "violet")` was larger than the treatment variance.
+Collinearity was detected in the `r colorize("HD data", "violet")` between treatment and batch as indicated by lines `[a]` (Adj.R.squared = 0) and `[c]` (Adj.R.squared = 0.097) that all treatment variance was explained as intersection variance, because the batch x treatment design is nested. The intersection variance in such a design is usually considerable. As the intersection is shared between batch and treatment effects, the batch variance in the `r colorize("HD data", "violet")` was larger than the treatment variance.
 
 
 # Managing batch effects

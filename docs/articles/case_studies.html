@@ -91,7 +91,7 @@ Genomics Institute at Shenzhen, Chinese Academy of Agricultural
 Sciences, Shenzhen, China</h4>
                         <h4 data-toc-skip class="author"><a href="mailto:wangyiwen@caas.cn" class="email">wangyiwen@caas.cn</a></h4>
             
-            <h4 data-toc-skip class="date">09 November, 2022</h4>
+            <h4 data-toc-skip class="date">10 November, 2022</h4>
       
       
       <div class="hidden name"><code>case_studies.Rmd</code></div>
@@ -526,12 +526,12 @@ from other samples, indicating a batch effect.</p>
 <span><span class="co">## [d] = Residuals NA        NA    0.63155651    FALSE</span></span></code></pre>
 <p>In the result, <code>X1</code> and <code>X2</code> represent the
 first and second covariates fitted in the model. <code>[a]</code>,
-<code>[c]</code> represent the independent proportion of variance
+<code>[b]</code> represent the independent proportion of variance
 explained by <code>X1</code> and <code>X2</code> respectively, and
-<code>[b]</code> represents the intersection variance shared between
+<code>[c]</code> represents the intersection variance shared between
 <code>X1</code> and <code>X2</code>. In the <span style="color: #0000FF;">AD data</span>, batch variance (<code>X2</code>)
 was larger than treatment variance (<code>X1</code>) with some
-interaction proportion (indicated in line <code>[b]</code>,
+interaction proportion (indicated in line <code>[c]</code>,
 Adj.R.squared = 0.013). The greater the intersection variance, the more
 unbalanced batch x treatment design is. In this study, we considered the
 design as approx. balanced.</p>
@@ -552,10 +552,10 @@ design as approx. balanced.</p>
 <span><span class="co">## [d] = Residuals NA        NA    0.68094977    FALSE</span></span></code></pre>
 <p>The <span style="color: #964B00;">sponge data</span> have a
 completely balanced batch x treatment design, so there was no
-intersection variance (indicated in line <code>[b]</code>, Adj.R.squared
+intersection variance (indicated in line <code>[c]</code>, Adj.R.squared
 = -0.01) detected. The proportion of treatment and batch variance is
 nearly equal as indicated in lines <code>[a]</code> and
-<code>[c]</code>.</p>
+<code>[b]</code>.</p>
 <div class="sourceCode" id="cb30"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="co"># HD data</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/utils/data.html" class="external-link">data</a></span><span class="op">(</span><span class="st">'HD_data'</span><span class="op">)</span></span>
@@ -575,7 +575,7 @@ nearly equal as indicated in lines <code>[a]</code> and
 <span><span class="co">## [d] = Residuals NA        NA  7.418737e-01    FALSE</span></span></code></pre>
 <p>Collinearity was detected in the <span style="color: #8601AF;">HD
 data</span> between treatment and batch as indicated by lines
-<code>[a]</code> (Adj.R.squared = 0) and <code>[b]</code> (Adj.R.squared
+<code>[a]</code> (Adj.R.squared = 0) and <code>[c]</code> (Adj.R.squared
 = 0.097) that all treatment variance was explained as intersection
 variance, because the batch x treatment design is nested. The
 intersection variance in such a design is usually considerable. As the
