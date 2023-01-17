@@ -256,7 +256,7 @@ PLSDA_batch <- function(X,
       }
 
       weight <- 1/ weight
-      weight <- weight/min(weight)
+      weight <- weight/min(weight) # make the min(weight) to be 1
       weight <- sqrt(weight)
 
       X.wt <- weight*X
