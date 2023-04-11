@@ -1,0 +1,27 @@
+\usepackage{booktabs}
+\usepackage{amsthm}
+\makeatletter
+\def\thm@space@setup{%
+  \thm@preskip=8pt plus 2pt minus 4pt
+  \thm@postskip=\thm@preskip
+}
+\makeatother
+
+
+\usepackage{fancyhdr}
+\usepackage{hyperref}
+\usepackage{lipsum}
+\setlength{\headheight}{28pt}
+\setlength{\footskip}{25pt}
+\pagestyle{fancy}
+\renewcommand{\headrulewidth}{0.5pt}
+\renewcommand{\footrulewidth}{0.5pt}
+\lhead{\includegraphics[width=8cm,height=1.5cm]{agis-logo}}
+\cfoot{\scriptsize Agricultural Genomics Institute at Shenzhen, Chinese Academy
+of Agricultural Sciences, China}
+\rfoot{\scriptsize \thepage}
+\fancyhead[R]{\slshape\leftmark}
+\fancypagestyle{plain}{\pagestyle{fancy}}
+
+\usepackage{fontspec}
+\setmainfont{Times New Roman}

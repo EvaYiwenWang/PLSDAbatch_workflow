@@ -1,58 +1,21 @@
-# PLSDAbatch
-A new multivariate and non-parametric batch effect correction method based on Projection to Latent Structures Discriminant Analysis for microbiome data.
 
-## pkgdown web page
+This vignette provides all reproducible codes for our article: 
 
-The web page includes all the functions and vignettes within the package.
+# PLSDA-batch: a multivariate framework to correct for batch effects in microbiome data
 
-Link: https://evayiwenwang.github.io/PLSDAbatch/
+Yiwen Wang, Kim-Anh Lê Cao
 
-## Installation with github
+**Abstract:** Microbial communities are highly dynamic and sensitive to changes in the environment. Thus, microbiome data are highly susceptible to batch effects, defined as sources of unwanted variation that are not related to and obscure any factors of interest. Existing batch effect correction methods have been primarily developed for gene expression data. As such, they do not consider the inherent characteristics of microbiome data, including zero inflation, overdispersion and correlation between variables. We introduce new multivariate and non-parametric batch effect correction methods based on Partial Least Squares Discriminant Analysis (PLSDA). PLSDA-batch first estimates treatment and batch variation with latent components, then subtracts batch-associated components from the data. The resulting batch-effect-corrected data can then be input in any downstream statistical analysis. Two variants are proposed to handle unbalanced batch x treatment designs and to avoid overfitting when estimating the components via variable selection. We compare our approaches with popular methods managing batch effects, namely, removeBatchEffect, ComBat and Surrogate Variable Analysis, in simulated and three case studies using various visual and numerical assessments. We show that our three methods lead to competitive performance in removing batch variation while preserving treatment variation, especially for unbalanced batch × treatment designs. Our downstream analyses show selections of biologically relevant taxa. This work demonstrates that batch effect correction methods can improve microbiome research outputs. Reproducible code and vignettes are available on GitHub.
 
-### Installation without vignettes
+**Keywords:** microbiome data, multivariate, non-parametric, dimension reduction, batch effect correction
 
-```r
-devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch")
-```
+This article has been published and available as:
 
-### Installation with vignettes
+Wang, Y., & Lê Cao, K. A. (2023). PLSDA-batch: a multivariate framework to correct for batch effects in microbiome data. *Briefings in Bioinformatics*, 24(2), bbac622.
 
-First, we need to install the packages necessary for vignettes.
+Link: <https://academic.oup.com/bib/article/24/2/bbac622/6991121>
 
-```r
-# CRAN
-cran.pkgs <- c('pheatmap', 'vegan', 'ruv', 'UpSetR', 'gplots', 
-               'ggplot2', 'gridExtra', 'performance')
-               
-for(c in seq_len(length(cran.pkgs))){
-if (!requireNamespace(cran.pkgs[c], quietly = TRUE))
-    install.packages(cran.pkgs[c])
-}
-    
-# Bioconductor
-bioc.pkgs <- c('mixOmics', 'sva', 'limma', 'Biobase', 'metagenomeSeq')
+We have also implemented a bookdown: <https://evayiwenwang.github.io/PLSDAbatch_workflow/>
 
-for(b in seq_len(length(bioc.pkgs))){
-if (!requireNamespace(bioc.pkgs[b], quietly = TRUE))
-    BiocManager::install(bioc.pkgs[b])
-}
-```
-
-Then, we are able to install *PLSDAbatch* with vignettes using the following command line. 
-
-
-```r
-devtools::install_github("https://github.com/EvaYiwenWang/PLSDAbatch", dependencies = T, build_vignettes = T)
-```
-
-## Installation with source code
-
-https://github.com/EvaYiwenWang/PLSDAbatch-source-code
-
-## Reference
-
-Wang, Y., & Lê Cao, K. A. (2020). A multivariate method to correct for batch effects in microbiome data. bioRxiv.
-https://www.biorxiv.org/content/10.1101/2020.10.27.358283v1
-
-
+The R package "PLSDAbatch" can be installed from <https://github.com/EvaYiwenWang/PLSDAbatch>.
 

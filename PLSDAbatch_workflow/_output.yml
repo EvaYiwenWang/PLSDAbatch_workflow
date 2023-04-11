@@ -1,0 +1,18 @@
+bookdown::gitbook:
+  css: style.css
+  config:
+    toc:
+      before: |
+        <li><a href="./">PLSDA-batch</a></li>
+      after: |
+        <li><a href="https://github.com/EvaYiwenWang/PLSDAbatch_workflow" target="blank">Source codes on github</a></li>
+    download: ["pdf", "epub"]
+bookdown::pdf_book:
+  includes:
+    in_header: preamble.tex
+  latex_engine: xelatex
+  citation_package: natbib
+  keep_tex: yes
+  toc: yes
+  toc_depth: 4
+bookdown::epub_book: default
