@@ -146,7 +146,7 @@ of Agricultural Sciences, China}
 Agricultural Sciences, Shenzhen, Guangdong, China\\
 \(^2\)Melbourne Integrative Genomics, School of Mathematics\\
 and Statistics, The University of Melbourne, Parkville, VIC, Australia}
-\date{2023-04-11}
+\date{2023-05-04}
 
 \begin{document}
 \maketitle
@@ -237,11 +237,11 @@ First, we load the packages necessary for analysis, and check the version of eac
 ##      pheatmap         vegan           ruv        UpSetR        gplots 
 ##      "1.0.12"       "2.6-4"     "0.9.7.1"       "1.4.0"       "3.1.3" 
 ##       ggplot2     gridExtra   performance        Rdpack          pROC 
-##       "3.3.6"         "2.3"       "0.9.2"         "2.4"      "1.18.0" 
+##       "3.4.2"         "2.3"      "0.10.3"         "2.4"      "1.18.0" 
 ##      mixOmics           sva         limma       Biobase metagenomeSeq 
-##      "6.20.0"      "3.44.0"      "3.52.2"      "2.56.0"      "1.38.0" 
+##      "6.24.0"      "3.48.0"      "3.56.0"      "2.60.0"      "1.41.0" 
 ##    PLSDAbatch 
-##       "0.2.3"
+##      "0.99.0"
 \end{verbatim}
 
 \hypertarget{data-pre-processing}{%
@@ -597,7 +597,7 @@ The \textcolor{brown}{sponge data} have a completely balanced batch x treatment 
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# HD data}
-\FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}HD\_data\textquotesingle{}}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\AttributeTok{file =} \StringTok{\textquotesingle{}./data/HD\_data.rda\textquotesingle{}}\NormalTok{)}
 \NormalTok{hd.clr }\OtherTok{\textless{}{-}}\NormalTok{ HD\_data}\SpecialCharTok{$}\NormalTok{EgData}\SpecialCharTok{$}\NormalTok{X.clr}
 \NormalTok{hd.trt }\OtherTok{\textless{}{-}}\NormalTok{ HD\_data}\SpecialCharTok{$}\NormalTok{EgData}\SpecialCharTok{$}\NormalTok{Y.trt}
 \NormalTok{hd.batch }\OtherTok{\textless{}{-}}\NormalTok{ HD\_data}\SpecialCharTok{$}\NormalTok{EgData}\SpecialCharTok{$}\NormalTok{Y.bat}
@@ -612,7 +612,7 @@ The \textcolor{brown}{sponge data} have a completely balanced batch x treatment 
 
 \begin{verbatim}
 ##                 Df R.squared Adj.R.squared Testable
-## [a] = X1|X2      0        NA -2.220446e-16    FALSE
+## [a] = X1|X2      0        NA  1.110223e-16    FALSE
 ## [b] = X2|X1      8        NA  1.608205e-01     TRUE
 ## [c]              0        NA  9.730583e-02    FALSE
 ## [d] = Residuals NA        NA  7.418737e-01    FALSE
@@ -1055,15 +1055,15 @@ We then use \texttt{PLSDA\_batch()} function with both treatment and batch group
 \begin{verbatim}
 ## $X
 ##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
-## 0.17470922 0.11481264 0.10122717 0.07507395 0.03946605 0.03399731 0.03784224 
+## 0.17470922 0.11481264 0.10122717 0.07507395 0.03988220 0.03636321 0.03540296 
 ##      comp8      comp9     comp10 
-## 0.02313026 0.02395840 0.01389336 
+## 0.03024209 0.01751481 0.01158604 
 ## 
 ## $Y
-##       comp1       comp2       comp3       comp4       comp5       comp6 
-## 0.247465374 0.261574081 0.230138238 0.260822307 0.230056326 0.246345583 
-##       comp7       comp8       comp9      comp10 
-## 0.267963500 0.252208822 0.003425768 0.240095146
+##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
+## 0.24746537 0.26157408 0.23013824 0.26082231 0.23017979 0.26074379 0.09299897 
+##      comp8      comp9     comp10 
+## 0.15539874 0.26067870 0.23017211
 \end{verbatim}
 
 \begin{Shaded}
@@ -1123,15 +1123,15 @@ Here the optimal number of variables to select for the treatment component was 1
 \begin{verbatim}
 ## $X
 ##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
-## 0.17420018 0.11477097 0.09813477 0.07894965 0.02946813 0.03702255 0.03195744 
+## 0.17420018 0.11477097 0.09813477 0.07894965 0.03532822 0.03830648 0.03525225 
 ##      comp8      comp9     comp10 
-## 0.04098959 0.01559967 0.01584227 
+## 0.02862004 0.02061328 0.01738354 
 ## 
 ## $Y
 ##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
-## 0.24747749 0.26067155 0.23010809 0.26174286 0.26062893 0.26282635 0.24125867 
+## 0.24747749 0.26067155 0.23010809 0.26174286 0.25429273 0.23772308 0.24766631 
 ##      comp8      comp9     comp10 
-## 0.22162763 0.01365842 0.25965197
+## 0.18179443 0.07852346 0.24608017
 \end{verbatim}
 
 \begin{Shaded}
@@ -1335,7 +1335,7 @@ As shown in the above figure, the intersection between batch and treatment varia
 \begin{Shaded}
 \begin{Highlighting}[]
 \CommentTok{\# HFHS data}
-\FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}HFHS\_data\textquotesingle{}}\NormalTok{)}
+\FunctionTok{load}\NormalTok{(}\AttributeTok{file =} \StringTok{\textquotesingle{}./data/HFHS\_data.rda\textquotesingle{}}\NormalTok{)}
 \NormalTok{hfhs.corrected.list }\OtherTok{\textless{}{-}}\NormalTok{ HFHS\_data}\SpecialCharTok{$}\NormalTok{CorrectData}\SpecialCharTok{$}\NormalTok{data}
 
 \NormalTok{hfhs.trt }\OtherTok{\textless{}{-}}\NormalTok{ HFHS\_data}\SpecialCharTok{$}\NormalTok{CorrectData}\SpecialCharTok{$}\NormalTok{Y.trt}
@@ -2521,7 +2521,7 @@ We load the \textcolor{olive}{HFHS data} stored internally with function \texttt
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}HFHS\_data\textquotesingle{}}\NormalTok{) }
+\FunctionTok{load}\NormalTok{(}\AttributeTok{file =} \StringTok{\textquotesingle{}./data/HFHS\_data.rda\textquotesingle{}}\NormalTok{)}
 \NormalTok{hfhs.count }\OtherTok{\textless{}{-}}\NormalTok{ HFHS\_data}\SpecialCharTok{$}\NormalTok{FullData}\SpecialCharTok{$}\NormalTok{X.count}
 \FunctionTok{dim}\NormalTok{(hfhs.count)}
 \end{Highlighting}
@@ -2768,7 +2768,7 @@ We apply pRDA with \texttt{varpart()} function from \textcolor{orange}{vegan} R 
 
 \begin{verbatim}
 ##                 Df R.squared Adj.R.squared Testable
-## [a] = X1|X2      0        NA  7.771561e-16    FALSE
+## [a] = X1|X2      0        NA -2.220446e-16    FALSE
 ## [b] = X2|X1      6        NA  1.277627e-02     TRUE
 ## [c]              0        NA  2.713111e-01    FALSE
 ## [d] = Residuals NA        NA  7.159126e-01    FALSE
@@ -3243,15 +3243,15 @@ We then use \texttt{PLSDA\_batch()} function with both treatment and batch group
 \begin{verbatim}
 ## $X
 ##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
-## 0.10753644 0.03608189 0.02988203 0.02638198 0.04335240 0.02931383 0.02430825 
+## 0.10753644 0.03608189 0.02988326 0.02634760 0.02728936 0.05015144 0.03120534 
 ##      comp8      comp9     comp10 
-## 0.03177304 0.01553524 0.03029469 
+## 0.02908653 0.02430653 0.02103238 
 ## 
 ## $Y
 ##        comp1        comp2        comp3        comp4        comp5        comp6 
-## 0.4937952138 0.5062047862 0.5128452381 0.4869109170 0.0002438449 0.5069367566 
+## 0.4937952138 0.5062047862 0.5126429685 0.4867993776 0.0005576539 0.5083690943 
 ##        comp7        comp8        comp9       comp10 
-## 0.4921936988 0.0008695446 0.5082371149 0.4740866865
+## 0.4789523528 0.0126785529 0.5103228185 0.4734938502
 \end{verbatim}
 
 \begin{Shaded}
@@ -3322,15 +3322,15 @@ Here the optimal number of variables to select for the treatment component is 2.
 \begin{verbatim}
 ## $X
 ##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
-## 0.11496719 0.03611134 0.02997732 0.02496738 0.03220821 0.03283139 0.04100050 
+## 0.11496719 0.03611134 0.02995074 0.02497055 0.02954931 0.04284935 0.03468263 
 ##      comp8      comp9     comp10 
-## 0.02775988 0.02420573 0.01955264 
+## 0.02679416 0.02394709 0.02270728 
 ## 
 ## $Y
-##        comp1        comp2        comp3        comp4        comp5        comp6 
-## 0.4938682259 0.5061317741 0.5120581093 0.4871878556 0.0007540351 0.5090445753 
-##        comp7        comp8        comp9       comp10 
-## 0.4896338693 0.0013215554 0.4942076677 0.4961940448
+##       comp1       comp2       comp3       comp4       comp5       comp6 
+## 0.493868226 0.506131774 0.511212568 0.484741160 0.004046272 0.512078352 
+##       comp7       comp8       comp9      comp10 
+## 0.483749135 0.004172513 0.512156744 0.483406313
 \end{verbatim}
 
 \begin{Shaded}
@@ -3810,7 +3810,7 @@ We load the \textcolor{violet}{HD data} stored internally with function \texttt{
 
 \begin{Shaded}
 \begin{Highlighting}[]
-\FunctionTok{data}\NormalTok{(}\StringTok{\textquotesingle{}HD\_data\textquotesingle{}}\NormalTok{) }
+\FunctionTok{load}\NormalTok{(}\AttributeTok{file =} \StringTok{\textquotesingle{}./data/HD\_data.rda\textquotesingle{}}\NormalTok{)}
 \NormalTok{hd.count }\OtherTok{\textless{}{-}}\NormalTok{ HD\_data}\SpecialCharTok{$}\NormalTok{FullData}\SpecialCharTok{$}\NormalTok{X.count}
 \FunctionTok{dim}\NormalTok{(hd.count)}
 \end{Highlighting}
@@ -3967,7 +3967,7 @@ We apply pRDA with \texttt{varpart()} function from \textcolor{orange}{vegan} R 
 
 \begin{verbatim}
 ##                 Df R.squared Adj.R.squared Testable
-## [a] = X1|X2      0        NA -2.220446e-16    FALSE
+## [a] = X1|X2      0        NA  1.110223e-16    FALSE
 ## [b] = X2|X1      8        NA  1.608205e-01     TRUE
 ## [c]              0        NA  9.730583e-02    FALSE
 ## [d] = Residuals NA        NA  7.418737e-01    FALSE

@@ -644,7 +644,7 @@ In the above figure, the left bars indicate the number of variables selected fro
 We load the `r colorize("HFHS data", "olive")` stored internally with function `data()`.
 
 ```{r}
-data('HFHS_data') 
+load(file = './data/HFHS_data.rda')
 hfhs.count <- HFHS_data$FullData$X.count
 dim(hfhs.count)
 
@@ -1513,7 +1513,7 @@ capture.output(hfhs.inters.splsda.taxa,
 We load the `r colorize("HD data", "violet")` stored internally with function `data()`.
 
 ```{r}
-data('HD_data') 
+load(file = './data/HD_data.rda')
 hd.count <- HD_data$FullData$X.count
 dim(hd.count)
 

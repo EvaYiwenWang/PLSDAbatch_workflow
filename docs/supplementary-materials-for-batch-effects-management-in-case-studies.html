@@ -22,7 +22,7 @@
 
 
 
-<meta name="date" content="2023-04-11" />
+<meta name="date" content="2023-05-04" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="apple-mobile-web-app-capable" content="yes" />
@@ -838,7 +838,7 @@ Figure 2.9: UpSet plot showing overlap between variables selected from different
 <div id="prefiltering" class="section level4 hasAnchor" number="2.2.1.1">
 <h4><span class="header-section-number">2.2.1.1</span> Prefiltering<a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#prefiltering" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We load the <span style="color: #808000;">HFHS data</span> stored internally with function <code>data()</code>.</p>
-<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;HFHS_data&#39;</span>) </span>
+<div class="sourceCode" id="cb139"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb139-1"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb139-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="at">file =</span> <span class="st">&#39;./data/HFHS_data.rda&#39;</span>)</span>
 <span id="cb139-2"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb139-2" aria-hidden="true" tabindex="-1"></a>hfhs.count <span class="ot">&lt;-</span> HFHS_data<span class="sc">$</span>FullData<span class="sc">$</span>X.count</span>
 <span id="cb139-3"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb139-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(hfhs.count)</span></code></pre></div>
 <pre><code>## [1]  250 4524</code></pre>
@@ -995,7 +995,7 @@ Figure 2.14: Hierarchical clustering for samples in the HFHS data.
 <span id="cb153-5"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb153-5" aria-hidden="true" tabindex="-1"></a>                                <span class="at">data =</span> hfhs.factors.df, <span class="at">scale =</span> T)</span>
 <span id="cb153-6"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb153-6" aria-hidden="true" tabindex="-1"></a>hfhs.rda.cage.before<span class="sc">$</span>part<span class="sc">$</span>indfract</span></code></pre></div>
 <pre><code>##                 Df R.squared Adj.R.squared Testable
-## [a] = X1|X2      0        NA  7.771561e-16    FALSE
+## [a] = X1|X2      0        NA -2.220446e-16    FALSE
 ## [b] = X2|X1      6        NA  1.277627e-02     TRUE
 ## [c]              0        NA  2.713111e-01    FALSE
 ## [d] = Residuals NA        NA  7.159126e-01    FALSE</code></pre>
@@ -1256,15 +1256,15 @@ Figure 2.16: Diagnostic plots for the model fitted with the day and cage effects
 <span id="cb191-6"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb191-6" aria-hidden="true" tabindex="-1"></a>hfhs.batch.tune<span class="sc">$</span>explained_variance.bat <span class="co">#2</span></span></code></pre></div>
 <pre><code>## $X
 ##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
-## 0.10753644 0.03608189 0.02988203 0.02638198 0.04335240 0.02931383 0.02430825 
+## 0.10753644 0.03608189 0.02988326 0.02634760 0.02728936 0.05015144 0.03120534 
 ##      comp8      comp9     comp10 
-## 0.03177304 0.01553524 0.03029469 
+## 0.02908653 0.02430653 0.02103238 
 ## 
 ## $Y
 ##        comp1        comp2        comp3        comp4        comp5        comp6 
-## 0.4937952138 0.5062047862 0.5128452381 0.4869109170 0.0002438449 0.5069367566 
+## 0.4937952138 0.5062047862 0.5126429685 0.4867993776 0.0005576539 0.5083690943 
 ##        comp7        comp8        comp9       comp10 
-## 0.4921936988 0.0008695446 0.5082371149 0.4740866865</code></pre>
+## 0.4789523528 0.0126785529 0.5103228185 0.4734938502</code></pre>
 <div class="sourceCode" id="cb193"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb193-1"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb193-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(hfhs.batch.tune<span class="sc">$</span>explained_variance.bat<span class="sc">$</span>Y[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>Using the same criterion as choosing treatment components, we choose the number of batch components that explains 100% variance in the outcome matrix of batch. According to the result, 2 components are required to remove batch effects.</p>
@@ -1301,15 +1301,15 @@ Figure 2.16: Diagnostic plots for the model fitted with the day and cage effects
 <span id="cb198-8"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb198-8" aria-hidden="true" tabindex="-1"></a>hfhs.batch.tune<span class="sc">$</span>explained_variance.bat <span class="co">#2</span></span></code></pre></div>
 <pre><code>## $X
 ##      comp1      comp2      comp3      comp4      comp5      comp6      comp7 
-## 0.11496719 0.03611134 0.02997732 0.02496738 0.03220821 0.03283139 0.04100050 
+## 0.11496719 0.03611134 0.02995074 0.02497055 0.02954931 0.04284935 0.03468263 
 ##      comp8      comp9     comp10 
-## 0.02775988 0.02420573 0.01955264 
+## 0.02679416 0.02394709 0.02270728 
 ## 
 ## $Y
-##        comp1        comp2        comp3        comp4        comp5        comp6 
-## 0.4938682259 0.5061317741 0.5120581093 0.4871878556 0.0007540351 0.5090445753 
-##        comp7        comp8        comp9       comp10 
-## 0.4896338693 0.0013215554 0.4942076677 0.4961940448</code></pre>
+##       comp1       comp2       comp3       comp4       comp5       comp6 
+## 0.493868226 0.506131774 0.511212568 0.484741160 0.004046272 0.512078352 
+##       comp7       comp8       comp9      comp10 
+## 0.483749135 0.004172513 0.512156744 0.483406313</code></pre>
 <div class="sourceCode" id="cb200"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb200-1"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb200-1" aria-hidden="true" tabindex="-1"></a><span class="fu">sum</span>(hfhs.batch.tune<span class="sc">$</span>explained_variance.bat<span class="sc">$</span>Y[<span class="dv">1</span><span class="sc">:</span><span class="dv">2</span>])</span></code></pre></div>
 <pre><code>## [1] 1</code></pre>
 <p>According to the result, we need 2 batch related components to remove batch variance from the data with function <code>PLSDA_batch()</code>.</p>
@@ -1648,7 +1648,7 @@ Figure 2.22: UpSet plot showing overlap between variables selected from differen
 <div id="prefiltering-1" class="section level4 hasAnchor" number="2.3.1.1">
 <h4><span class="header-section-number">2.3.1.1</span> Prefiltering<a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#prefiltering-1" class="anchor-section" aria-label="Anchor link to header"></a></h4>
 <p>We load the <span style="color: #8601AF;">HD data</span> stored internally with function <code>data()</code>.</p>
-<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">data</span>(<span class="st">&#39;HD_data&#39;</span>) </span>
+<div class="sourceCode" id="cb219"><pre class="sourceCode r"><code class="sourceCode r"><span id="cb219-1"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb219-1" aria-hidden="true" tabindex="-1"></a><span class="fu">load</span>(<span class="at">file =</span> <span class="st">&#39;./data/HD_data.rda&#39;</span>)</span>
 <span id="cb219-2"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb219-2" aria-hidden="true" tabindex="-1"></a>hd.count <span class="ot">&lt;-</span> HD_data<span class="sc">$</span>FullData<span class="sc">$</span>X.count</span>
 <span id="cb219-3"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb219-3" aria-hidden="true" tabindex="-1"></a><span class="fu">dim</span>(hd.count)</span></code></pre></div>
 <pre><code>## [1]  30 368</code></pre>
@@ -1741,7 +1741,7 @@ Figure 2.24: Hierarchical clustering for samples in the HD data.
 <span id="cb230-3"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb230-3" aria-hidden="true" tabindex="-1"></a>                         <span class="at">data =</span> hd.factors.df, <span class="at">scale =</span> T)</span>
 <span id="cb230-4"><a href="supplementary-materials-for-batch-effects-management-in-case-studies.html#cb230-4" aria-hidden="true" tabindex="-1"></a>hd.rda.before<span class="sc">$</span>part<span class="sc">$</span>indfract</span></code></pre></div>
 <pre><code>##                 Df R.squared Adj.R.squared Testable
-## [a] = X1|X2      0        NA -2.220446e-16    FALSE
+## [a] = X1|X2      0        NA  1.110223e-16    FALSE
 ## [b] = X2|X1      8        NA  1.608205e-01     TRUE
 ## [c]              0        NA  9.730583e-02    FALSE
 ## [d] = Residuals NA        NA  7.418737e-01    FALSE</code></pre>

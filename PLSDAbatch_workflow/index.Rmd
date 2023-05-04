@@ -300,7 +300,7 @@ The `r colorize("sponge data", "brown")` have a completely balanced batch x trea
 
 ```{r}
 # HD data
-data('HD_data')
+load(file = './data/HD_data.rda')
 hd.clr <- HD_data$EgData$X.clr
 hd.trt <- HD_data$EgData$Y.trt
 hd.batch <- HD_data$EgData$Y.bat
@@ -774,7 +774,7 @@ As shown in the above figure, the intersection between batch and treatment varia
 
 ```{r HFHSprda, fig.height = 6, fig.align = 'center', fig.cap = 'Global explained variance before and after batch effect correction for the HFHS data.'}
 # HFHS data
-data('HFHS_data')
+load(file = './data/HFHS_data.rda')
 hfhs.corrected.list <- HFHS_data$CorrectData$data
 
 hfhs.trt <- HFHS_data$CorrectData$Y.trt
